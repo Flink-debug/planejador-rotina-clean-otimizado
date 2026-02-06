@@ -25,6 +25,13 @@
       --shadow2: 0 10px 26px rgba(0,0,0,.32);
 
       --r14:14px; --r18:18px; --r22:22px;
+
+      /* Mood variables (evoluem com o “nível”) */
+      --mGlow: .18;
+      --mGlow2: .14;
+      --mRich: .22;     /* opacidade do layer $$$ */
+      --mSaturation: 1;
+      --mLift: 0px;     /* micro lift de contraste */
     }
 
     *{ box-sizing:border-box; margin:0; padding:0; }
@@ -37,18 +44,21 @@
       color-scheme: dark;
 
       background:
-        radial-gradient(1200px 650px at 15% 0%, rgba(59,130,246,.18), transparent 60%),
-        radial-gradient(900px 700px at 85% 10%, rgba(56,189,248,.14), transparent 55%),
+        radial-gradient(1200px 650px at 15% 0%, rgba(59,130,246,var(--mGlow)), transparent 60%),
+        radial-gradient(900px 700px at 85% 10%, rgba(56,189,248,var(--mGlow2)), transparent 55%),
         radial-gradient(900px 650px at 50% 100%, rgba(34,197,94,.10), transparent 55%),
         linear-gradient(180deg, var(--bg0), var(--bg1));
+
+      filter: saturate(var(--mSaturation)) contrast(1.02);
+      transform: translateZ(0);
     }
 
-    /* $$$ background (notas) - sutil */
+    /* $$$ background (notas) - sutil e evolutivo */
     body::before{
       content:"";
       position:fixed; inset:0;
       pointer-events:none;
-      opacity:.22;
+      opacity: var(--mRich);
       background:
         radial-gradient(900px 520px at 15% 15%, rgba(0,0,0,.0), rgba(0,0,0,.50) 70%),
         radial-gradient(900px 520px at 85% 15%, rgba(0,0,0,.0), rgba(0,0,0,.50) 70%),
@@ -56,13 +66,24 @@
       background-repeat:no-repeat;
       background-size: cover;
       transform: translateZ(0);
+      transition: opacity .6s ease;
     }
 
     body::after{
       content:"";
       position:fixed; inset:0;
       pointer-events:none;
-      background: linear-gradient(180deg, rgba(0,0,0,.30), rgba(0,0,0,.72));
+      background: linear-gradient(180deg, rgba(0,0,0,.26), rgba(0,0,0,.74));
+    }
+
+    /* “Level up” animation */
+    body.levelUp{
+      animation: levelUpPulse 1.2s ease;
+    }
+    @keyframes levelUpPulse{
+      0%{ filter:saturate(var(--mSaturation)) contrast(1.02); }
+      35%{ filter:saturate(calc(var(--mSaturation) + .10)) contrast(1.08); }
+      100%{ filter:saturate(var(--mSaturation)) contrast(1.02); }
     }
 
     .app{ position:relative; z-index:1; }
@@ -120,6 +141,7 @@
       justify-content:center;
       gap:10px;
       min-height:44px;
+      position:relative;
     }
     .btn:active{ transform: translateY(1px) scale(.99); }
     .btn:disabled{ opacity:.55; cursor:not-allowed; }
@@ -276,7 +298,7 @@
       animation: fadeIn .18s ease;
     }
     .modal{
-      width:min(920px, 100%);
+      width:min(980px, 100%);
       border-radius:22px;
       background: rgba(10,14,24,.92);
       border:1px solid rgba(255,255,255,.14);
@@ -404,16 +426,68 @@
       opacity:.95;
     }
 
+    /* Reset modal tabs */
+    .tabs{ display:flex; gap:10px; flex-wrap:wrap; }
+    .tabBtn{
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:#e5e7eb;
+      font-weight:950;
+      cursor:pointer;
+      transition: background .18s ease, border-color .18s ease, transform .08s ease;
+    }
+    .tabBtn:hover{ background: rgba(255,255,255,.10); }
+    .tabBtn:active{ transform: translateY(1px) scale(.99); }
+    .tabOn{
+      background: rgba(59,130,246,.18);
+      border-color: rgba(59,130,246,.40);
+      box-shadow: 0 0 0 4px rgba(59,130,246,.12);
+    }
+
+    /* Tooltips (sem depender de libs) */
+    [data-tip]{ position:relative; }
+    [data-tip]:hover::after,
+    [data-tip]:focus-visible::after{
+      content: attr(data-tip);
+      position:absolute;
+      left:50%;
+      transform: translateX(-50%);
+      bottom: calc(100% + 10px);
+      z-index: 80;
+      white-space: normal;
+      width: min(280px, 70vw);
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(10,14,24,.96);
+      box-shadow: var(--shadow2);
+      color:#e5e7eb;
+      font-size:12px;
+      font-weight:900;
+      line-height:1.25;
+    }
+    [data-tip]:hover::before,
+    [data-tip]:focus-visible::before{
+      content:"";
+      position:absolute;
+      left:50%;
+      transform: translateX(-50%);
+      bottom: calc(100% + 2px);
+      width: 10px; height: 10px;
+      background: rgba(10,14,24,.96);
+      border-left:1px solid rgba(255,255,255,.16);
+      border-top:1px solid rgba(255,255,255,.16);
+      transform: translateX(-50%) rotate(225deg);
+      border-radius: 2px;
+      z-index: 79;
+    }
+
     @keyframes fadeIn{ from{opacity:0} to{opacity:1} }
     @keyframes popIn{ from{opacity:0; transform: translateY(8px) scale(.98)} to{opacity:1; transform:none} }
     @keyframes slideUp{ from{opacity:0; transform: translateY(10px)} to{opacity:1; transform:none} }
     @keyframes slideInRight{ from{opacity:0; transform: translateX(12px)} to{opacity:1; transform:none} }
-    @keyframes pulseWin{
-      0%{ transform: scale(1); box-shadow: 0 0 0 0 rgba(34,197,94,.28); }
-      70%{ transform: scale(1.02); box-shadow: 0 0 0 14px rgba(34,197,94,0); }
-      100%{ transform: scale(1); box-shadow: 0 0 0 0 rgba(34,197,94,0); }
-    }
-    .pulseWin{ animation: pulseWin 1.2s ease; }
 
     .sp10{ height:10px; } .sp16{ height:16px; } .sp20{ height:20px; }
 
@@ -425,6 +499,7 @@
       .actBtns{ width:100%; }
       .miniBtn{ flex:1; justify-content:center; }
       .calCell{ min-height:70px; }
+      /* tooltip por hover não existe no mobile; fica ok mesmo assim */
     }
   </style>
 </head>
@@ -464,21 +539,12 @@
       return dt.toISOString().split("T")[0];
     };
 
-    const startOfWeekISO = (iso) => {
-      const dt = new Date(iso + "T00:00:00");
-      const day = dt.getDay(); // 0=dom
-      const mondayOffset = (day === 0) ? -6 : (1 - day);
-      dt.setDate(dt.getDate() + mondayOffset);
-      return dt.toISOString().split("T")[0];
-    };
-    const endOfWeekISO = (iso) => addDaysISO(startOfWeekISO(iso), 6);
-    const inRangeISO = (iso, start, end) => iso >= start && iso <= end;
+    const monthKeyOfISO = (iso) => iso.slice(0,7); // YYYY-MM
     const getCurrentMonthKey = () => {
       const now = new Date();
       return `${now.getFullYear()}-${pad2(now.getMonth()+1)}`;
     };
 
-    const monthKeyOfISO = (iso) => iso.slice(0,7); // YYYY-MM
     const monthLabelBR = (yyyyMm) => {
       const [y,m] = yyyyMm.split("-").map(x => clampInt(x,0));
       const names = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
@@ -531,35 +597,42 @@
     };
 
     const priorityConfig = {
-      low:  { emoji:"🟢", label:"Baixa",  card:"pLow",  tint:"tLow"  },
-      med:  { emoji:"🟡", label:"Média",  card:"pMed",  tint:"tMed"  },
-      high: { emoji:"🔴", label:"Alta",   card:"pHigh", tint:"tHigh" },
-    };
-
-    const perfLabel = (xp) => {
-      if (xp >= 400) return { label:"🏆 MONSTRO DO MÊS", color:"#fde68a" };
-      if (xp >= 250) return { label:"🔥 CONSISTENTE", color:"#86efac" };
-      if (xp >= 120) return { label:"⭐ EVOLUINDO", color:"#93c5fd" };
-      if (xp >= 60)  return { label:"📈 NO RITMO", color:"#c4b5fd" };
-      return { label:"🚀 COMEÇOU BEM", color:"#e2e8f0" };
-    };
-
-    const barColor = (xp) => {
-      if (xp >= 90) return "linear-gradient(90deg, rgba(34,197,94,.95), rgba(16,185,129,.95))";
-      if (xp >= 70) return "linear-gradient(90deg, rgba(245,158,11,.95), rgba(234,179,8,.95))";
-      return "linear-gradient(90deg, rgba(239,68,68,.95), rgba(249,115,22,.95))";
-    };
-
-    const weekTag = (weekXP) => {
-      if (weekXP >= 90) return { t:"🏆 Elite", c:"rgba(34,197,94,.16)", b:"rgba(34,197,94,.35)" };
-      if (weekXP >= 70) return { t:"🔥 Forte", c:"rgba(245,158,11,.16)", b:"rgba(245,158,11,.38)" };
-      if (weekXP >= 50) return { t:"💪 Bom", c:"rgba(59,130,246,.16)", b:"rgba(59,130,246,.38)" };
-      return { t:"🚀 Começando", c:"rgba(255,255,255,.10)", b:"rgba(255,255,255,.16)" };
+      low:  { emoji:"🟢", label:"Baixa",  card:"pLow",  tint:"tLow",  weight:1 },
+      med:  { emoji:"🟡", label:"Média",  card:"pMed",  tint:"tMed",  weight:2 },
+      high: { emoji:"🔴", label:"Alta",   card:"pHigh", tint:"tHigh", weight:3 },
     };
 
     const safeJSON = (value, fallback) => {
       try { return value ? JSON.parse(value) : fallback; } catch { return fallback; }
     };
+
+    const weekday = (iso) => {
+      const dt = new Date(iso + "T00:00:00");
+      const names = ["DOM","SEG","TER","QUA","QUI","SEX","SÁB"];
+      return names[dt.getDay()];
+    };
+
+    const isISOInSameMonth = (iso, monthKey) => monthKeyOfISO(iso) === monthKey;
+
+    // Semanas do mês = fases
+    function weekPhaseOfMonth(iso){
+      const d = clampInt(iso.slice(8,10), 1);
+      if (d <= 7) return 1;
+      if (d <= 14) return 2;
+      if (d <= 21) return 3;
+      if (d <= 28) return 4;
+      return 5;
+    }
+
+    function phaseRange(monthKey, phase){
+      const [y,m] = monthKey.split("-").map(x => clampInt(x,0));
+      const dim = daysInMonth(y, m);
+      const startDay = (phase===1)?1:(phase===2)?8:(phase===3)?15:(phase===4)?22:29;
+      const endDay = (phase===1)?7:(phase===2)?14:(phase===3)?21:(phase===4)?28:dim;
+      return { startISO: isoOf(y,m,startDay), endISO: isoOf(y,m,endDay) };
+    }
+
+    function inRangeISO(iso, start, end){ return iso >= start && iso <= end; }
 
     function Modal({ open, onClose, title, children }){
       if (!open) return null;
@@ -567,7 +640,7 @@
         e("div", { className:"modal", role:"dialog", "aria-modal":"true" },
           e("div", { className:"modalHead" },
             e("div", { className:"modalTitle" }, title),
-            e("button", { className:"btn btnSoft", style:{ padding:"10px 12px" }, onClick:onClose }, "✕")
+            e("button", { className:"btn btnSoft", style:{ padding:"10px 12px" }, onClick:onClose, "data-tip":"Fechar janela." }, "✕")
           ),
           e("div", { className:"modalBody" }, children)
         )
@@ -577,14 +650,13 @@
     function DailyRoutine(){
       const LS = {
         byDate:"activitiesByDate",
-        weekHistory:"weekHistory",
-        monthlyXP:"monthlyXP",
-        autoReset:"autoReset",
-        lastCheck:"lastCheckDate",
-        currentMonth:"currentMonth",
         notif:"notifEnabled",
-        reminded:"remindedTodayMap",
         sound:"soundEnabled",
+
+        // Reset mensal / jogo
+        lastMonthSeen:"lastMonthSeen",
+        monthState:"monthGameState", // { monthKey, levelUnlocked, phasesUnlocked: {1:true..}, archived:{} }
+        monthArchive:"monthArchive", // histórico dos meses
       };
 
       const [activitiesByDate, setActivitiesByDate] = useState({});
@@ -592,10 +664,6 @@
       const [plannerMode, setPlannerMode] = useState("day"); // "day" | "month"
       const [monthView, setMonthView] = useState(getCurrentMonthKey()); // YYYY-MM
 
-      const [weekHistory, setWeekHistory] = useState({});
-      const [monthlyXP, setMonthlyXP] = useState(0);
-
-      const [autoReset, setAutoReset] = useState(true);
       const [notifEnabled, setNotifEnabled] = useState(false);
       const [soundEnabled, setSoundEnabled] = useState(true);
 
@@ -606,14 +674,15 @@
       const [exportData, setExportData] = useState("");
       const [importData, setImportData] = useState("");
 
+      const [resetOpen, setResetOpen] = useState(false);
+      const [resetTab, setResetTab] = useState("atividade"); // atividade | dia | intervalo
+
       const [toasts, setToasts] = useState([]);
 
       const timersRef = useRef([]);
       const heartbeatRef = useRef(null);
-      const prevAllDoneRef = useRef(false);
-      const prevWeekXPRef = useRef(0);
 
-      // Audio (POP)
+      // Audio POP
       const audioCtxRef = useRef(null);
       const audioUnlockedRef = useRef(false);
 
@@ -685,11 +754,12 @@
         showToast("🔊 Som", "Teste de som executado.");
       };
 
+      // ===== Normalização / Migração =====
       const normalizeActivity = (a, dateISO) => {
         const priority = a.priority || a.priorityLevel || "med";
         const cat = (a.category || a.cat || "PESSOAL").toUpperCase();
         const startTime = a.startTime || a.time || "09:00";
-        const endTime = a.endTime || a.time || "09:00";
+        const endTime = a.endTime || a.time || "10:00";
 
         return {
           id: a.id ?? uid(),
@@ -705,11 +775,24 @@
         };
       };
 
-      // ===== Load + Resets =====
+      // ===== Game State (mensal) =====
+      function getDefaultMonthState(monthKey){
+        return {
+          monthKey,
+          levelUnlocked: 0, // 0..5
+          phasesUnlocked: { 1:false, 2:false, 3:false, 4:false, 5:false },
+          lastLevelUpAt: null
+        };
+      }
+
+      const [monthState, setMonthState] = useState(getDefaultMonthState(getCurrentMonthKey()));
+      const [monthArchive, setMonthArchive] = useState({}); // { "2026-01": {...} }
+
+      // ===== Load =====
       useEffect(() => {
         let loadedByDate = safeJSON(localStorage.getItem(LS.byDate), null);
 
-        // migração formato antigo
+        // migração legado (array no dailyRoutineData)
         if (!loadedByDate){
           const legacy = safeJSON(localStorage.getItem("dailyRoutineData"), null);
           if (Array.isArray(legacy)){
@@ -728,89 +811,107 @@
           loadedByDate = fixed;
         }
 
-        const loadedHistory = safeJSON(localStorage.getItem(LS.weekHistory), {});
-        const loadedMonthlyXP = clampInt(localStorage.getItem(LS.monthlyXP), 0);
-
-        const autoRaw = localStorage.getItem(LS.autoReset);
-        const loadedAuto = autoRaw === null ? true : (autoRaw === "true");
-
         const notifRaw = localStorage.getItem(LS.notif);
         const loadedNotif = notifRaw === "true";
 
         const soundRaw = localStorage.getItem(LS.sound);
         const loadedSound = soundRaw === null ? true : (soundRaw === "true");
 
+        const ms = safeJSON(localStorage.getItem(LS.monthState), null);
+        const arch = safeJSON(localStorage.getItem(LS.monthArchive), {});
+
         setActivitiesByDate(loadedByDate || {});
-        setWeekHistory(loadedHistory || {});
-        setMonthlyXP(loadedMonthlyXP);
-        setAutoReset(loadedAuto);
         setNotifEnabled(loadedNotif);
         setSoundEnabled(loadedSound);
+
+        setMonthArchive(arch || {});
+
+        const nowMonth = getCurrentMonthKey();
+        const initialState = (ms && ms.monthKey === nowMonth) ? ms : getDefaultMonthState(nowMonth);
+        setMonthState(initialState);
 
         setMonthView(monthKeyOfISO(todayISO()));
         setSelectedDate(todayISO());
 
-        // Monthly reset (se mudou mês corrente)
-        const currentMonth = getCurrentMonthKey();
-        const savedMonth = localStorage.getItem(LS.currentMonth);
-        if (savedMonth !== currentMonth){
-          localStorage.setItem(LS.currentMonth, currentMonth);
-          localStorage.setItem(LS.monthlyXP, "0");
-          setMonthlyXP(0);
-        }
+        // Reset mensal automático (dia 1 / mudança de mês)
+        const lastMonthSeen = localStorage.getItem(LS.lastMonthSeen);
+        const today = todayISO();
+        const todayDay = clampInt(today.slice(8,10), 1);
+        const curMonth = monthKeyOfISO(today);
 
-        // Daily check / weekly reset (na segunda)
-        const now = new Date();
-        const today = now.toISOString().split("T")[0];
-        const dayOfWeek = now.getDay(); // 1 = segunda
-        const lastCheck = localStorage.getItem(LS.lastCheck);
+        if (lastMonthSeen !== curMonth){
+          // mudou mês (ou primeira abertura)
+          localStorage.setItem(LS.lastMonthSeen, curMonth);
 
-        if (lastCheck !== today){
-          localStorage.setItem(LS.lastCheck, today);
-          localStorage.setItem(LS.reminded, JSON.stringify({ date: today, map: {} }));
+          // Se não é a primeira vez e realmente virou mês, arquiva mês anterior e reseta estado
+          if (lastMonthSeen){
+            // arquivar estado anterior
+            const prevMonth = lastMonthSeen;
+            const prevState = ms && ms.monthKey === prevMonth ? ms : null;
 
-          if (dayOfWeek === 1 && loadedAuto){
-            const yesterday = addDaysISO(today, -1);
-            const wkStart = startOfWeekISO(yesterday);
-            const wkEnd = endOfWeekISO(yesterday);
-
-            const wkKey = `${wkStart}→${wkEnd}`;
-            const weekStats = computeStatsForRange(loadedByDate, wkStart, wkEnd);
-            const xp = weekStats.total > 0 ? Math.round((weekStats.completed/weekStats.total)*100) : 0;
-
-            const newHistory = { ...(loadedHistory || {}) };
-            newHistory[wkKey] = { weekKey: wkKey, ...weekStats, xp, date: today };
-            setWeekHistory(newHistory);
-            localStorage.setItem(LS.weekHistory, JSON.stringify(newHistory));
-
-            const newMonthly = loadedMonthlyXP + xp;
-            setMonthlyXP(newMonthly);
-            localStorage.setItem(LS.monthlyXP, String(newMonthly));
-
-            const pruned = { ...loadedByDate };
-            Object.keys(pruned).forEach(d => { if (inRangeISO(d, wkStart, wkEnd)) delete pruned[d]; });
-            setActivitiesByDate(pruned);
-            localStorage.setItem(LS.byDate, JSON.stringify(pruned));
-
-            showToast("🔁 Semana resetada", `Semana anterior fechada: ${xp}%`);
+            const archiveCopy = { ...(arch||{}) };
+            archiveCopy[prevMonth] = {
+              archivedAt: today,
+              monthKey: prevMonth,
+              monthState: prevState,
+              // opcional: snapshot das atividades daquele mês (somente do mês anterior)
+              activitiesByDate: Object.fromEntries(
+                Object.entries(loadedByDate || {}).filter(([d,_]) => monthKeyOfISO(d) === prevMonth)
+              )
+            };
+            setMonthArchive(archiveCopy);
+            localStorage.setItem(LS.monthArchive, JSON.stringify(archiveCopy));
           }
-        } else {
-          const reminded = safeJSON(localStorage.getItem(LS.reminded), null);
-          if (!reminded || reminded.date !== today){
-            localStorage.setItem(LS.reminded, JSON.stringify({ date: today, map: {} }));
+
+          // reset “jogo” do mês atual
+          const fresh = getDefaultMonthState(curMonth);
+          setMonthState(fresh);
+          localStorage.setItem(LS.monthState, JSON.stringify(fresh));
+
+          // regra: reset todo dia 1 — mas aqui é melhor: reset ao virar o mês
+          if (todayDay === 1){
+            showToast("🗓️ Novo mês", "Progresso resetado. Bora subir de nível.");
           }
         }
       }, []);
 
       // Persist
       useEffect(() => localStorage.setItem(LS.byDate, JSON.stringify(activitiesByDate)), [activitiesByDate]);
-      useEffect(() => localStorage.setItem(LS.weekHistory, JSON.stringify(weekHistory)), [weekHistory]);
-      useEffect(() => localStorage.setItem(LS.monthlyXP, String(monthlyXP)), [monthlyXP]);
-      useEffect(() => localStorage.setItem(LS.autoReset, String(autoReset)), [autoReset]);
       useEffect(() => localStorage.setItem(LS.notif, String(notifEnabled)), [notifEnabled]);
       useEffect(() => localStorage.setItem(LS.sound, String(soundEnabled)), [soundEnabled]);
+      useEffect(() => localStorage.setItem(LS.monthState, JSON.stringify(monthState)), [monthState]);
+      useEffect(() => localStorage.setItem(LS.monthArchive, JSON.stringify(monthArchive)), [monthArchive]);
 
-      // Day activities derived
+      // ===== Mood (background evolutivo) =====
+      const moodFromLevel = (level) => {
+        // clean: altera somente intensidades, sem virar carnaval
+        const table = [
+          { mGlow:.16, mGlow2:.12, mRich:.18, mSat:1.00 },
+          { mGlow:.18, mGlow2:.14, mRich:.22, mSat:1.02 },
+          { mGlow:.21, mGlow2:.16, mRich:.26, mSat:1.04 },
+          { mGlow:.24, mGlow2:.18, mRich:.30, mSat:1.06 },
+          { mGlow:.28, mGlow2:.20, mRich:.34, mSat:1.08 },
+          { mGlow:.32, mGlow2:.23, mRich:.38, mSat:1.10 },
+        ];
+        return table[Math.max(0, Math.min(5, level))];
+      };
+
+      useEffect(() => {
+        const s = moodFromLevel(monthState.levelUnlocked || 0);
+        document.documentElement.style.setProperty("--mGlow", String(s.mGlow));
+        document.documentElement.style.setProperty("--mGlow2", String(s.mGlow2));
+        document.documentElement.style.setProperty("--mRich", String(s.mRich));
+        document.documentElement.style.setProperty("--mSaturation", String(s.mSat));
+      }, [monthState.levelUnlocked]);
+
+      const triggerLevelUpAnim = () => {
+        document.body.classList.remove("levelUp");
+        void document.body.offsetWidth;
+        document.body.classList.add("levelUp");
+        setTimeout(()=>document.body.classList.remove("levelUp"), 1300);
+      };
+
+      // ===== Derivados do dia selecionado =====
       const dayActivities = useMemo(() => activitiesByDate[selectedDate] || [], [activitiesByDate, selectedDate]);
 
       const sorted = useMemo(() => {
@@ -824,49 +925,239 @@
         return copy;
       }, [dayActivities]);
 
-      // Stats helpers
-      function computeStatsForRange(byDate, startISO, endISO){
-        let total = 0, completed = 0;
-        Object.keys(byDate || {}).forEach(d => {
-          if (!inRangeISO(d, startISO, endISO)) return;
-          const arr = Array.isArray(byDate[d]) ? byDate[d] : [];
-          total += arr.length;
-          completed += arr.filter(x => x.completed).length;
+      // ===== Stats do mês (score ponderado por prioridade) =====
+      function monthScoreStats(monthKey){
+        let possible = 0;
+        let done = 0;
+
+        Object.entries(activitiesByDate || {}).forEach(([d, arr]) => {
+          if (monthKeyOfISO(d) !== monthKey) return;
+          (arr||[]).forEach(a => {
+            const w = (priorityConfig[a.priority] || priorityConfig.med).weight;
+            possible += w;
+            if (a.completed) done += w;
+          });
         });
-        return { total, completed };
+
+        const pct = possible > 0 ? Math.round((done/possible)*100) : 0;
+        return { possible, done, pct };
       }
 
-      const weekStart = useMemo(() => startOfWeekISO(todayISO()), []);
-      const weekEnd = useMemo(() => endOfWeekISO(todayISO()), []);
-      const weekStats = useMemo(() => computeStatsForRange(activitiesByDate, weekStart, weekEnd), [activitiesByDate, weekStart, weekEnd]);
-      const weekXP = useMemo(() => weekStats.total > 0 ? Math.round((weekStats.completed/weekStats.total)*100) : 0, [weekStats]);
+      // ===== Stats da “fase” atual (semana do mês) =====
+      function phaseStats(monthKey, phase){
+        const { startISO, endISO } = phaseRange(monthKey, phase);
+        let total = 0, completed = 0;
+        let possible = 0, done = 0;
 
-      const monthKey = useMemo(() => getCurrentMonthKey(), []);
-      const monthStats = useMemo(() => {
-        const start = `${monthKey}-01`;
-        const end = `${monthKey}-31`;
-        return computeStatsForRange(activitiesByDate, start, end);
-      }, [activitiesByDate, monthKey]);
+        Object.entries(activitiesByDate || {}).forEach(([d, arr]) => {
+          if (monthKeyOfISO(d) !== monthKey) return;
+          if (!inRangeISO(d, startISO, endISO)) return;
 
-      const perf = useMemo(() => perfLabel(monthlyXP), [monthlyXP]);
-      const tag = weekTag(weekXP);
+          const list = arr || [];
+          total += list.length;
+          completed += list.filter(x => x.completed).length;
 
-      // Milestones (dia)
+          list.forEach(a => {
+            const w = (priorityConfig[a.priority] || priorityConfig.med).weight;
+            possible += w;
+            if (a.completed) done += w;
+          });
+        });
+
+        const pct = possible > 0 ? Math.round((done/possible)*100) : (total>0 ? Math.round((completed/total)*100) : 0);
+        return { startISO, endISO, total, completed, possible, done, pct };
+      }
+
+      const currentMonthKey = useMemo(() => getCurrentMonthKey(), []);
+      const currentPhase = useMemo(() => weekPhaseOfMonth(todayISO()), []);
+      const curPhaseStats = useMemo(() => phaseStats(currentMonthKey, currentPhase), [activitiesByDate, currentMonthKey, currentPhase]);
+      const curMonthStats = useMemo(() => monthScoreStats(currentMonthKey), [activitiesByDate, currentMonthKey]);
+
+      // ===== Unlock de fase/nível (meta 70%) =====
+      const PHASE_GOAL = 70;
+
       useEffect(() => {
-        const allDoneToday = dayActivities.length > 0 && dayActivities.every(a => a.completed);
-        if (allDoneToday && !prevAllDoneRef.current){
-          showToast("✅ Dia concluído", "Todas as atividades do dia foram finalizadas.");
-          const el = document.getElementById("stat-week");
-          if (el) { el.classList.remove("pulseWin"); void el.offsetWidth; el.classList.add("pulseWin"); }
-        }
-        prevAllDoneRef.current = allDoneToday;
+        // Só avalia unlock no mês atual (jogo do mês corrente)
+        const nowMonth = getCurrentMonthKey();
+        if (monthState.monthKey !== nowMonth) return;
 
-        const prev = prevWeekXPRef.current || 0;
-        if (weekXP >= 100 && prev < 100) showToast("🏆 Semana perfeita", "100%.");
-        else if (weekXP >= 70 && prev < 70) showToast("🔥 Semana forte", "Passou de 70%.");
-        else if (weekXP >= 50 && prev < 50) showToast("💪 Boa evolução", "Passou de 50%.");
-        prevWeekXPRef.current = weekXP;
-      }, [weekXP, dayActivities]);
+        // tenta unlock das fases já “passadas ou atual” conforme desempenho
+        const nextState = { ...monthState, phasesUnlocked: { ...monthState.phasesUnlocked } };
+        let changed = false;
+
+        for (let p=1; p<=5; p++){
+          const st = phaseStats(nowMonth, p);
+          if (st.total === 0 && st.possible === 0) continue; // não força unlock sem conteúdo
+          if (st.pct >= PHASE_GOAL && !nextState.phasesUnlocked[p]){
+            nextState.phasesUnlocked[p] = true;
+            changed = true;
+          }
+        }
+
+        // nível = quantas fases destravadas (0..5)
+        const unlockedCount = Object.values(nextState.phasesUnlocked).filter(Boolean).length;
+        if (unlockedCount !== (monthState.levelUnlocked||0)){
+          nextState.levelUnlocked = unlockedCount;
+          nextState.lastLevelUpAt = todayISO();
+          changed = true;
+          showToast("💎 Level UP", `Nível ${unlockedCount}/5 desbloqueado.`);
+          triggerLevelUpAnim();
+        }
+
+        if (changed) setMonthState(nextState);
+      }, [activitiesByDate]);
+
+      // ===== “Dia concluído” animação + toast =====
+      const prevAllDoneRef = useRef(false);
+      useEffect(() => {
+        const allDone = dayActivities.length > 0 && dayActivities.every(a => a.completed);
+        if (allDone && !prevAllDoneRef.current){
+          showToast("✅ Dia concluído", "Todas as atividades do dia foram finalizadas.");
+          triggerLevelUpAnim();
+        }
+        prevAllDoneRef.current = allDone;
+      }, [dayActivities]);
+
+      // ===== Calendário: resumo diário =====
+      const daySummary = (iso) => {
+        const arr = activitiesByDate[iso] || [];
+        const total = arr.length;
+        const completed = arr.filter(a => a.completed).length;
+        const p = { low:0, med:0, high:0 };
+        arr.forEach(a => { if (p[a.priority] !== undefined) p[a.priority]++; });
+        return { total, completed, p };
+      };
+
+      const monthCells = useMemo(() => buildMonthGrid(monthView), [monthView]);
+
+      const goMonth = (delta) => {
+        const [y,m] = monthView.split("-").map(x => clampInt(x,0));
+        const dt = new Date(`${y}-${pad2(m)}-01T00:00:00`);
+        dt.setMonth(dt.getMonth() + delta);
+        const nk = `${dt.getFullYear()}-${pad2(dt.getMonth()+1)}`;
+        setMonthView(nk);
+      };
+
+      // ===== CRUD =====
+      const openNew = () => { setEditing(null); setModalOpen(true); };
+      const openEdit = (a) => { setEditing(a); setModalOpen(true); };
+
+      const upsertActivity = (activity) => {
+        const dateISO = activity.date || selectedDate;
+        setActivitiesByDate(prev => {
+          const copy = { ...prev };
+          const arr = Array.isArray(copy[dateISO]) ? [...copy[dateISO]] : [];
+          const idx = arr.findIndex(x => x.id === activity.id);
+          if (idx >= 0) arr[idx] = activity;
+          else arr.push(activity);
+          copy[dateISO] = arr;
+          return copy;
+        });
+      };
+
+      const removeActivity = (dateISO, id) => {
+        setActivitiesByDate(prev => {
+          const copy = { ...prev };
+          const arr = Array.isArray(copy[dateISO]) ? copy[dateISO] : [];
+          copy[dateISO] = arr.filter(a => a.id !== id);
+          if (copy[dateISO].length === 0) delete copy[dateISO];
+          return copy;
+        });
+      };
+
+      const saveActivity = (payload) => {
+        const dateISO = editing?.date || selectedDate;
+        if (editing){
+          upsertActivity({ ...editing, ...payload, date: dateISO, id: editing.id, completed: editing.completed });
+          showToast("✏️ Atualizado", "Atividade alterada.");
+        } else {
+          upsertActivity({ ...payload, date: dateISO, id: uid(), completed:false });
+          showToast("➕ Criado", "Atividade adicionada.");
+        }
+        setModalOpen(false);
+        setEditing(null);
+      };
+
+      const toggleDone = (dateISO, id) => {
+        setActivitiesByDate(prev => {
+          const copy = { ...prev };
+          const arr = Array.isArray(copy[dateISO]) ? [...copy[dateISO]] : [];
+          copy[dateISO] = arr.map(a => a.id === id ? { ...a, completed: !a.completed } : a);
+          return copy;
+        });
+      };
+
+      const deleteActivity = (dateISO, id) => {
+        if (!confirm("Tem certeza que deseja deletar?")) return;
+        removeActivity(dateISO, id);
+        showToast("🗑️ Removido", "Atividade deletada.");
+      };
+
+      // ===== Export / Import =====
+      const exportRoutine = () => {
+        const data = {
+          activitiesByDate,
+          notifEnabled,
+          soundEnabled,
+          monthState,
+          monthArchive
+        };
+        const txt = JSON.stringify(data, null, 2);
+        setExportData(txt);
+        setExportOpen(true);
+        showToast("📦 Exportado", "JSON gerado.");
+      };
+
+      const importRoutine = () => {
+        try{
+          const data = JSON.parse(importData);
+          const byDate = data.activitiesByDate || {};
+          const fixed = {};
+          Object.keys(byDate).forEach(d => {
+            const arr = Array.isArray(byDate[d]) ? byDate[d] : [];
+            fixed[d] = arr.map(a => normalizeActivity(a, d));
+          });
+
+          setActivitiesByDate(fixed);
+          if (data.notifEnabled !== undefined) setNotifEnabled(!!data.notifEnabled);
+          if (data.soundEnabled !== undefined) setSoundEnabled(!!data.soundEnabled);
+
+          if (data.monthArchive) setMonthArchive(data.monthArchive);
+          if (data.monthState && data.monthState.monthKey === getCurrentMonthKey()){
+            setMonthState(data.monthState);
+          }
+
+          setImportData("");
+          setExportOpen(false);
+          showToast("✅ Importado", "Dados restaurados.");
+        }catch{
+          showToast("❌ Erro", "JSON inválido.");
+        }
+      };
+
+      const copyToClipboard = async () => {
+        try{
+          if (navigator.clipboard && window.isSecureContext){
+            await navigator.clipboard.writeText(exportData || "");
+            showToast("📋 Copiado", "JSON copiado.");
+            return;
+          }
+        }catch{}
+        try{
+          const ta = document.createElement("textarea");
+          ta.value = exportData || "";
+          ta.setAttribute("readonly", "");
+          ta.style.position = "fixed";
+          ta.style.top = "-9999px";
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+          showToast("📋 Copiado", "JSON copiado.");
+        }catch{
+          showToast("⚠️ Copiar", "Copie manualmente.");
+        }
+      };
 
       // ===== Notifications / Reminders =====
       const requestNotificationPermission = async () => {
@@ -888,16 +1179,17 @@
         }
       };
 
+      const remindedKey = "remindedTodayMap_v2";
       const getRemindedMap = () => {
         const td = todayISO();
-        const obj = safeJSON(localStorage.getItem(LS.reminded), null);
+        const obj = safeJSON(localStorage.getItem(remindedKey), null);
         if (!obj || obj.date !== td) return { date: td, map: {} };
         return obj;
       };
       const setReminded = (activityId) => {
         const obj = getRemindedMap();
         obj.map[String(activityId)] = true;
-        localStorage.setItem(LS.reminded, JSON.stringify(obj));
+        localStorage.setItem(remindedKey, JSON.stringify(obj));
       };
       const alreadyReminded = (activityId) => {
         const obj = getRemindedMap();
@@ -992,178 +1284,129 @@
         return clearTimers;
       }, [activitiesByDate, notifEnabled, soundEnabled]);
 
-      // ===== CRUD =====
-      const openNew = () => { setEditing(null); setModalOpen(true); };
-      const openEdit = (a) => { setEditing(a); setModalOpen(true); };
-
-      const upsertActivity = (activity) => {
-        const dateISO = activity.date || selectedDate;
-        setActivitiesByDate(prev => {
-          const copy = { ...prev };
-          const arr = Array.isArray(copy[dateISO]) ? [...copy[dateISO]] : [];
-          const idx = arr.findIndex(x => x.id === activity.id);
-          if (idx >= 0) arr[idx] = activity;
-          else arr.push(activity);
-          copy[dateISO] = arr;
-          return copy;
-        });
-      };
-
-      const removeActivity = (dateISO, id) => {
-        setActivitiesByDate(prev => {
-          const copy = { ...prev };
-          const arr = Array.isArray(copy[dateISO]) ? copy[dateISO] : [];
-          copy[dateISO] = arr.filter(a => a.id !== id);
-          if (copy[dateISO].length === 0) delete copy[dateISO];
-          return copy;
-        });
-      };
-
-      const saveActivity = (payload) => {
-        const dateISO = editing?.date || selectedDate;
-        if (editing){
-          upsertActivity({ ...editing, ...payload, date: dateISO, id: editing.id, completed: editing.completed });
-          showToast("✏️ Atualizado", "Atividade alterada.");
-        } else {
-          upsertActivity({ ...payload, date: dateISO, id: uid(), completed:false });
-          showToast("➕ Criado", "Atividade adicionada.");
-        }
-        setModalOpen(false);
-        setEditing(null);
-      };
-
-      const toggleDone = (dateISO, id) => {
-        setActivitiesByDate(prev => {
-          const copy = { ...prev };
-          const arr = Array.isArray(copy[dateISO]) ? [...copy[dateISO]] : [];
-          copy[dateISO] = arr.map(a => a.id === id ? { ...a, completed: !a.completed } : a);
-          return copy;
-        });
-      };
-
-      const deleteActivity = (dateISO, id) => {
-        if (!confirm("Tem certeza que deseja deletar?")) return;
-        removeActivity(dateISO, id);
-        showToast("🗑️ Removido", "Atividade deletada.");
-      };
-
-      const closeWeekManual = () => {
-        if (!confirm("Fechar a semana atual e registrar XP?")) return;
-
-        const td = todayISO();
-        const wkStart = startOfWeekISO(td);
-        const wkEnd = endOfWeekISO(td);
-        const wkKey = `${wkStart}→${wkEnd}`;
-
-        const stats = computeStatsForRange(activitiesByDate, wkStart, wkEnd);
-        const xp = stats.total > 0 ? Math.round((stats.completed/stats.total)*100) : 0;
-
-        const newHistory = { ...weekHistory };
-        newHistory[wkKey] = { weekKey:wkKey, ...stats, xp, date: td };
-        setWeekHistory(newHistory);
-
-        const newMonthly = monthlyXP + xp;
-        setMonthlyXP(newMonthly);
-
-        showToast("🧾 Semana fechada", `XP: ${xp}%`);
-      };
-
-      // ===== Export / Import =====
-      const exportRoutine = () => {
-        const data = { activitiesByDate, weekHistory, monthlyXP, autoReset, notifEnabled, soundEnabled };
-        const txt = JSON.stringify(data, null, 2);
-        setExportData(txt);
-        setExportOpen(true);
-        showToast("📦 Exportado", "JSON gerado.");
-      };
-
-      const importRoutine = () => {
-        try{
-          const data = JSON.parse(importData);
-          const byDate = data.activitiesByDate || {};
-          const fixed = {};
-          Object.keys(byDate).forEach(d => {
-            const arr = Array.isArray(byDate[d]) ? byDate[d] : [];
-            fixed[d] = arr.map(a => normalizeActivity(a, d));
-          });
-
-          setActivitiesByDate(fixed);
-          setWeekHistory(data.weekHistory || {});
-          setMonthlyXP(clampInt(data.monthlyXP, 0));
-          if (data.autoReset !== undefined) setAutoReset(!!data.autoReset);
-          if (data.notifEnabled !== undefined) setNotifEnabled(!!data.notifEnabled);
-          if (data.soundEnabled !== undefined) setSoundEnabled(!!data.soundEnabled);
-
-          setImportData("");
-          setExportOpen(false);
-          showToast("✅ Importado", "Dados restaurados.");
-        }catch{
-          showToast("❌ Erro", "JSON inválido.");
-        }
-      };
-
-      const copyToClipboard = async () => {
-        try{
-          if (navigator.clipboard && window.isSecureContext){
-            await navigator.clipboard.writeText(exportData || "");
-            showToast("📋 Copiado", "JSON copiado.");
-            return;
-          }
-        }catch{}
-        try{
-          const ta = document.createElement("textarea");
-          ta.value = exportData || "";
-          ta.setAttribute("readonly", "");
-          ta.style.position = "fixed";
-          ta.style.top = "-9999px";
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand("copy");
-          document.body.removeChild(ta);
-          showToast("📋 Copiado", "JSON copiado.");
-        }catch{
-          showToast("⚠️ Copiar", "Copie manualmente.");
-        }
-      };
-
       // ===== Planner (week chips + date + month) =====
-      const weekday = (iso) => {
-        const dt = new Date(iso + "T00:00:00");
-        const names = ["DOM","SEG","TER","QUA","QUI","SEX","SÁB"];
-        return names[dt.getDay()];
-      };
-
       const setDayInSameWeek = (dayIndex) => {
-        const wkStart = startOfWeekISO(selectedDate); // Monday
-        const monday = new Date(wkStart + "T00:00:00");
+        // pega SEG da semana do selectedDate
+        const dt = new Date(selectedDate + "T00:00:00");
+        const js = dt.getDay(); // 0 dom
+        const mondayOffset = (js === 0) ? -6 : (1 - js);
+        dt.setDate(dt.getDate() + mondayOffset);
+
         let offset = 0;
-        if (dayIndex === 0) offset = 6; // domingo = +6
+        if (dayIndex === 0) offset = 6; // domingo
         else offset = dayIndex - 1;
-        monday.setDate(monday.getDate() + offset);
-        const iso = monday.toISOString().split("T")[0];
+
+        dt.setDate(dt.getDate() + offset);
+        const iso = dt.toISOString().split("T")[0];
         setSelectedDate(iso);
         setMonthView(monthKeyOfISO(iso));
       };
 
-      // resumo diário pro calendário
-      const daySummary = (iso) => {
-        const arr = activitiesByDate[iso] || [];
-        const total = arr.length;
-        const completed = arr.filter(a => a.completed).length;
-        const p = { low:0, med:0, high:0 };
-        arr.forEach(a => { if (p[a.priority] !== undefined) p[a.priority]++; });
-        return { total, completed, p };
+      // ===== Reset modal actions =====
+      const [resetDate, setResetDate] = useState(todayISO());
+      const [resetActivityId, setResetActivityId] = useState("");
+      const [resetRangeMonth, setResetRangeMonth] = useState(getCurrentMonthKey());
+      const [resetRangeMode, setResetRangeMode] = useState("mes"); // mes | fase | custom
+      const [resetPhase, setResetPhase] = useState(weekPhaseOfMonth(todayISO()));
+      const [resetFrom, setResetFrom] = useState(todayISO());
+      const [resetTo, setResetTo] = useState(todayISO());
+
+      const resetDayList = useMemo(() => activitiesByDate[resetDate] || [], [activitiesByDate, resetDate]);
+
+      const doUncompleteActivity = () => {
+        const id = String(resetActivityId || "");
+        if (!id) { alert("Selecione uma atividade."); return; }
+        setActivitiesByDate(prev => {
+          const copy = { ...prev };
+          const arr = Array.isArray(copy[resetDate]) ? [...copy[resetDate]] : [];
+          copy[resetDate] = arr.map(a => a.id == id ? { ...a, completed:false } : a);
+          return copy;
+        });
+        showToast("♻️ Reset", "Atividade marcada como não concluída.");
       };
 
-      const goMonth = (delta) => {
-        const [y,m] = monthView.split("-").map(x => clampInt(x,0));
-        const dt = new Date(`${y}-${pad2(m)}-01T00:00:00`);
-        dt.setMonth(dt.getMonth() + delta);
-        const nk = `${dt.getFullYear()}-${pad2(dt.getMonth()+1)}`;
-        setMonthView(nk);
+      const doDeleteActivity = () => {
+        const id = String(resetActivityId || "");
+        if (!id) { alert("Selecione uma atividade."); return; }
+        if (!confirm("Apagar essa atividade? (irreversível)")) return;
+        removeActivity(resetDate, Number(id));
+        showToast("🗑️ Apagado", "Atividade removida.");
       };
 
-      // ===== Form =====
+      const doResetDay = () => {
+        if ((activitiesByDate[resetDate] || []).length === 0){ alert("Esse dia não tem atividades."); return; }
+        setActivitiesByDate(prev => {
+          const copy = { ...prev };
+          const arr = Array.isArray(copy[resetDate]) ? [...copy[resetDate]] : [];
+          copy[resetDate] = arr.map(a => ({ ...a, completed:false }));
+          return copy;
+        });
+        showToast("♻️ Reset", `Dia ${formatDateBR(resetDate)} resetado.`);
+      };
+
+      const doClearDay = () => {
+        if ((activitiesByDate[resetDate] || []).length === 0){ alert("Esse dia não tem atividades."); return; }
+        if (!confirm(`Apagar TODAS as atividades de ${formatDateBR(resetDate)}?`)) return;
+        setActivitiesByDate(prev => {
+          const copy = { ...prev };
+          delete copy[resetDate];
+          return copy;
+        });
+        showToast("🗑️ Limpo", `Dia ${formatDateBR(resetDate)} apagado.`);
+      };
+
+      const rangeTargets = useMemo(() => {
+        if (resetRangeMode === "mes"){
+          const mk = resetRangeMonth;
+          const [y,m] = mk.split("-").map(x => clampInt(x,0));
+          const dim = daysInMonth(y,m);
+          return { startISO: `${mk}-01`, endISO: `${mk}-${pad2(dim)}` };
+        }
+        if (resetRangeMode === "fase"){
+          return phaseRange(resetRangeMonth, clampInt(resetPhase, 1));
+        }
+        // custom
+        const a = resetFrom <= resetTo ? resetFrom : resetTo;
+        const b = resetFrom <= resetTo ? resetTo : resetFrom;
+        return { startISO: a, endISO: b };
+      }, [resetRangeMode, resetRangeMonth, resetPhase, resetFrom, resetTo]);
+
+      const doResetRange = () => {
+        const { startISO, endISO } = rangeTargets;
+        let any = false;
+        setActivitiesByDate(prev => {
+          const copy = { ...prev };
+          Object.keys(copy).forEach(d => {
+            if (d < startISO || d > endISO) return;
+            const arr = Array.isArray(copy[d]) ? copy[d] : [];
+            if (arr.length === 0) return;
+            any = true;
+            copy[d] = arr.map(a => ({ ...a, completed:false }));
+          });
+          return copy;
+        });
+        if (!any){ alert("Nenhuma atividade encontrada no intervalo."); return; }
+        showToast("♻️ Reset", `Intervalo resetado: ${formatDateBR(startISO)} → ${formatDateBR(endISO)}`);
+      };
+
+      const doClearRange = () => {
+        const { startISO, endISO } = rangeTargets;
+        if (!confirm(`Apagar TODAS as atividades de ${formatDateBR(startISO)} até ${formatDateBR(endISO)}?`)) return;
+        let any = false;
+        setActivitiesByDate(prev => {
+          const copy = { ...prev };
+          Object.keys(copy).forEach(d => {
+            if (d < startISO || d > endISO) return;
+            any = true;
+            delete copy[d];
+          });
+          return copy;
+        });
+        if (!any){ alert("Nenhuma atividade encontrada no intervalo."); return; }
+        showToast("🗑️ Limpo", `Intervalo apagado: ${formatDateBR(startISO)} → ${formatDateBR(endISO)}`);
+      };
+
+      // ===== UI Components =====
       function ActivityForm({ initial, onSave, onCancel }){
         const init = initial || {
           title:"",
@@ -1203,22 +1446,28 @@
             e("div", { style:{ flex:"1 1 420px" } },
               e("div", { className:"label" }, "⏰ Horário"),
               e("div", { className:"grid2" },
-                e("input", {
-                  className:"input",
-                  type:"time",
-                  name:"startTime",
-                  id:"startTime",
-                  value: form.startTime,
-                  onChange:(ev)=>setForm({ ...form, startTime: ev.target.value })
-                }),
-                e("input", {
-                  className:"input",
-                  type:"time",
-                  name:"endTime",
-                  id:"endTime",
-                  value: form.endTime,
-                  onChange:(ev)=>setForm({ ...form, endTime: ev.target.value })
-                })
+                e("div", null,
+                  e("div", { className:"label", style:{ marginBottom:6 } }, "DE"),
+                  e("input", {
+                    className:"input",
+                    type:"time",
+                    name:"startTime",
+                    id:"startTime",
+                    value: form.startTime,
+                    onChange:(ev)=>setForm({ ...form, startTime: ev.target.value })
+                  })
+                ),
+                e("div", null,
+                  e("div", { className:"label", style:{ marginBottom:6 } }, "ATÉ"),
+                  e("input", {
+                    className:"input",
+                    type:"time",
+                    name:"endTime",
+                    id:"endTime",
+                    value: form.endTime,
+                    onChange:(ev)=>setForm({ ...form, endTime: ev.target.value })
+                  })
+                )
               ),
               e("div", { className:"sp10" }),
               e("span", { className:"pill" }, `DE ${form.startTime || "--:--"} → ATÉ ${form.endTime || "--:--"}`)
@@ -1238,7 +1487,7 @@
                 key:k,
                 className: "chip" + (on ? (" chipOn " + tint) : ""),
                 onClick: ()=> setForm({ ...form, category:k }),
-                title:k
+                "data-tip": "Define a categoria da atividade. A borda acompanha a prioridade selecionada."
               }, c.emoji, " ", label);
             })
           ),
@@ -1252,7 +1501,8 @@
               return e("div", {
                 key,
                 className:"chip" + (on ? (" chipOn " + p.tint) : ""),
-                onClick: ()=> setForm({ ...form, priority:key })
+                onClick: ()=> setForm({ ...form, priority:key }),
+                "data-tip": "Baixa, Média ou Alta. A prioridade muda cores e o peso do progresso mensal."
               }, p.emoji, " ", p.label);
             })
           ),
@@ -1263,7 +1513,8 @@
           e("div", {
             className:"chip" + (form.remind ? " chipOn" : ""),
             style:{ justifyContent:"space-between" },
-            onClick: ()=> setForm({ ...form, remind: !form.remind })
+            onClick: ()=> setForm({ ...form, remind: !form.remind }),
+            "data-tip": "Se ativado, o app dispara lembrete no horário DE (som + toast + notificação do sistema se permitido)."
           },
             e("div", { style:{ display:"flex", gap:10, alignItems:"center" } },
               form.remind ? "⏰" : "🔕",
@@ -1291,6 +1542,7 @@
             e("button", {
               className:"btn btnPrimary",
               style:{ flex:"1 1 260px" },
+              "data-tip":"Salva a atividade no dia selecionado.",
               onClick: ()=>{
                 const err = validate();
                 if (!form.title.trim()) { alert("Informe um título."); return; }
@@ -1310,6 +1562,7 @@
             e("button", {
               className:"btn btnSoft",
               style:{ flex:"1 1 160px" },
+              "data-tip":"Cancela e fecha a janela.",
               onClick: onCancel
             }, "Cancelar")
           )
@@ -1326,7 +1579,13 @@
         return e("div", { className: cls },
           e("div", { className:"actTop" },
             e("div", { className:"actLeft" },
-              e("input", { className:"check", type:"checkbox", checked: !!a.completed, onChange:()=>toggleDone(a.date, a.id) }),
+              e("input", {
+                className:"check",
+                type:"checkbox",
+                checked: !!a.completed,
+                onChange:()=>toggleDone(a.date, a.id),
+                "data-tip":"Marca/desmarca como concluída. Isso afeta seu progresso do jogo."
+              }),
               e("div", null,
                 e("div", { className:"actTitle" }, `${cat.emoji} ${a.title}`),
                 e("div", { className:"actMeta" },
@@ -1339,17 +1598,187 @@
               )
             ),
             e("div", { className:"actBtns" },
-              e("button", { className:"miniBtn", onClick:()=>openEdit(a) }, "✏️ Editar"),
-              e("button", { className:"miniBtn miniDanger", onClick:()=>deleteActivity(a.date, a.id) }, "🗑️ Deletar")
+              e("button", { className:"miniBtn", onClick:()=>openEdit(a), "data-tip":"Editar título, horário, prioridade, categoria, lembrete etc." }, "✏️ Editar"),
+              e("button", { className:"miniBtn miniDanger", onClick:()=>deleteActivity(a.date, a.id), "data-tip":"Apaga a atividade permanentemente." }, "🗑️ Deletar")
             )
           )
         );
       }
 
+      // ===== UI: Planner labels =====
       const selectedLabel = `${weekday(selectedDate)} • ${formatDateBR(selectedDate)}`;
       const isTodaySelected = selectedDate === todayISO();
 
-      const monthCells = useMemo(() => buildMonthGrid(monthView), [monthView]);
+      // ===== Simple “bars” colors =====
+      const barColor = (pct) => {
+        if (pct >= 85) return "linear-gradient(90deg, rgba(34,197,94,.95), rgba(16,185,129,.95))";
+        if (pct >= 70) return "linear-gradient(90deg, rgba(245,158,11,.95), rgba(234,179,8,.95))";
+        return "linear-gradient(90deg, rgba(239,68,68,.95), rgba(249,115,22,.95))";
+      };
+
+      // ===== Reset Modal =====
+      function ResetModal(){
+        return e(Modal, {
+          open: resetOpen,
+          onClose: ()=> setResetOpen(false),
+          title: "🧹 RESET (personalizado)"
+        },
+          e("div", { className:"tabs" },
+            e("button", { className:"tabBtn " + (resetTab==="atividade"?"tabOn":""), onClick:()=>setResetTab("atividade"),
+              "data-tip":"Reset de uma atividade específica (qualquer dia)."
+            }, "Atividade"),
+            e("button", { className:"tabBtn " + (resetTab==="dia"?"tabOn":""), onClick:()=>setResetTab("dia"),
+              "data-tip":"Reset ou apagar todas as atividades de um dia específico."
+            }, "Dia"),
+            e("button", { className:"tabBtn " + (resetTab==="intervalo"?"tabOn":""), onClick:()=>setResetTab("intervalo"),
+              "data-tip":"Reset ou apagar um período: mês, fase (semana do mês) ou intervalo custom."
+            }, "Intervalo")
+          ),
+
+          e("div", { className:"sp16" }),
+
+          resetTab === "atividade" && e("div", null,
+            e("div", { className:"label" }, "📅 Escolha o dia"),
+            e("input", {
+              className:"input",
+              type:"date",
+              value: resetDate,
+              onChange:(ev)=>{ setResetDate(ev.target.value || todayISO()); setResetActivityId(""); }
+            }),
+
+            e("div", { className:"sp10" }),
+
+            e("div", { className:"label" }, "🎯 Escolha a atividade"),
+            e("select", {
+              className:"input",
+              value: resetActivityId,
+              onChange:(ev)=>setResetActivityId(ev.target.value),
+              "data-tip":"Lista as atividades do dia escolhido."
+            },
+              e("option", { value:"" }, resetDayList.length ? "Selecione..." : "Nenhuma atividade nesse dia"),
+              resetDayList.map(a => e("option", { key:a.id, value:String(a.id) }, `${a.startTime}→${a.endTime} • ${a.title}`))
+            ),
+
+            e("div", { className:"sp16" }),
+
+            e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
+              e("button", {
+                className:"btn btnPrimary",
+                onClick: doUncompleteActivity,
+                "data-tip":"Desmarca como concluída (não apaga)."
+              }, "♻️ Resetar conclusão"),
+              e("button", {
+                className:"btn btnSoft",
+                onClick: doDeleteActivity,
+                "data-tip":"Apaga essa atividade permanentemente (com confirmação)."
+              }, "🗑️ Apagar atividade")
+            )
+          ),
+
+          resetTab === "dia" && e("div", null,
+            e("div", { className:"label" }, "📅 Escolha o dia"),
+            e("input", {
+              className:"input",
+              type:"date",
+              value: resetDate,
+              onChange:(ev)=>{ setResetDate(ev.target.value || todayISO()); setResetActivityId(""); }
+            }),
+            e("div", { className:"sp10" }),
+            e("div", { className:"pill" }, `Atividades: ${(activitiesByDate[resetDate]||[]).length}`),
+
+            e("div", { className:"sp16" }),
+            e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
+              e("button", {
+                className:"btn btnPrimary",
+                onClick: doResetDay,
+                "data-tip":"Desmarca todas como não concluídas nesse dia."
+              }, "♻️ Resetar dia"),
+              e("button", {
+                className:"btn btnSoft",
+                onClick: doClearDay,
+                "data-tip":"Apaga todas as atividades desse dia (com confirmação)."
+              }, "🗑️ Limpar dia")
+            )
+          ),
+
+          resetTab === "intervalo" && e("div", null,
+            e("div", { className:"label" }, "🧭 Tipo de intervalo"),
+            e("div", { className:"grid3" },
+              e("div", { className:"chip " + (resetRangeMode==="mes"?"chipOn":""),
+                onClick:()=>setResetRangeMode("mes"),
+                "data-tip":"Seleciona um mês inteiro."
+              }, "🗓️ Mês"),
+              e("div", { className:"chip " + (resetRangeMode==="fase"?"chipOn":""),
+                onClick:()=>setResetRangeMode("fase"),
+                "data-tip":"Seleciona uma fase (semana do mês: 1–5)."
+              }, "🎮 Fase"),
+              e("div", { className:"chip " + (resetRangeMode==="custom"?"chipOn":""),
+                onClick:()=>setResetRangeMode("custom"),
+                "data-tip":"Seleciona um intervalo DE/ATÉ custom."
+              }, "📌 Custom")
+            ),
+
+            e("div", { className:"sp16" }),
+
+            e("div", { className:"label" }, "📅 Configurar intervalo"),
+            e("div", { className:"grid2" },
+              e("div", null,
+                e("div", { className:"label", style:{ marginBottom:6 } }, "Mês (YYYY-MM)"),
+                e("input", {
+                  className:"input",
+                  value: resetRangeMonth,
+                  onChange:(ev)=>setResetRangeMonth(ev.target.value || getCurrentMonthKey()),
+                  placeholder:"2026-02",
+                  "data-tip":"Digite no formato YYYY-MM. Ex: 2026-02"
+                })
+              ),
+              e("div", null,
+                resetRangeMode==="fase"
+                  ? e("div", null,
+                      e("div", { className:"label", style:{ marginBottom:6 } }, "Fase do mês (1–5)"),
+                      e("input", {
+                        className:"input",
+                        type:"number",
+                        min:"1", max:"5",
+                        value: resetPhase,
+                        onChange:(ev)=>setResetPhase(clampInt(ev.target.value, 1)),
+                        "data-tip":"Fase 1: 1–7, Fase 2: 8–14, Fase 3: 15–21, Fase 4: 22–28, Fase 5: 29–fim."
+                      })
+                    )
+                  : resetRangeMode==="custom"
+                    ? e("div", null,
+                        e("div", { className:"label", style:{ marginBottom:6 } }, "DE / ATÉ"),
+                        e("div", { className:"grid2" },
+                          e("input", { className:"input", type:"date", value: resetFrom, onChange:(ev)=>setResetFrom(ev.target.value || todayISO()) }),
+                          e("input", { className:"input", type:"date", value: resetTo, onChange:(ev)=>setResetTo(ev.target.value || todayISO()) })
+                        )
+                      )
+                    : e("div", null,
+                        e("div", { className:"label", style:{ marginBottom:6 } }, " "),
+                        e("span", { className:"pill" }, "Mês inteiro selecionado")
+                      )
+              )
+            ),
+
+            e("div", { className:"sp10" }),
+            e("span", { className:"pill" }, `Intervalo: ${formatDateBR(rangeTargets.startISO)} → ${formatDateBR(rangeTargets.endISO)}`),
+
+            e("div", { className:"sp16" }),
+            e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
+              e("button", {
+                className:"btn btnPrimary",
+                onClick: doResetRange,
+                "data-tip":"Desmarca como não concluídas todas as atividades do intervalo."
+              }, "♻️ Resetar intervalo"),
+              e("button", {
+                className:"btn btnSoft",
+                onClick: doClearRange,
+                "data-tip":"Apaga permanentemente todas as atividades do intervalo (com confirmação)."
+              }, "🗑️ Limpar intervalo")
+            )
+          )
+        );
+      }
 
       return e("div", { className:"app" },
         e("div", { className:"container" },
@@ -1357,66 +1786,73 @@
           e("div", { className:"top" },
             e("div", null, e("div", { className:"title" }, "🎯 Rotina • Foco & Prosperidade")),
             e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
-              e("button", { className:"btn btnSoft", onClick: exportRoutine }, "📦 Exportar"),
-              e("button", { className:"btn btnSoft", onClick: ()=>setExportOpen(true) }, "📥 Importar"),
-              e("button", { className:"btn btnPrimary", onClick: openNew }, "➕ Nova Atividade")
+              e("button", { className:"btn btnSoft", onClick: exportRoutine, "data-tip":"Gera um JSON com seus dados para backup." }, "📦 Exportar"),
+              e("button", { className:"btn btnSoft", onClick: ()=>setExportOpen(true), "data-tip":"Cole um JSON exportado para restaurar seus dados." }, "📥 Importar"),
+              e("button", { className:"btn btnPrimary", onClick: openNew, "data-tip":"Cria uma atividade para o dia selecionado." }, "➕ Nova Atividade")
             )
           ),
 
           e("div", { className:"sp16" }),
 
           e("div", { className:"row" },
-            e("div", { className:"col glass", id:"stat-week", style:{ padding:16 } },
+            e("div", { className:"col glass", style:{ padding:16 } },
               e("div", { style:{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:10, flexWrap:"wrap" } },
                 e("div", null,
-                  e("div", { className:"kicker" }, "XP DA SEMANA"),
-                  e("div", { className:"big" }, `${weekXP}%`)
+                  e("div", { className:"kicker" }, "FASE DO MÊS (JOGO)"),
+                  e("div", { className:"big" }, `${curPhaseStats.pct}%`)
                 ),
-                e("span", { className:"pill", style:{ background:weekTag(weekXP).c, borderColor:weekTag(weekXP).b } }, weekTag(weekXP).t)
+                e("span", { className:"pill" }, `🎮 Fase ${currentPhase}/5 • Meta ${PHASE_GOAL}%`)
               ),
-              e("div", { className:"barWrap" }, e("div", { className:"barFill", style:{ width: weekXP + "%", background: barColor(weekXP) } })),
+              e("div", { className:"barWrap" }, e("div", { className:"barFill", style:{ width: curPhaseStats.pct + "%", background: barColor(curPhaseStats.pct) } })),
               e("div", { className:"sp10" }),
-              e("div", { className:"muted", style:{ fontWeight:950 } }, `${weekStats.completed}/${weekStats.total} concluídas`)
+              e("div", { className:"muted", style:{ fontWeight:950 } }, `${curPhaseStats.completed}/${curPhaseStats.total} concluídas`)
             ),
 
             e("div", { className:"col glass", style:{ padding:16 } },
-              e("div", { className:"kicker" }, "XP DO MÊS"),
-              e("div", { className:"big" }, `${monthlyXP}`),
+              e("div", { className:"kicker" }, "PROGRESSO DO MÊS"),
+              e("div", { className:"big" }, `${curMonthStats.pct}%`),
               e("div", { className:"sp10" }),
-              e("span", { className:"pill", style:{ color: perf.color } }, perf.label),
+              e("span", { className:"pill" }, `💎 Nível ${monthState.levelUnlocked}/5`),
               e("div", { className:"sp10" }),
-              e("div", { className:"muted", style:{ fontWeight:950 } }, `${monthStats.completed}/${monthStats.total} concluídas (mês atual)`)
+              e("div", { className:"muted", style:{ fontWeight:950 } }, `Score: ${curMonthStats.done}/${curMonthStats.possible}`)
             ),
 
             e("div", { className:"col glass", style:{ padding:16 } },
               e("div", { className:"kicker" }, "CONTROLES"),
               e("div", { className:"sp10" }),
               e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
-                e("button", {
-                  className:"btn " + (autoReset ? "btnPrimary" : "btnSoft"),
-                  onClick: ()=> setAutoReset(!autoReset)
-                }, autoReset ? "🔁 Auto reset: ON" : "🔁 Auto reset: OFF"),
 
-                e("button", { className:"btn btnSoft", onClick: closeWeekManual }, "🧾 Fechar semana"),
+                e("button", {
+                  className:"btn btnSoft",
+                  onClick: ()=> setResetOpen(true),
+                  "data-tip":"Resetar uma tarefa específica, um dia, uma fase do mês ou um mês inteiro (de forma individual)."
+                }, "🧹 RESET"),
 
                 e("button", {
                   className:"btn " + (notifEnabled ? "btnPrimary" : "btnSoft"),
-                  onClick: requestNotificationPermission
+                  onClick: requestNotificationPermission,
+                  "data-tip":"Ativa notificações do sistema para os lembretes."
                 }, notifEnabled ? "🔔 Notif: ON" : "🔔 Ativar notif"),
 
                 e("button", {
                   className:"btn " + (soundEnabled ? "btnPrimary" : "btnSoft"),
-                  onClick: ()=>{ unlockAudio(); setSoundEnabled(!soundEnabled); }
+                  onClick: ()=>{ unlockAudio(); setSoundEnabled(!soundEnabled); },
+                  "data-tip":"Toca um som POP quando um lembrete dispara."
                 }, soundEnabled ? "🔊 Som: ON" : "🔇 Som: OFF"),
 
-                e("button", { className:"btn btnSoft", onClick: testSound }, "🎧 Testar som")
+                e("button", { className:"btn btnSoft", onClick: testSound, "data-tip":"Toca um POP para testar o áudio." }, "🎧 Testar som")
+              ),
+
+              e("div", { className:"sp10" }),
+              e("div", { className:"muted", style:{ fontWeight:950 } },
+                "Reset mensal automático: no 1º dia do mês (ou ao virar o mês), o nível volta ao início."
               )
             )
           ),
 
           e("div", { className:"sp16" }),
 
-          // ===== Planner / Calendar Bar =====
+          // ===== Planner =====
           e("div", { className:"glass", style:{ padding:14 } },
             e("div", { className:"kicker" }, "PLANEJAMENTO"),
             e("div", { className:"sp10" }),
@@ -1427,8 +1863,8 @@
                 e("span", { className:"pill" }, isTodaySelected ? "✅ HOJE" : "🗓️ OUTRO DIA")
               ),
               e("div", { style:{ display:"flex", gap:10, flexWrap:"wrap" } },
-                e("button", { className:"btn " + (plannerMode==="day" ? "btnPrimary" : "btnSoft"), onClick:()=>setPlannerMode("day") }, "Dia"),
-                e("button", { className:"btn " + (plannerMode==="month" ? "btnPrimary" : "btnSoft"), onClick:()=>setPlannerMode("month") }, "Mês")
+                e("button", { className:"btn " + (plannerMode==="day" ? "btnPrimary" : "btnSoft"), onClick:()=>setPlannerMode("day"), "data-tip":"Planejar por dia (data específica + dias da semana)." }, "Dia"),
+                e("button", { className:"btn " + (plannerMode==="month" ? "btnPrimary" : "btnSoft"), onClick:()=>setPlannerMode("month"), "data-tip":"Abrir calendário do mês para escolher um dia." }, "Mês")
               )
             ),
 
@@ -1437,31 +1873,30 @@
                   e("div", { className:"sp10" }),
                   e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap", alignItems:"center", justifyContent:"space-between" } },
                     e("div", { style:{ display:"flex", gap:10, flexWrap:"wrap" } },
-                      e("button", { className:"btn btnSoft", onClick:()=>{ const d=addDaysISO(selectedDate,-1); setSelectedDate(d); setMonthView(monthKeyOfISO(d)); } }, "◀"),
-                      e("button", { className:"btn btnSoft", onClick:()=>{ const d=todayISO(); setSelectedDate(d); setMonthView(monthKeyOfISO(d)); } }, "Hoje"),
-                      e("button", { className:"btn btnSoft", onClick:()=>{ const d=addDaysISO(selectedDate,+1); setSelectedDate(d); setMonthView(monthKeyOfISO(d)); } }, "▶")
+                      e("button", { className:"btn btnSoft", onClick:()=>{ const d=addDaysISO(selectedDate,-1); setSelectedDate(d); setMonthView(monthKeyOfISO(d)); }, "data-tip":"Ir para o dia anterior." }, "◀"),
+                      e("button", { className:"btn btnSoft", onClick:()=>{ const d=todayISO(); setSelectedDate(d); setMonthView(monthKeyOfISO(d)); }, "data-tip":"Voltar para hoje." }, "Hoje"),
+                      e("button", { className:"btn btnSoft", onClick:()=>{ const d=addDaysISO(selectedDate,+1); setSelectedDate(d); setMonthView(monthKeyOfISO(d)); }, "data-tip":"Ir para o próximo dia." }, "▶")
                     ),
                     e("div", { style:{ display:"flex", gap:10, flexWrap:"wrap" } },
                       e("input", {
                         className:"input",
                         type:"date",
-                        id:"plannerDate",
-                        name:"plannerDate",
                         value: selectedDate,
-                        onChange:(ev)=>{ const v=ev.target.value || todayISO(); setSelectedDate(v); setMonthView(monthKeyOfISO(v)); }
+                        onChange:(ev)=>{ const v=ev.target.value || todayISO(); setSelectedDate(v); setMonthView(monthKeyOfISO(v)); },
+                        "data-tip":"Escolha uma data específica para criar/ver atividades."
                       })
                     )
                   ),
 
                   e("div", { className:"sp10" }),
                   e("div", { className:"grid3" },
-                    e("div", { className:"chip " + (weekday(selectedDate)==="SEG" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(1) }, "SEG"),
-                    e("div", { className:"chip " + (weekday(selectedDate)==="TER" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(2) }, "TER"),
-                    e("div", { className:"chip " + (weekday(selectedDate)==="QUA" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(3) }, "QUA"),
-                    e("div", { className:"chip " + (weekday(selectedDate)==="QUI" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(4) }, "QUI"),
-                    e("div", { className:"chip " + (weekday(selectedDate)==="SEX" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(5) }, "SEX"),
-                    e("div", { className:"chip " + (weekday(selectedDate)==="SÁB" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(6) }, "SÁB"),
-                    e("div", { className:"chip " + (weekday(selectedDate)==="DOM" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(0) }, "DOM")
+                    e("div", { className:"chip " + (weekday(selectedDate)==="SEG" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(1), "data-tip":"Selecionar Segunda (na semana da data atual)." }, "SEG"),
+                    e("div", { className:"chip " + (weekday(selectedDate)==="TER" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(2), "data-tip":"Selecionar Terça (na semana da data atual)." }, "TER"),
+                    e("div", { className:"chip " + (weekday(selectedDate)==="QUA" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(3), "data-tip":"Selecionar Quarta (na semana da data atual)." }, "QUA"),
+                    e("div", { className:"chip " + (weekday(selectedDate)==="QUI" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(4), "data-tip":"Selecionar Quinta (na semana da data atual)." }, "QUI"),
+                    e("div", { className:"chip " + (weekday(selectedDate)==="SEX" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(5), "data-tip":"Selecionar Sexta (na semana da data atual)." }, "SEX"),
+                    e("div", { className:"chip " + (weekday(selectedDate)==="SÁB" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(6), "data-tip":"Selecionar Sábado (na semana da data atual)." }, "SÁB"),
+                    e("div", { className:"chip " + (weekday(selectedDate)==="DOM" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(0), "data-tip":"Selecionar Domingo (na semana da data atual)." }, "DOM")
                   )
                 )
               : e("div", { className:"calWrap" },
@@ -1471,9 +1906,9 @@
                       e("span", { className:"pill" }, "Clique em um dia para abrir")
                     ),
                     e("div", { style:{ display:"flex", gap:10, flexWrap:"wrap" } },
-                      e("button", { className:"btn btnSoft", onClick:()=>goMonth(-1) }, "◀ Mês"),
-                      e("button", { className:"btn btnSoft", onClick:()=>{ const d=todayISO(); setSelectedDate(d); setMonthView(monthKeyOfISO(d)); } }, "Hoje"),
-                      e("button", { className:"btn btnSoft", onClick:()=>goMonth(+1) }, "Mês ▶")
+                      e("button", { className:"btn btnSoft", onClick:()=>goMonth(-1), "data-tip":"Ver mês anterior." }, "◀ Mês"),
+                      e("button", { className:"btn btnSoft", onClick:()=>{ const d=todayISO(); setSelectedDate(d); setMonthView(monthKeyOfISO(d)); }, "data-tip":"Voltar para hoje." }, "Hoje"),
+                      e("button", { className:"btn btnSoft", onClick:()=>goMonth(+1), "data-tip":"Ver próximo mês." }, "Mês ▶")
                     )
                   ),
 
@@ -1504,11 +1939,12 @@
                         key: iso,
                         className: cls,
                         onClick: ()=> {
-                          if (!cell.inMonth) return; // mantém clean: clique só no mês atual
+                          if (!cell.inMonth) return;
                           setSelectedDate(iso);
                           setPlannerMode("day");
                         },
-                        title: formatDateBR(iso)
+                        title: formatDateBR(iso),
+                        "data-tip": "Clique para abrir esse dia. O resumo mostra concluídas/total e prioridades."
                       },
                         e("div", { className:"calDayNum" }, dayNum),
                         sum.total > 0
@@ -1581,8 +2017,6 @@
                 e("div", { className:"label" }, "📤 Exportar (JSON)"),
                 e("textarea", {
                   className:"input",
-                  name:"exportJson",
-                  id:"exportJson",
                   rows:10,
                   value: exportData,
                   onChange:(ev)=>setExportData(ev.target.value),
@@ -1590,16 +2024,14 @@
                 }),
                 e("div", { className:"sp10" }),
                 e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
-                  e("button", { className:"btn btnSoft", style:{ flex:"1 1 160px" }, onClick: exportRoutine }, "Gerar"),
-                  e("button", { className:"btn btnPrimary", style:{ flex:"1 1 160px" }, onClick: copyToClipboard, disabled: !exportData }, "📋 Copiar")
+                  e("button", { className:"btn btnSoft", style:{ flex:"1 1 160px" }, onClick: exportRoutine, "data-tip":"Gera um JSON atualizado." }, "Gerar"),
+                  e("button", { className:"btn btnPrimary", style:{ flex:"1 1 160px" }, onClick: copyToClipboard, disabled: !exportData, "data-tip":"Copia o JSON para o clipboard." }, "📋 Copiar")
                 )
               ),
               e("div", null,
                 e("div", { className:"label" }, "📥 Importar (cole o JSON)"),
                 e("textarea", {
                   className:"input",
-                  name:"importJson",
-                  id:"importJson",
                   rows:10,
                   value: importData,
                   onChange:(ev)=>setImportData(ev.target.value),
@@ -1607,12 +2039,14 @@
                 }),
                 e("div", { className:"sp10" }),
                 e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
-                  e("button", { className:"btn btnPrimary", style:{ flex:"1 1 160px" }, onClick: importRoutine, disabled: !importData.trim() }, "Importar"),
-                  e("button", { className:"btn btnSoft", style:{ flex:"1 1 160px" }, onClick: ()=>setImportData("") }, "Limpar")
+                  e("button", { className:"btn btnPrimary", style:{ flex:"1 1 160px" }, onClick: importRoutine, disabled: !importData.trim(), "data-tip":"Importa e substitui os dados atuais." }, "Importar"),
+                  e("button", { className:"btn btnSoft", style:{ flex:"1 1 160px" }, onClick: ()=>setImportData(""), "data-tip":"Limpa o campo." }, "Limpar")
                 )
               )
             )
           ),
+
+          e(ResetModal, null),
 
           e("div", { className:"toasts" },
             toasts.map(t => e("div", { key:t.id, className:"toast" },
@@ -1620,7 +2054,7 @@
                 e("div", { className:"toastTitle" }, t.title),
                 e("div", { className:"toastMsg" }, t.msg)
               ),
-              e("button", { className:"toastX", onClick:()=>removeToast(t.id) }, "✕")
+              e("button", { className:"toastX", onClick:()=>removeToast(t.id), "data-tip":"Fechar notificação." }, "✕")
             ))
           )
         )
