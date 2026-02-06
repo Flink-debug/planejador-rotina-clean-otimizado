@@ -7,8 +7,8 @@
   <title>Rotina • Foco & Prosperidade</title>
 
   <!-- React 18 (PRODUCTION) -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
 
   <style>
     :root{
@@ -38,11 +38,8 @@
       color:var(--txt);
       min-height:100vh;
       overflow-x:hidden;
-
-      /* força UI dark em selects onde o browser respeita */
       color-scheme: dark;
 
-      /* FUNDO: preto -> azul escuro (mais vida, melhor contraste) */
       background:
         radial-gradient(1200px 650px at 15% 0%, rgba(59,130,246,.18), transparent 60%),
         radial-gradient(900px 700px at 85% 10%, rgba(56,189,248,.14), transparent 55%),
@@ -50,7 +47,7 @@
         linear-gradient(180deg, var(--bg0), var(--bg1));
     }
 
-    /* $$$ background (notas) - sutil e detalhado */
+    /* $$$ background (notas) - sutil */
     body::before{
       content:"";
       position:fixed; inset:0;
@@ -59,13 +56,12 @@
       background:
         radial-gradient(900px 520px at 15% 15%, rgba(0,0,0,.0), rgba(0,0,0,.50) 70%),
         radial-gradient(900px 520px at 85% 15%, rgba(0,0,0,.0), rgba(0,0,0,.50) 70%),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='900' viewBox='0 0 1600 900'%3E%3Cdefs%3E%3ClinearGradient id='bill' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23a7f3d0' stop-opacity='.55'/%3E%3Cstop offset='1' stop-color='%236ee7b7' stop-opacity='.35'/%3E%3C/linearGradient%3E%3ClinearGradient id='shine' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23ffffff' stop-opacity='.18'/%3E%3Cstop offset='1' stop-color='%23ffffff' stop-opacity='0'/%3E%3C/linearGradient%3E%3Cfilter id='s' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeDropShadow dx='0' dy='6' stdDeviation='6' flood-color='%23000000' flood-opacity='.28'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23s)'%3E%3Cg transform='translate(120 90) rotate(-12)'%3E%3Crect rx='14' ry='14' width='210' height='110' fill='url(%23bill)' fill-opacity='.22' stroke='%23a7f3d0' stroke-opacity='.20'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='190' height='90' fill='none' stroke='%23e5e7eb' stroke-opacity='.14'/%3E%3Cpath d='M0 0 L210 0 L210 18 L0 50 Z' fill='url(%23shine)' opacity='.45'/%3E%3Ctext x='105' y='70' text-anchor='middle' font-family='Arial' font-size='44' fill='%23e5e7eb' fill-opacity='.18'%3E$%3C/text%3E%3C/g%3E%3Cg transform='translate(420 140) rotate(8)'%3E%3Crect rx='14' ry='14' width='210' height='110' fill='url(%23bill)' fill-opacity='.20' stroke='%23a7f3d0' stroke-opacity='.18'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='190' height='90' fill='none' stroke='%23e5e7eb' stroke-opacity='.12'/%3E%3Cpath d='M0 0 L210 0 L210 16 L0 44 Z' fill='url(%23shine)' opacity='.40'/%3E%3Ctext x='105' y='70' text-anchor='middle' font-family='Arial' font-size='44' fill='%23e5e7eb' fill-opacity='.16'%3E$%3C/text%3E%3C/g%3E%3Cg transform='translate(740 80) rotate(-6)'%3E%3Crect rx='14' ry='14' width='210' height='110' fill='url(%23bill)' fill-opacity='.18' stroke='%23a7f3d0' stroke-opacity='.16'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='190' height='90' fill='none' stroke='%23e5e7eb' stroke-opacity='.12'/%3E%3Cpath d='M0 0 L210 0 L210 18 L0 48 Z' fill='url(%23shine)' opacity='.38'/%3E%3Ctext x='105' y='70' text-anchor='middle' font-family='Arial' font-size='44' fill='%23e5e7eb' fill-opacity='.14'%3E$%3C/text%3E%3C/g%3E%3Cg transform='translate(1040 150) rotate(10)'%3E%3Crect rx='14' ry='14' width='210' height='110' fill='url(%23bill)' fill-opacity='.18' stroke='%23a7f3d0' stroke-opacity='.16'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='190' height='90' fill='none' stroke='%23e5e7eb' stroke-opacity='.12'/%3E%3Cpath d='M0 0 L210 0 L210 18 L0 46 Z' fill='url(%23shine)' opacity='.36'/%3E%3Ctext x='105' y='70' text-anchor='middle' font-family='Arial' font-size='44' fill='%23e5e7eb' fill-opacity='.14'%3E$%3C/text%3E%3C/g%3E%3Cg transform='translate(1280 90) rotate(-10)'%3E%3Crect rx='14' ry='14' width='210' height='110' fill='url(%23bill)' fill-opacity='.16' stroke='%23a7f3d0' stroke-opacity='.14'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='190' height='90' fill='none' stroke='%23e5e7eb' stroke-opacity='.12'/%3E%3Cpath d='M0 0 L210 0 L210 18 L0 46 Z' fill='url(%23shine)' opacity='.34'/%3E%3Ctext x='105' y='70' text-anchor='middle' font-family='Arial' font-size='44' fill='%23e5e7eb' fill-opacity='.12'%3E$%3C/text%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='900' viewBox='0 0 1600 900'%3E%3Cdefs%3E%3ClinearGradient id='bill' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23a7f3d0' stop-opacity='.55'/%3E%3Cstop offset='1' stop-color='%236ee7b7' stop-opacity='.35'/%3E%3C/linearGradient%3E%3ClinearGradient id='shine' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23ffffff' stop-opacity='.18'/%3E%3Cstop offset='1' stop-color='%23ffffff' stop-opacity='0'/%3E%3C/linearGradient%3E%3Cfilter id='s' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeDropShadow dx='0' dy='6' stdDeviation='6' flood-color='%23000000' flood-opacity='.28'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23s)'%3E%3Cg transform='translate(120 90) rotate(-12)'%3E%3Crect rx='14' ry='14' width='210' height='110' fill='url(%23bill)' fill-opacity='.22' stroke='%23a7f3d0' stroke-opacity='.20'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='190' height='90' fill='none' stroke='%23e5e7eb' stroke-opacity='.14'/%3E%3Cpath d='M0 0 L210 0 L210 18 L0 50 Z' fill='url(%23shine)' opacity='.45'/%3E%3Ctext x='105' y='70' text-anchor='middle' font-family='Arial' font-size='44' fill='%23e5e7eb' fill-opacity='.18'%3E$%3C/text%3E%3C/g%3E%3Cg transform='translate(420 140) rotate(8)'%3E%3Crect rx='14' ry='14' width='210' height='110' fill='url(%23bill)' fill-opacity='.20' stroke='%23a7f3d0' stroke-opacity='.18'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='190' height='90' fill='none' stroke='%23e5e7eb' stroke-opacity='.12'/%3E%3Cpath d='M0 0 L210 0 L210 16 L0 44 Z' fill='url(%23shine)' opacity='.40'/%3E%3Ctext x='105' y='70' text-anchor='middle' font-family='Arial' font-size='44' fill='%23e5e7eb' fill-opacity='.16'%3E$%3C/text%3E%3C/g%3E%3Cg transform='translate(740 80) rotate(-6)'%3E%3Crect rx='14' ry='14' width='210' height='110' fill='url(%23bill)' fill-opacity='.18' stroke='%23a7f3d0' stroke-opacity='.16'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='190' height='90' fill='none' stroke='%23e5e7eb' stroke-opacity='.12'/%3E%3Cpath d='M0 0 L210 0 L210 18 L0 48 Z' fill='url(%23shine)' opacity='.38'/%3E%3Ctext x='105' y='70' text-anchor='middle' font-family='Arial' font-size='44' fill='%23e5e7eb' fill-opacity='.14'%3E$%3C/text%3E%3C/g%3E%3Cg transform='translate(1040 150) rotate(10)'%3E%3Crect rx='14' ry='14' width='210' height='110' fill='url(%23bill)' fill-opacity='.18' stroke='%23a7f3d0' stroke-opacity='.16'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='190' height='90' fill='none' stroke='%23e5e7eb' stroke-opacity='.12'/%3E%3Cpath d='M0 0 L210 0 L210 18 L0 46 Z' fill='url(%23shine)' opacity='.36'/%3E%3Ctext x='105' y='70' text-anchor='middle' font-family='Arial' font-size='44' fill='%23e5e7eb' fill-opacity='.14'%3E$%3C/text%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
       background-repeat:no-repeat;
       background-size: cover;
       transform: translateZ(0);
     }
 
-    /* overlay para manter legibilidade máxima */
     body::after{
       content:"";
       position:fixed; inset:0;
@@ -137,21 +133,14 @@
       box-shadow: 0 12px 26px rgba(37,99,235,.22);
       color:#fff;
     }
-    .btnPrimary:hover{ box-shadow: 0 16px 34px rgba(37,99,235,.26); }
     .btnSoft{
       background: rgba(255,255,255,.08);
       border-color: rgba(255,255,255,.14);
       color: var(--txt);
+      border:1px solid rgba(255,255,255,.14);
     }
     .btnSoft:hover{ background: rgba(255,255,255,.12); }
-    .btnDanger{
-      background: rgba(239,68,68,.14);
-      border-color: rgba(239,68,68,.28);
-      color:#fecaca;
-    }
-    .btnDanger:hover{ background: rgba(239,68,68,.20); }
 
-    /* Inputs/Selects: CONTRASTE corrigido */
     .input{
       width:100%;
       background: rgba(255,255,255,.06);
@@ -165,17 +154,6 @@
     .input:focus{
       border-color: rgba(59,130,246,.55);
       box-shadow: 0 0 0 4px rgba(59,130,246,.16);
-    }
-    select.input{
-      appearance:auto;
-      -webkit-appearance:auto;
-      color:var(--txt);
-      background-color: rgba(255,255,255,.06);
-    }
-    /* melhora opções em vários browsers (nem todos respeitam 100%) */
-    select.input option{
-      background:#0a1020;
-      color:#e5e7eb;
     }
     textarea{ resize:none; }
 
@@ -207,7 +185,6 @@
     }
     .chip:hover{ background: rgba(255,255,255,.10); }
     .chip:active{ transform: translateY(1px) scale(.99); }
-
     .chipOn{
       background: rgba(255,255,255,.12);
       border-color: rgba(255,255,255,.28);
@@ -293,6 +270,7 @@
 
     .done{ opacity:.78; filter:saturate(.9); }
 
+    /* Modal */
     .overlay{
       position:fixed; inset:0;
       background: rgba(0,0,0,.62);
@@ -319,6 +297,7 @@
     .modalTitle{ display:flex; align-items:center; gap:10px; font-size:22px; font-weight:950; }
     .modalBody{ padding:18px; }
 
+    /* Toast */
     .toasts{
       position: fixed;
       right: 16px;
@@ -390,33 +369,52 @@
 
     // ===== Helpers =====
     const uid = () => Date.now() + Math.floor(Math.random() * 1000);
-
     const clampInt = (v, fallback=0) => {
       const n = parseInt(v, 10);
       return Number.isFinite(n) ? n : fallback;
     };
+    const pad2 = (n) => String(n).padStart(2,'0');
 
-    const minutesToLabel = (mins) => {
-      const m = clampInt(mins, 0);
-      const hh = Math.floor(m/60);
-      const mm = m%60;
-      if (hh <= 0) return `${mm} min`;
-      if (mm === 0) return `${hh}h`;
-      return `${hh}h ${mm}m`;
+    const todayISO = () => new Date().toISOString().split("T")[0];
+
+    const parseTimeToMinutes = (hhmm) => {
+      if (!hhmm || typeof hhmm !== "string" || !hhmm.includes(":")) return null;
+      const [h,m] = hhmm.split(":").map(x => clampInt(x,0));
+      if (h < 0 || h > 23 || m < 0 || m > 59) return null;
+      return h*60 + m;
     };
 
-    const getWeekKey = () => {
+    const formatDateBR = (iso) => {
+      // iso: YYYY-MM-DD
+      const [y,m,d] = iso.split("-").map(x => clampInt(x,0));
+      if (!y || !m || !d) return iso;
+      return `${pad2(d)}/${pad2(m)}/${y}`;
+    };
+
+    const addDaysISO = (iso, delta) => {
+      const dt = new Date(iso + "T00:00:00");
+      dt.setDate(dt.getDate() + delta);
+      return dt.toISOString().split("T")[0];
+    };
+
+    const startOfWeekISO = (iso) => {
+      const dt = new Date(iso + "T00:00:00");
+      const day = dt.getDay(); // 0=dom
+      const mondayOffset = (day === 0) ? -6 : (1 - day);
+      dt.setDate(dt.getDate() + mondayOffset);
+      return dt.toISOString().split("T")[0];
+    };
+
+    const endOfWeekISO = (iso) => addDaysISO(startOfWeekISO(iso), 6);
+
+    const inRangeISO = (iso, start, end) => iso >= start && iso <= end;
+
+    const getCurrentMonthKey = () => {
       const now = new Date();
-      const firstDay = new Date(now.getFullYear(), 0, 1);
-      const days = Math.floor((now - firstDay) / (24*60*60*1000));
-      const week = Math.ceil((days + firstDay.getDay() + 1) / 7);
-      return `${now.getFullYear()}-W${week}`;
+      return `${now.getFullYear()}-${pad2(now.getMonth()+1)}`;
     };
 
-    const getCurrentMonth = () => {
-      const now = new Date();
-      return `${now.getFullYear()}-${now.getMonth()+1}`;
-    };
+    const monthKeyOfISO = (iso) => iso.slice(0,7); // YYYY-MM
 
     const categoryConfig = {
       TRABALHO:     { emoji:"💼" },
@@ -459,7 +457,6 @@
       try { return value ? JSON.parse(value) : fallback; } catch { return fallback; }
     };
 
-    // ===== UI Components =====
     function Modal({ open, onClose, title, children }){
       if (!open) return null;
       return e("div", { className:"overlay", onMouseDown:(ev)=>{ if (ev.target === ev.currentTarget) onClose(); } },
@@ -473,24 +470,28 @@
       );
     }
 
-    // ===== App =====
     function DailyRoutine(){
       const LS = {
-        routine:"dailyRoutineData",
-        history:"weekHistory",
+        byDate:"activitiesByDate",
+        weekHistory:"weekHistory",
         monthlyXP:"monthlyXP",
         autoReset:"autoReset",
         lastCheck:"lastCheckDate",
         currentMonth:"currentMonth",
         notif:"notifEnabled",
-        reminded:"remindedTodayMap"
+        reminded:"remindedTodayMap",
+        sound:"soundEnabled",
       };
 
-      const [activities, setActivities] = useState([]);
+      const [activitiesByDate, setActivitiesByDate] = useState({});
+      const [selectedDate, setSelectedDate] = useState(todayISO());
+
       const [weekHistory, setWeekHistory] = useState({});
       const [monthlyXP, setMonthlyXP] = useState(0);
+
       const [autoReset, setAutoReset] = useState(true);
       const [notifEnabled, setNotifEnabled] = useState(false);
+      const [soundEnabled, setSoundEnabled] = useState(true);
 
       const [modalOpen, setModalOpen] = useState(false);
       const [editing, setEditing] = useState(null);
@@ -506,39 +507,128 @@
       const prevAllDoneRef = useRef(false);
       const prevWeekXPRef = useRef(0);
 
+      // Audio (POP)
+      const audioCtxRef = useRef(null);
+      const audioUnlockedRef = useRef(false);
+
+      const unlockAudio = () => {
+        if (audioUnlockedRef.current) return;
+        try{
+          const Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return;
+          audioCtxRef.current = audioCtxRef.current || new Ctx();
+          // "prime" a context
+          const ctx = audioCtxRef.current;
+          const o = ctx.createOscillator();
+          const g = ctx.createGain();
+          g.gain.value = 0.0001;
+          o.connect(g); g.connect(ctx.destination);
+          o.start();
+          o.stop(ctx.currentTime + 0.01);
+          audioUnlockedRef.current = true;
+        }catch{}
+      };
+
+      useEffect(() => {
+        const handler = () => unlockAudio();
+        window.addEventListener("pointerdown", handler, { once:true });
+        window.addEventListener("keydown", handler, { once:true });
+        return () => {
+          window.removeEventListener("pointerdown", handler);
+          window.removeEventListener("keydown", handler);
+        };
+      }, []);
+
+      const playPop = () => {
+        if (!soundEnabled) return;
+        try{
+          const Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return;
+          const ctx = audioCtxRef.current || new Ctx();
+          audioCtxRef.current = ctx;
+
+          const now = ctx.currentTime;
+          const o = ctx.createOscillator();
+          const g = ctx.createGain();
+
+          o.type = "sine";
+          o.frequency.setValueAtTime(520, now);
+          o.frequency.exponentialRampToValueAtTime(860, now + 0.06);
+
+          g.gain.setValueAtTime(0.0001, now);
+          g.gain.exponentialRampToValueAtTime(0.18, now + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.0001, now + 0.16);
+
+          o.connect(g);
+          g.connect(ctx.destination);
+
+          o.start(now);
+          o.stop(now + 0.18);
+        }catch{}
+      };
+
+      const testSound = () => {
+        unlockAudio();
+        playPop();
+        showToast("🔊 Som", "Teste de som executado.");
+      };
+
       const showToast = (title, msg, ttl=6500) => {
         const id = uid();
         setToasts(prev => [{ id, title, msg }, ...prev].slice(0,4));
         if (ttl > 0) setTimeout(() => removeToast(id), ttl);
       };
-
       const removeToast = (id) => setToasts(prev => prev.filter(t => t.id !== id));
 
-      const normalizeActivities = (arr) => (arr || []).map(a => {
+      const normalizeActivity = (a, dateISO) => {
         const priority = a.priority || a.priorityLevel || "med";
         const cat = (a.category || a.cat || "PESSOAL").toUpperCase();
-        let dur = a.durationMinutes ?? a.durationMins;
-        if (dur === undefined || dur === null) dur = clampInt(a.duration, 30);
+
+        // MIGRAÇÃO: formato antigo podia ter "time"
+        const startTime = a.startTime || a.time || "09:00";
+        // você pediu DE e ATÉ sempre; na migração, igual ao start (não inventa duração)
+        const endTime = a.endTime || a.time || "09:00";
 
         return {
           id: a.id ?? uid(),
+          date: a.date || dateISO,
           title: (a.title ?? "").trim(),
-          time: a.time || "09:00",
+          startTime,
+          endTime,
           category: categoryConfig[cat] ? cat : "OUTROS",
           description: a.description || "",
-          durationMinutes: clampInt(dur, 30),
           priority: priorityConfig[priority] ? priority : "med",
           completed: !!a.completed,
           remind: a.remind !== false
         };
-      });
+      };
 
-      // Load + resets
+      // ===== Load + Resets =====
       useEffect(() => {
-        const loadedActsRaw = safeJSON(localStorage.getItem(LS.routine), []);
-        const loadedActs = normalizeActivities(loadedActsRaw);
+        // 1) carregar formato novo
+        let loadedByDate = safeJSON(localStorage.getItem(LS.byDate), null);
 
-        const loadedHistory = safeJSON(localStorage.getItem(LS.history), {});
+        // 2) migração automática (se ainda existir formato antigo dailyRoutineData)
+        if (!loadedByDate){
+          const legacy = safeJSON(localStorage.getItem("dailyRoutineData"), null);
+          if (Array.isArray(legacy)){
+            const td = todayISO();
+            loadedByDate = { [td]: legacy.map(a => normalizeActivity(a, td)) };
+            localStorage.setItem(LS.byDate, JSON.stringify(loadedByDate));
+          } else {
+            loadedByDate = {};
+          }
+        } else {
+          // normalizar entradas por data
+          const fixed = {};
+          Object.keys(loadedByDate || {}).forEach(dateISO => {
+            const arr = Array.isArray(loadedByDate[dateISO]) ? loadedByDate[dateISO] : [];
+            fixed[dateISO] = arr.map(a => normalizeActivity(a, dateISO));
+          });
+          loadedByDate = fixed;
+        }
+
+        const loadedHistory = safeJSON(localStorage.getItem(LS.weekHistory), {});
         const loadedMonthlyXP = clampInt(localStorage.getItem(LS.monthlyXP), 0);
 
         const autoRaw = localStorage.getItem(LS.autoReset);
@@ -547,23 +637,26 @@
         const notifRaw = localStorage.getItem(LS.notif);
         const loadedNotif = notifRaw === "true";
 
-        setActivities(loadedActs);
+        const soundRaw = localStorage.getItem(LS.sound);
+        const loadedSound = soundRaw === null ? true : (soundRaw === "true");
+
+        setActivitiesByDate(loadedByDate || {});
         setWeekHistory(loadedHistory || {});
         setMonthlyXP(loadedMonthlyXP);
         setAutoReset(loadedAuto);
         setNotifEnabled(loadedNotif);
+        setSoundEnabled(loadedSound);
 
-        // Monthly reset
-        const currentMonth = getCurrentMonth();
+        // Monthly reset (se mudou mês corrente)
+        const currentMonth = getCurrentMonthKey();
         const savedMonth = localStorage.getItem(LS.currentMonth);
         if (savedMonth !== currentMonth){
           localStorage.setItem(LS.currentMonth, currentMonth);
           localStorage.setItem(LS.monthlyXP, "0");
           setMonthlyXP(0);
-          showToast("📅 Novo mês", "XP mensal resetado.");
         }
 
-        // Weekly reset (1x por dia; segunda-feira)
+        // Daily check / weekly reset (na segunda)
         const now = new Date();
         const today = now.toISOString().split("T")[0];
         const dayOfWeek = now.getDay(); // 1 = segunda
@@ -573,24 +666,32 @@
           localStorage.setItem(LS.lastCheck, today);
           localStorage.setItem(LS.reminded, JSON.stringify({ date: today, map: {} }));
 
+          // auto-reset: fecha semana anterior na segunda
           if (dayOfWeek === 1 && loadedAuto){
-            const wk = getWeekKey();
-            const completed = loadedActs.filter(x => x.completed).length;
-            const total = loadedActs.length;
-            const xp = total > 0 ? Math.round((completed/total)*100) : 0;
+            const yesterday = addDaysISO(today, -1);
+            const wkStart = startOfWeekISO(yesterday);
+            const wkEnd = endOfWeekISO(yesterday);
+
+            const wkKey = `${wkStart}→${wkEnd}`;
+            const weekStats = computeStatsForRange(loadedByDate, wkStart, wkEnd);
+            const xp = weekStats.total > 0 ? Math.round((weekStats.completed/weekStats.total)*100) : 0;
 
             const newHistory = { ...(loadedHistory || {}) };
-            newHistory[wk] = { weekKey: wk, completed, total, xp, date: today };
+            newHistory[wkKey] = { weekKey: wkKey, ...weekStats, xp, date: today };
             setWeekHistory(newHistory);
-            localStorage.setItem(LS.history, JSON.stringify(newHistory));
+            localStorage.setItem(LS.weekHistory, JSON.stringify(newHistory));
 
             const newMonthly = loadedMonthlyXP + xp;
             setMonthlyXP(newMonthly);
             localStorage.setItem(LS.monthlyXP, String(newMonthly));
 
-            setActivities([]);
-            localStorage.setItem(LS.routine, JSON.stringify([]));
-            showToast("🔁 Semana resetada", `XP: ${xp}%`);
+            // limpar atividades da semana anterior
+            const pruned = { ...loadedByDate };
+            Object.keys(pruned).forEach(d => { if (inRangeISO(d, wkStart, wkEnd)) delete pruned[d]; });
+            setActivitiesByDate(pruned);
+            localStorage.setItem(LS.byDate, JSON.stringify(pruned));
+
+            showToast("🔁 Semana resetada", `Semana anterior fechada: ${xp}%`);
           }
         } else {
           const reminded = safeJSON(localStorage.getItem(LS.reminded), null);
@@ -601,44 +702,71 @@
       }, []);
 
       // Persist
-      useEffect(() => localStorage.setItem(LS.routine, JSON.stringify(activities)), [activities]);
-      useEffect(() => localStorage.setItem(LS.history, JSON.stringify(weekHistory)), [weekHistory]);
+      useEffect(() => localStorage.setItem(LS.byDate, JSON.stringify(activitiesByDate)), [activitiesByDate]);
+      useEffect(() => localStorage.setItem(LS.weekHistory, JSON.stringify(weekHistory)), [weekHistory]);
       useEffect(() => localStorage.setItem(LS.monthlyXP, String(monthlyXP)), [monthlyXP]);
       useEffect(() => localStorage.setItem(LS.autoReset, String(autoReset)), [autoReset]);
       useEffect(() => localStorage.setItem(LS.notif, String(notifEnabled)), [notifEnabled]);
+      useEffect(() => localStorage.setItem(LS.sound, String(soundEnabled)), [soundEnabled]);
 
-      // XP
-      const doneCount = useMemo(() => activities.filter(a => a.completed).length, [activities]);
-      const weekXP = useMemo(() => {
-        const total = activities.length;
-        return total > 0 ? Math.round((doneCount/total)*100) : 0;
-      }, [activities.length, doneCount]);
+      // Day activities derived
+      const dayActivities = useMemo(() => activitiesByDate[selectedDate] || [], [activitiesByDate, selectedDate]);
+
+      const sorted = useMemo(() => {
+        const copy = [...dayActivities];
+        copy.sort((a,b) => {
+          const am = parseTimeToMinutes(a.startTime) ?? 0;
+          const bm = parseTimeToMinutes(b.startTime) ?? 0;
+          if (am !== bm) return am - bm;
+          return (a.title || "").localeCompare(b.title || "");
+        });
+        return copy;
+      }, [dayActivities]);
+
+      // Stats helpers
+      function computeStatsForRange(byDate, startISO, endISO){
+        let total = 0, completed = 0;
+        Object.keys(byDate || {}).forEach(d => {
+          if (!inRangeISO(d, startISO, endISO)) return;
+          const arr = Array.isArray(byDate[d]) ? byDate[d] : [];
+          total += arr.length;
+          completed += arr.filter(x => x.completed).length;
+        });
+        return { total, completed };
+      }
+
+      const weekStart = useMemo(() => startOfWeekISO(todayISO()), []);
+      const weekEnd = useMemo(() => endOfWeekISO(todayISO()), []);
+      const weekStats = useMemo(() => computeStatsForRange(activitiesByDate, weekStart, weekEnd), [activitiesByDate, weekStart, weekEnd]);
+      const weekXP = useMemo(() => weekStats.total > 0 ? Math.round((weekStats.completed/weekStats.total)*100) : 0, [weekStats]);
+
+      const monthKey = useMemo(() => getCurrentMonthKey(), []);
+      const monthStats = useMemo(() => {
+        // range do mês corrente: YYYY-MM-01 até YYYY-MM-31 (string compare ok com iso)
+        const start = `${monthKey}-01`;
+        const end = `${monthKey}-31`;
+        return computeStatsForRange(activitiesByDate, start, end);
+      }, [activitiesByDate, monthKey]);
 
       const perf = useMemo(() => perfLabel(monthlyXP), [monthlyXP]);
+      const tag = weekTag(weekXP);
 
-      // Sorted
-      const sorted = useMemo(() => {
-        const copy = [...activities];
-        copy.sort((a,b) => (a.time||"").localeCompare(b.time||""));
-        return copy;
-      }, [activities]);
-
-      // Milestones
+      // Milestones (semana)
       useEffect(() => {
-        const allDone = activities.length > 0 && doneCount === activities.length;
-        if (allDone && !prevAllDoneRef.current){
-          showToast("✅ Concluído", "Todas as atividades finalizadas.");
+        const allDoneToday = dayActivities.length > 0 && dayActivities.every(a => a.completed);
+        if (allDoneToday && !prevAllDoneRef.current){
+          showToast("✅ Dia concluído", "Todas as atividades do dia foram finalizadas.");
           const el = document.getElementById("stat-week");
           if (el) { el.classList.remove("pulseWin"); void el.offsetWidth; el.classList.add("pulseWin"); }
         }
-        prevAllDoneRef.current = allDone;
+        prevAllDoneRef.current = allDoneToday;
 
         const prev = prevWeekXPRef.current || 0;
         if (weekXP >= 100 && prev < 100) showToast("🏆 Semana perfeita", "100%.");
-        else if (weekXP >= 70 && prev < 70) showToast("🔥 Meta forte", "Passou de 70%.");
-        else if (weekXP >= 50 && prev < 50) showToast("💪 Evolução", "Passou de 50%.");
+        else if (weekXP >= 70 && prev < 70) showToast("🔥 Semana forte", "Passou de 70%.");
+        else if (weekXP >= 50 && prev < 50) showToast("💪 Boa evolução", "Passou de 50%.");
         prevWeekXPRef.current = weekXP;
-      }, [weekXP, doneCount, activities.length]);
+      }, [weekXP, dayActivities]);
 
       // ===== Notifications / Reminders =====
       const requestNotificationPermission = async () => {
@@ -661,9 +789,9 @@
       };
 
       const getRemindedMap = () => {
-        const today = new Date().toISOString().split("T")[0];
+        const td = todayISO();
         const obj = safeJSON(localStorage.getItem(LS.reminded), null);
-        if (!obj || obj.date !== today) return { date: today, map: {} };
+        if (!obj || obj.date !== td) return { date: td, map: {} };
         return obj;
       };
       const setReminded = (activityId) => {
@@ -681,15 +809,19 @@
         const pri = priorityConfig[a.priority] || priorityConfig.med;
         const catName = a.category === "ALIMENTACAO" ? "ALIMENTAÇÃO" : a.category;
 
+        // SOM POP
+        unlockAudio();
+        playPop();
+
         showToast(
           `⏰ ${a.title}`,
-          `${cat.emoji} ${catName} • ${pri.emoji} ${pri.label} • ${a.time} • ${minutesToLabel(a.durationMinutes)}`
+          `${cat.emoji} ${catName} • ${pri.emoji} ${pri.label} • ${a.startTime} → ${a.endTime}`
         );
 
         if (notifEnabled && ("Notification" in window) && Notification.permission === "granted"){
           try{
             new Notification(`⏰ ${a.title}`, {
-              body: `${cat.emoji} ${catName} • ${pri.label} • ${a.time}`,
+              body: `${cat.emoji} ${catName} • ${pri.label} • ${a.startTime} → ${a.endTime}`,
               silent: false
             });
           }catch{}
@@ -705,25 +837,33 @@
 
       const scheduleReminders = () => {
         clearTimers();
+
+        const td = todayISO();
+        const listToday = activitiesByDate[td] || [];
+        if (!Array.isArray(listToday) || listToday.length === 0) return;
+
         const now = new Date();
 
-        activities.forEach(a => {
+        // Timers pontuais para hoje
+        listToday.forEach(a => {
           if (!a.remind || a.completed) return;
           if (alreadyReminded(a.id)) return;
 
-          const parts = (a.time || "09:00").split(":");
-          const hh = clampInt(parts[0], 0);
-          const mm = clampInt(parts[1], 0);
+          const mins = parseTimeToMinutes(a.startTime);
+          if (mins === null) return;
 
           const target = new Date();
-          target.setHours(hh, mm, 0, 0);
+          target.setHours(Math.floor(mins/60), mins%60, 0, 0);
 
           const delay = target.getTime() - now.getTime();
           if (delay <= 0) return;
 
           const t = setTimeout(() => {
-            if (!alreadyReminded(a.id) && !a.completed){
-              fireReminder(a);
+            const latestToday = (activitiesByDate[todayISO()] || []);
+            const found = latestToday.find(x => x.id === a.id);
+            if (!found || found.completed) return;
+            if (!alreadyReminded(a.id)){
+              fireReminder(found);
               setReminded(a.id);
             }
           }, delay);
@@ -731,16 +871,18 @@
           timersRef.current.push(t);
         });
 
+        // Heartbeat para recuperar atrasos (30s)
         heartbeatRef.current = setInterval(() => {
           const cur = new Date();
           const curMins = cur.getHours()*60 + cur.getMinutes();
 
-          activities.forEach(a => {
+          const latestToday = (activitiesByDate[todayISO()] || []);
+          latestToday.forEach(a => {
             if (!a.remind || a.completed) return;
             if (alreadyReminded(a.id)) return;
 
-            const [hh, mm] = (a.time || "09:00").split(":").map(x => clampInt(x,0));
-            const tMins = hh*60 + mm;
+            const tMins = parseTimeToMinutes(a.startTime);
+            if (tMins === null) return;
 
             if (curMins >= tMins && curMins <= (tMins + 15)){
               fireReminder(a);
@@ -753,55 +895,87 @@
       useEffect(() => {
         scheduleReminders();
         return clearTimers;
-      }, [activities, notifEnabled]);
+      }, [activitiesByDate, notifEnabled, soundEnabled]);
 
       // ===== CRUD =====
       const openNew = () => { setEditing(null); setModalOpen(true); };
       const openEdit = (a) => { setEditing(a); setModalOpen(true); };
 
+      const upsertActivity = (activity) => {
+        const dateISO = activity.date || selectedDate;
+        setActivitiesByDate(prev => {
+          const copy = { ...prev };
+          const arr = Array.isArray(copy[dateISO]) ? [...copy[dateISO]] : [];
+          const idx = arr.findIndex(x => x.id === activity.id);
+          if (idx >= 0) arr[idx] = activity;
+          else arr.push(activity);
+          copy[dateISO] = arr;
+          return copy;
+        });
+      };
+
+      const removeActivity = (dateISO, id) => {
+        setActivitiesByDate(prev => {
+          const copy = { ...prev };
+          const arr = Array.isArray(copy[dateISO]) ? copy[dateISO] : [];
+          copy[dateISO] = arr.filter(a => a.id !== id);
+          if (copy[dateISO].length === 0) delete copy[dateISO];
+          return copy;
+        });
+      };
+
       const saveActivity = (payload) => {
+        const dateISO = editing?.date || selectedDate;
         if (editing){
-          setActivities(prev => prev.map(x => x.id === editing.id ? { ...x, ...payload, id: x.id, completed: x.completed } : x));
+          upsertActivity({ ...editing, ...payload, date: dateISO, id: editing.id, completed: editing.completed });
           showToast("✏️ Atualizado", "Atividade alterada.");
         } else {
-          setActivities(prev => [...prev, { ...payload, id: uid(), completed:false }]);
+          upsertActivity({ ...payload, date: dateISO, id: uid(), completed:false });
           showToast("➕ Criado", "Atividade adicionada.");
         }
         setModalOpen(false);
         setEditing(null);
       };
 
-      const toggleDone = (id) => setActivities(prev => prev.map(a => a.id === id ? { ...a, completed: !a.completed } : a));
+      const toggleDone = (dateISO, id) => {
+        setActivitiesByDate(prev => {
+          const copy = { ...prev };
+          const arr = Array.isArray(copy[dateISO]) ? [...copy[dateISO]] : [];
+          copy[dateISO] = arr.map(a => a.id === id ? { ...a, completed: !a.completed } : a);
+          return copy;
+        });
+      };
 
-      const deleteActivity = (id) => {
+      const deleteActivity = (dateISO, id) => {
         if (!confirm("Tem certeza que deseja deletar?")) return;
-        setActivities(prev => prev.filter(a => a.id !== id));
+        removeActivity(dateISO, id);
         showToast("🗑️ Removido", "Atividade deletada.");
       };
 
-      const resetWeekManually = () => {
-        if (!confirm("Fechar a semana e resetar a rotina atual?")) return;
+      const closeWeekManual = () => {
+        if (!confirm("Fechar a semana atual e registrar XP?")) return;
 
-        const wk = getWeekKey();
-        const completed = activities.filter(a => a.completed).length;
-        const total = activities.length;
-        const xp = total > 0 ? Math.round((completed/total)*100) : 0;
-        const today = new Date().toISOString().split("T")[0];
+        const td = todayISO();
+        const wkStart = startOfWeekISO(td);
+        const wkEnd = endOfWeekISO(td);
+        const wkKey = `${wkStart}→${wkEnd}`;
+
+        const stats = computeStatsForRange(activitiesByDate, wkStart, wkEnd);
+        const xp = stats.total > 0 ? Math.round((stats.completed/stats.total)*100) : 0;
 
         const newHistory = { ...weekHistory };
-        newHistory[wk] = { weekKey:wk, completed, total, xp, date:today };
+        newHistory[wkKey] = { weekKey:wkKey, ...stats, xp, date: td };
         setWeekHistory(newHistory);
 
         const newMonthly = monthlyXP + xp;
         setMonthlyXP(newMonthly);
 
-        setActivities([]);
         showToast("🧾 Semana fechada", `XP: ${xp}%`);
       };
 
       // ===== Export / Import =====
       const exportRoutine = () => {
-        const data = { activities, weekHistory, monthlyXP, autoReset, notifEnabled };
+        const data = { activitiesByDate, weekHistory, monthlyXP, autoReset, notifEnabled, soundEnabled };
         const txt = JSON.stringify(data, null, 2);
         setExportData(txt);
         setExportOpen(true);
@@ -811,12 +985,19 @@
       const importRoutine = () => {
         try{
           const data = JSON.parse(importData);
-          const acts = normalizeActivities(data.activities || []);
-          setActivities(acts);
+          const byDate = data.activitiesByDate || {};
+          const fixed = {};
+          Object.keys(byDate).forEach(d => {
+            const arr = Array.isArray(byDate[d]) ? byDate[d] : [];
+            fixed[d] = arr.map(a => normalizeActivity(a, d));
+          });
+
+          setActivitiesByDate(fixed);
           setWeekHistory(data.weekHistory || {});
           setMonthlyXP(clampInt(data.monthlyXP, 0));
           if (data.autoReset !== undefined) setAutoReset(!!data.autoReset);
           if (data.notifEnabled !== undefined) setNotifEnabled(!!data.notifEnabled);
+          if (data.soundEnabled !== undefined) setSoundEnabled(!!data.soundEnabled);
 
           setImportData("");
           setExportOpen(false);
@@ -850,34 +1031,47 @@
         }
       };
 
-      // ===== Duration options: UMA caixa (h + min juntos) =====
-      const buildDurationOptions = () => {
-        const opts = [];
-        // 0..6h em 5min
-        for (let m=5; m<=360; m+=5) opts.push(m);
-        // 6h..12h em 15min
-        for (let m=375; m<=720; m+=15) opts.push(m);
-        // também incluir 0 (se quiser escolher 0h 00m)
-        opts.unshift(0);
-        return opts;
+      // ===== Planner (week chips + date) =====
+      const weekday = (iso) => {
+        const dt = new Date(iso + "T00:00:00");
+        const names = ["DOM","SEG","TER","QUA","QUI","SEX","SÁB"];
+        return names[dt.getDay()];
       };
-      const DURATION_OPTIONS = buildDurationOptions();
+
+      const setDayInSameWeek = (dayIndex) => {
+        // dayIndex: 1=SEG ... 0=DOM (JS)
+        const wkStart = startOfWeekISO(selectedDate); // Monday
+        const monday = new Date(wkStart + "T00:00:00");
+        let offset = 0;
+        if (dayIndex === 0) offset = 6; // domingo = +6
+        else offset = dayIndex - 1;
+        monday.setDate(monday.getDate() + offset);
+        const iso = monday.toISOString().split("T")[0];
+        setSelectedDate(iso);
+      };
 
       // ===== Form =====
       function ActivityForm({ initial, onSave, onCancel }){
         const init = initial || {
           title:"",
-          time:"09:00",
+          startTime:"09:00",
+          endTime:"10:00",
           category:"TRABALHO",
           description:"",
-          durationMinutes:30,
           priority:"med",
           remind:true,
         };
         const [form, setForm] = useState(init);
-
         const pri = priorityConfig[form.priority] || priorityConfig.med;
         const catKeys = Object.keys(categoryConfig);
+
+        const validate = () => {
+          const st = parseTimeToMinutes(form.startTime);
+          const et = parseTimeToMinutes(form.endTime);
+          if (st === null || et === null) return "Preencha DE e ATÉ.";
+          if (et <= st) return "ATÉ precisa ser maior que DE.";
+          return null;
+        };
 
         return e("div", null,
           e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
@@ -885,32 +1079,36 @@
               e("div", { className:"label" }, "📝 Título"),
               e("input", {
                 className:"input",
+                name:"title",
+                id:"title",
                 value: form.title,
                 placeholder:"Ex: Meditação matinal",
                 onChange:(ev)=>setForm({ ...form, title: ev.target.value })
               })
             ),
-            e("div", { style:{ flex:"1 1 220px" } },
+
+            e("div", { style:{ flex:"1 1 420px" } },
               e("div", { className:"label" }, "⏰ Horário"),
-              e("input", {
-                className:"input",
-                type:"time",
-                value: form.time,
-                onChange:(ev)=>setForm({ ...form, time: ev.target.value })
-              })
-            ),
-            e("div", { style:{ flex:"1 1 260px" } },
-              e("div", { className:"label" }, "⏳ Duração (h/min)"),
-              e("select", {
-                className:"input",
-                value: String(form.durationMinutes),
-                onChange:(ev)=>setForm({ ...form, durationMinutes: clampInt(ev.target.value, 30) })
-              },
-                DURATION_OPTIONS.map(m => {
-                  const label = minutesToLabel(m);
-                  return e("option", { key:m, value:String(m) }, label);
+              e("div", { className:"grid2" },
+                e("input", {
+                  className:"input",
+                  type:"time",
+                  name:"startTime",
+                  id:"startTime",
+                  value: form.startTime,
+                  onChange:(ev)=>setForm({ ...form, startTime: ev.target.value })
+                }),
+                e("input", {
+                  className:"input",
+                  type:"time",
+                  name:"endTime",
+                  id:"endTime",
+                  value: form.endTime,
+                  onChange:(ev)=>setForm({ ...form, endTime: ev.target.value })
                 })
-              )
+              ),
+              e("div", { className:"sp10" }),
+              e("span", { className:"pill" }, `DE ${form.startTime || "--:--"} → ATÉ ${form.endTime || "--:--"}`)
             )
           ),
 
@@ -958,7 +1156,7 @@
               form.remind ? "⏰" : "🔕",
               form.remind ? "Ativado" : "Desativado"
             ),
-            e("span", { className:"muted", style:{ fontSize:12, fontWeight:950 } }, "no horário")
+            e("span", { className:"muted", style:{ fontSize:12, fontWeight:950 } }, "no horário DE")
           ),
 
           e("div", { className:"sp16" }),
@@ -966,6 +1164,8 @@
           e("div", { className:"label" }, "📄 Descrição"),
           e("textarea", {
             className:"input",
+            name:"description",
+            id:"description",
             rows:3,
             value: form.description,
             placeholder:"Detalhes opcionais...",
@@ -979,13 +1179,16 @@
               className:"btn btnPrimary",
               style:{ flex:"1 1 260px" },
               onClick: ()=>{
+                const err = validate();
                 if (!form.title.trim()) { alert("Informe um título."); return; }
+                if (err) { alert(err); return; }
+
                 onSave({
                   title: form.title.trim(),
-                  time: form.time || "09:00",
+                  startTime: form.startTime,
+                  endTime: form.endTime,
                   category: form.category,
                   description: form.description || "",
-                  durationMinutes: clampInt(form.durationMinutes, 30),
                   priority: form.priority,
                   remind: !!form.remind,
                 });
@@ -1010,13 +1213,12 @@
         return e("div", { className: cls },
           e("div", { className:"actTop" },
             e("div", { className:"actLeft" },
-              e("input", { className:"check", type:"checkbox", checked: !!a.completed, onChange:()=>toggleDone(a.id) }),
+              e("input", { className:"check", type:"checkbox", checked: !!a.completed, onChange:()=>toggleDone(a.date, a.id) }),
               e("div", null,
                 e("div", { className:"actTitle" }, `${cat.emoji} ${a.title}`),
                 e("div", { className:"actMeta" },
-                  e("span", { className:"tag" }, `⏰ ${a.time}`),
+                  e("span", { className:"tag" }, `⏰ ${a.startTime} → ${a.endTime}`),
                   e("span", { className:"tag" }, `${pri.emoji} ${pri.label}`),
-                  e("span", { className:"tag" }, `⏳ ${minutesToLabel(a.durationMinutes)}`),
                   e("span", { className:"tag" }, `🏷️ ${catName}`),
                   e("span", { className:"tag" }, a.remind ? "🔔 Lembrete" : "🔕 Sem lembrete")
                 ),
@@ -1025,13 +1227,14 @@
             ),
             e("div", { className:"actBtns" },
               e("button", { className:"miniBtn", onClick:()=>openEdit(a) }, "✏️ Editar"),
-              e("button", { className:"miniBtn miniDanger", onClick:()=>deleteActivity(a.id) }, "🗑️ Deletar")
+              e("button", { className:"miniBtn miniDanger", onClick:()=>deleteActivity(a.date, a.id) }, "🗑️ Deletar")
             )
           )
         );
       }
 
-      const tag = weekTag(weekXP);
+      const selectedLabel = `${weekday(selectedDate)} • ${formatDateBR(selectedDate)}`;
+      const isTodaySelected = selectedDate === todayISO();
 
       return e("div", { className:"app" },
         e("div", { className:"container" },
@@ -1039,7 +1242,6 @@
           e("div", { className:"top" },
             e("div", null,
               e("div", { className:"title" }, "🎯 Rotina • Foco & Prosperidade")
-              /* SUBTÍTULO REMOVIDO (pedido do usuário) */
             ),
             e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
               e("button", { className:"btn btnSoft", onClick: exportRoutine }, "📦 Exportar"),
@@ -1063,14 +1265,16 @@
                 e("div", { className:"barFill", style:{ width: weekXP + "%", background: barColor(weekXP) } })
               ),
               e("div", { className:"sp10" }),
-              e("div", { className:"muted", style:{ fontWeight:950 } }, `${doneCount}/${activities.length} concluídas`)
+              e("div", { className:"muted", style:{ fontWeight:950 } }, `${weekStats.completed}/${weekStats.total} concluídas`)
             ),
 
             e("div", { className:"col glass", style:{ padding:16 } },
               e("div", { className:"kicker" }, "XP DO MÊS"),
               e("div", { className:"big" }, `${monthlyXP}`),
               e("div", { className:"sp10" }),
-              e("span", { className:"pill", style:{ color: perf.color } }, perf.label)
+              e("span", { className:"pill", style:{ color: perf.color } }, perf.label),
+              e("div", { className:"sp10" }),
+              e("div", { className:"muted", style:{ fontWeight:950 } }, `${monthStats.completed}/${monthStats.total} concluídas (mês atual)`)
             ),
 
             e("div", { className:"col glass", style:{ padding:16 } },
@@ -1082,27 +1286,78 @@
                   onClick: ()=> setAutoReset(!autoReset)
                 }, autoReset ? "🔁 Auto reset: ON" : "🔁 Auto reset: OFF"),
 
-                e("button", { className:"btn btnSoft", onClick: resetWeekManually }, "🧾 Fechar semana"),
+                e("button", { className:"btn btnSoft", onClick: closeWeekManual }, "🧾 Fechar semana"),
 
                 e("button", {
                   className:"btn " + (notifEnabled ? "btnPrimary" : "btnSoft"),
                   onClick: requestNotificationPermission
-                }, notifEnabled ? "🔔 Notif: ON" : "🔔 Ativar notif")
+                }, notifEnabled ? "🔔 Notif: ON" : "🔔 Ativar notif"),
+
+                e("button", {
+                  className:"btn " + (soundEnabled ? "btnPrimary" : "btnSoft"),
+                  onClick: ()=>{ unlockAudio(); setSoundEnabled(!soundEnabled); }
+                }, soundEnabled ? "🔊 Som: ON" : "🔇 Som: OFF"),
+
+                e("button", { className:"btn btnSoft", onClick: testSound }, "🎧 Testar som")
               )
-              /* TEXTO EXPLICATIVO REMOVIDO (pedido do usuário) */
             )
           ),
 
           e("div", { className:"sp16" }),
 
+          // ===== Planner / Calendar Bar =====
+          e("div", { className:"glass", style:{ padding:14 } },
+            e("div", { className:"kicker" }, "PLANEJAMENTO"),
+            e("div", { className:"sp10" }),
+            e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap", alignItems:"center", justifyContent:"space-between" } },
+              e("div", { style:{ display:"flex", gap:10, flexWrap:"wrap", alignItems:"center" } },
+                e("span", { className:"pill" }, `📅 ${selectedLabel}`),
+                e("span", { className:"pill" }, isTodaySelected ? "✅ HOJE" : "🗓️ OUTRO DIA")
+              ),
+              e("div", { style:{ display:"flex", gap:10, flexWrap:"wrap" } },
+                e("button", { className:"btn btnSoft", onClick:()=>setSelectedDate(addDaysISO(selectedDate, -1)) }, "◀"),
+                e("button", { className:"btn btnSoft", onClick:()=>setSelectedDate(todayISO()) }, "Hoje"),
+                e("button", { className:"btn btnSoft", onClick:()=>setSelectedDate(addDaysISO(selectedDate, +1)) }, "▶")
+              )
+            ),
+            e("div", { className:"sp10" }),
+            e("div", { className:"grid3" },
+              e("div", { className:"chip " + (weekday(selectedDate)==="SEG" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(1) }, "SEG"),
+              e("div", { className:"chip " + (weekday(selectedDate)==="TER" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(2) }, "TER"),
+              e("div", { className:"chip " + (weekday(selectedDate)==="QUA" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(3) }, "QUA"),
+              e("div", { className:"chip " + (weekday(selectedDate)==="QUI" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(4) }, "QUI"),
+              e("div", { className:"chip " + (weekday(selectedDate)==="SEX" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(5) }, "SEX"),
+              e("div", { className:"chip " + (weekday(selectedDate)==="SÁB" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(6) }, "SÁB"),
+              e("div", { className:"chip " + (weekday(selectedDate)==="DOM" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(0) }, "DOM"),
+              e("div", { style:{ gridColumn:"span 2" } },
+                e("input", {
+                  className:"input",
+                  type:"date",
+                  id:"plannerDate",
+                  name:"plannerDate",
+                  value: selectedDate,
+                  onChange:(ev)=> setSelectedDate(ev.target.value || todayISO())
+                })
+              )
+            ),
+            e("div", { className:"sp10" }),
+            e("div", { className:"muted", style:{ fontWeight:950 } },
+              "Você cria e vê atividades do dia selecionado. Lembretes só disparam para o dia de hoje."
+            )
+          ),
+
+          e("div", { className:"sp16" }),
+
+          // ===== Activities list =====
           e("div", { className:"card" },
             e("div", { className:"listHead" },
               e("div", { style:{ display:"flex", alignItems:"center", gap:10, flexWrap:"wrap" } },
                 e("div", { style:{ fontSize:18, fontWeight:950 } }, "📋 Atividades"),
-                e("span", { className:"pill" }, "⏱️ ordenadas por horário")
+                e("span", { className:"pill" }, `📅 ${selectedLabel}`),
+                e("span", { className:"pill" }, "⏱️ ordenadas por início")
               ),
               e("div", { className:"muted", style:{ fontWeight:950 } },
-                activities.length === 0 ? "Sem atividades" : "Marque para concluir ✅"
+                sorted.length === 0 ? "Sem atividades" : "Marque para concluir ✅"
               )
             ),
             e("div", { className:"listBody" },
@@ -1114,17 +1369,22 @@
                   )
                 : sorted.map(a => e(ActivityCard, { key:a.id, a }))
             )
-          )
-
-          /* RODAPÉ “PALAVRAS SOLTAS” REMOVIDO (pedido do usuário) */
-          ,
+          ),
 
           e(Modal, {
             open: modalOpen,
             onClose: ()=>{ setModalOpen(false); setEditing(null); },
-            title: editing ? "✏️ Editar Atividade" : "➕ Nova Atividade"
+            title: editing ? `✏️ Editar (${formatDateBR(editing.date || selectedDate)})` : `➕ Nova (${formatDateBR(selectedDate)})`
           }, e(ActivityForm, {
-            initial: editing,
+            initial: editing ? {
+              title: editing.title,
+              startTime: editing.startTime,
+              endTime: editing.endTime,
+              category: editing.category,
+              description: editing.description,
+              priority: editing.priority,
+              remind: editing.remind,
+            } : null,
             onSave: saveActivity,
             onCancel: ()=>{ setModalOpen(false); setEditing(null); }
           })),
@@ -1139,6 +1399,8 @@
                 e("div", { className:"label" }, "📤 Exportar (JSON)"),
                 e("textarea", {
                   className:"input",
+                  name:"exportJson",
+                  id:"exportJson",
                   rows:10,
                   value: exportData,
                   onChange:(ev)=>setExportData(ev.target.value),
@@ -1154,6 +1416,8 @@
                 e("div", { className:"label" }, "📥 Importar (cole o JSON)"),
                 e("textarea", {
                   className:"input",
+                  name:"importJson",
+                  id:"importJson",
                   rows:10,
                   value: importData,
                   onChange:(ev)=>setImportData(ev.target.value),
