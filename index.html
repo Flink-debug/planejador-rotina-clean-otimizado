@@ -1,0 +1,1188 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#05060a" />
+  <title>Rotina • Foco & Prosperidade</title>
+
+  <!-- React 18 (PRODUCTION) -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+  <style>
+    :root{
+      --bg0:#05060a;          /* preto */
+      --bg1:#061228;          /* azul céu escuro */
+      --panel:rgba(255,255,255,.06);
+      --line:rgba(148,163,184,.20);
+      --txt:#e5e7eb;
+      --muted:#9aa3b2;
+
+      --low:#22c55e;
+      --med:#f59e0b;
+      --high:#ef4444;
+
+      --shadow: 0 18px 45px rgba(0,0,0,.42);
+      --shadow2: 0 10px 26px rgba(0,0,0,.32);
+
+      --r14:14px;
+      --r18:18px;
+      --r22:22px;
+    }
+
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    html, body{ height:100%; }
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial;
+      color:var(--txt);
+      min-height:100vh;
+      overflow-x:hidden;
+
+      /* força UI dark em selects onde o browser respeita */
+      color-scheme: dark;
+
+      /* FUNDO: preto -> azul escuro (mais vida, melhor contraste) */
+      background:
+        radial-gradient(1200px 650px at 15% 0%, rgba(59,130,246,.18), transparent 60%),
+        radial-gradient(900px 700px at 85% 10%, rgba(56,189,248,.14), transparent 55%),
+        radial-gradient(900px 650px at 50% 100%, rgba(34,197,94,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+    }
+
+    /* $$$ background (notas) - sutil e detalhado */
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      opacity:.22;
+      background:
+        radial-gradient(900px 520px at 15% 15%, rgba(0,0,0,.0), rgba(0,0,0,.50) 70%),
+        radial-gradient(900px 520px at 85% 15%, rgba(0,0,0,.0), rgba(0,0,0,.50) 70%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='900' viewBox='0 0 1600 900'%3E%3Cdefs%3E%3ClinearGradient id='bill' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23a7f3d0' stop-opacity='.55'/%3E%3Cstop offset='1' stop-color='%236ee7b7' stop-opacity='.35'/%3E%3C/linearGradient%3E%3ClinearGradient id='shine' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23ffffff' stop-opacity='.18'/%3E%3Cstop offset='1' stop-color='%23ffffff' stop-opacity='0'/%3E%3C/linearGradient%3E%3Cfilter id='s' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeDropShadow dx='0' dy='6' stdDeviation='6' flood-color='%23000000' flood-opacity='.28'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23s)'%3E%3Cg transform='translate(120 90) rotate(-12)'%3E%3Crect rx='14' ry='14' width='210' height='110' fill='url(%23bill)' fill-opacity='.22' stroke='%23a7f3d0' stroke-opacity='.20'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='190' height='90' fill='none' stroke='%23e5e7eb' stroke-opacity='.14'/%3E%3Cpath d='M0 0 L210 0 L210 18 L0 50 Z' fill='url(%23shine)' opacity='.45'/%3E%3Ctext x='105' y='70' text-anchor='middle' font-family='Arial' font-size='44' fill='%23e5e7eb' fill-opacity='.18'%3E$%3C/text%3E%3C/g%3E%3Cg transform='translate(420 140) rotate(8)'%3E%3Crect rx='14' ry='14' width='210' height='110' fill='url(%23bill)' fill-opacity='.20' stroke='%23a7f3d0' stroke-opacity='.18'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='190' height='90' fill='none' stroke='%23e5e7eb' stroke-opacity='.12'/%3E%3Cpath d='M0 0 L210 0 L210 16 L0 44 Z' fill='url(%23shine)' opacity='.40'/%3E%3Ctext x='105' y='70' text-anchor='middle' font-family='Arial' font-size='44' fill='%23e5e7eb' fill-opacity='.16'%3E$%3C/text%3E%3C/g%3E%3Cg transform='translate(740 80) rotate(-6)'%3E%3Crect rx='14' ry='14' width='210' height='110' fill='url(%23bill)' fill-opacity='.18' stroke='%23a7f3d0' stroke-opacity='.16'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='190' height='90' fill='none' stroke='%23e5e7eb' stroke-opacity='.12'/%3E%3Cpath d='M0 0 L210 0 L210 18 L0 48 Z' fill='url(%23shine)' opacity='.38'/%3E%3Ctext x='105' y='70' text-anchor='middle' font-family='Arial' font-size='44' fill='%23e5e7eb' fill-opacity='.14'%3E$%3C/text%3E%3C/g%3E%3Cg transform='translate(1040 150) rotate(10)'%3E%3Crect rx='14' ry='14' width='210' height='110' fill='url(%23bill)' fill-opacity='.18' stroke='%23a7f3d0' stroke-opacity='.16'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='190' height='90' fill='none' stroke='%23e5e7eb' stroke-opacity='.12'/%3E%3Cpath d='M0 0 L210 0 L210 18 L0 46 Z' fill='url(%23shine)' opacity='.36'/%3E%3Ctext x='105' y='70' text-anchor='middle' font-family='Arial' font-size='44' fill='%23e5e7eb' fill-opacity='.14'%3E$%3C/text%3E%3C/g%3E%3Cg transform='translate(1280 90) rotate(-10)'%3E%3Crect rx='14' ry='14' width='210' height='110' fill='url(%23bill)' fill-opacity='.16' stroke='%23a7f3d0' stroke-opacity='.14'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='190' height='90' fill='none' stroke='%23e5e7eb' stroke-opacity='.12'/%3E%3Cpath d='M0 0 L210 0 L210 18 L0 46 Z' fill='url(%23shine)' opacity='.34'/%3E%3Ctext x='105' y='70' text-anchor='middle' font-family='Arial' font-size='44' fill='%23e5e7eb' fill-opacity='.12'%3E$%3C/text%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      background-repeat:no-repeat;
+      background-size: cover;
+      transform: translateZ(0);
+    }
+
+    /* overlay para manter legibilidade máxima */
+    body::after{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background: linear-gradient(180deg, rgba(0,0,0,.30), rgba(0,0,0,.72));
+    }
+
+    .app{ position:relative; z-index:1; }
+    .container{ max-width:1200px; margin:0 auto; padding:22px; }
+
+    .top{ display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; }
+    .title{ font-size:28px; font-weight:900; letter-spacing:.2px; }
+
+    .glass{
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--r22);
+      box-shadow: var(--shadow2);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .card{
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--line);
+      border-radius: var(--r22);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .row{ display:flex; gap:14px; flex-wrap:wrap; }
+    .col{ flex:1 1 320px; min-width:280px; }
+
+    .muted{ color:var(--muted); }
+    .kicker{ font-size:12px; letter-spacing:.2px; font-weight:900; color:#cbd5e1; }
+    .big{ font-size:30px; font-weight:950; margin-top:6px; }
+
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      font-weight:900;
+      font-size:12px;
+      color:#e2e8f0;
+      white-space:nowrap;
+    }
+
+    .btn{
+      border:1px solid transparent;
+      border-radius: var(--r14);
+      padding:12px 14px;
+      font-weight:900;
+      cursor:pointer;
+      transition: transform .08s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease, opacity .18s ease;
+      user-select:none;
+      -webkit-tap-highlight-color:transparent;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      min-height:44px;
+    }
+    .btn:active{ transform: translateY(1px) scale(.99); }
+    .btn:disabled{ opacity:.55; cursor:not-allowed; }
+
+    .btnPrimary{
+      background: linear-gradient(180deg, rgba(59,130,246,.92), rgba(37,99,235,.92));
+      box-shadow: 0 12px 26px rgba(37,99,235,.22);
+      color:#fff;
+    }
+    .btnPrimary:hover{ box-shadow: 0 16px 34px rgba(37,99,235,.26); }
+    .btnSoft{
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.14);
+      color: var(--txt);
+    }
+    .btnSoft:hover{ background: rgba(255,255,255,.12); }
+    .btnDanger{
+      background: rgba(239,68,68,.14);
+      border-color: rgba(239,68,68,.28);
+      color:#fecaca;
+    }
+    .btnDanger:hover{ background: rgba(239,68,68,.20); }
+
+    /* Inputs/Selects: CONTRASTE corrigido */
+    .input{
+      width:100%;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius: var(--r14);
+      padding:12px 12px;
+      outline:none;
+      color:var(--txt);
+      transition: border-color .18s ease, box-shadow .18s ease;
+    }
+    .input:focus{
+      border-color: rgba(59,130,246,.55);
+      box-shadow: 0 0 0 4px rgba(59,130,246,.16);
+    }
+    select.input{
+      appearance:auto;
+      -webkit-appearance:auto;
+      color:var(--txt);
+      background-color: rgba(255,255,255,.06);
+    }
+    /* melhora opções em vários browsers (nem todos respeitam 100%) */
+    select.input option{
+      background:#0a1020;
+      color:#e5e7eb;
+    }
+    textarea{ resize:none; }
+
+    .grid2{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px; }
+    .grid3{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:12px; }
+    @media (max-width:760px){ .grid3{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
+
+    .label{
+      display:flex; gap:8px; align-items:center;
+      font-size:12px;
+      font-weight:950;
+      color:#cbd5e1;
+      margin-bottom:8px;
+      letter-spacing:.2px;
+    }
+
+    .chip{
+      display:flex; align-items:center; justify-content:center; gap:10px;
+      padding:12px 12px;
+      border-radius: var(--r14);
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      cursor:pointer;
+      font-weight:950;
+      transition: transform .08s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
+      min-height:44px;
+      position:relative;
+      overflow:hidden;
+    }
+    .chip:hover{ background: rgba(255,255,255,.10); }
+    .chip:active{ transform: translateY(1px) scale(.99); }
+
+    .chipOn{
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.28);
+      box-shadow: 0 12px 28px rgba(0,0,0,.22);
+    }
+
+    .tLow{ border-color: rgba(34,197,94,.42) !important; box-shadow: 0 0 0 4px rgba(34,197,94,.12) !important; }
+    .tMed{ border-color: rgba(245,158,11,.45) !important; box-shadow: 0 0 0 4px rgba(245,158,11,.12) !important; }
+    .tHigh{ border-color: rgba(239,68,68,.45) !important; box-shadow: 0 0 0 4px rgba(239,68,68,.12) !important; }
+
+    .barWrap{ margin-top:10px; background: rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.12); border-radius:999px; overflow:hidden; height:12px; }
+    .barFill{ height:100%; width:0%; border-radius:999px; transition: width .6s cubic-bezier(.2,.8,.2,1); }
+
+    .listHead{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:18px;
+      background: rgba(255,255,255,.04);
+      border-bottom:1px solid rgba(255,255,255,.10);
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .listBody{ padding:18px; display:flex; flex-direction:column; gap:12px; }
+
+    .act{
+      border-radius: var(--r18);
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      overflow:hidden;
+      transition: transform .10s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease, opacity .18s ease;
+      animation: slideUp .20s ease;
+    }
+    .act:hover{ box-shadow: 0 16px 34px rgba(0,0,0,.24); }
+    .actTop{
+      padding:14px 14px;
+      display:flex; gap:12px; align-items:flex-start; justify-content:space-between;
+    }
+    .actLeft{ display:flex; gap:12px; align-items:flex-start; }
+    .check{
+      width:22px; height:22px; margin-top:2px;
+      accent-color: #60a5fa;
+      cursor:pointer;
+    }
+    .actTitle{ font-weight:950; font-size:18px; line-height:1.15; }
+    .actMeta{ margin-top:8px; display:flex; gap:8px; flex-wrap:wrap; }
+    .tag{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:950;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:#e2e8f0;
+    }
+    .actDesc{ margin-top:8px; color:#cbd5e1; line-height:1.35; }
+
+    .actBtns{ display:flex; gap:10px; }
+    .miniBtn{
+      padding:10px 12px;
+      border-radius: var(--r14);
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:#e5e7eb;
+      font-weight:950;
+      cursor:pointer;
+      transition: transform .08s ease, background .18s ease, border-color .18s ease;
+      display:flex; align-items:center; gap:8px;
+      min-height:40px;
+      white-space:nowrap;
+    }
+    .miniBtn:hover{ background: rgba(255,255,255,.10); }
+    .miniBtn:active{ transform: translateY(1px) scale(.99); }
+    .miniDanger{
+      background: rgba(239,68,68,.14);
+      border-color: rgba(239,68,68,.28);
+      color:#fecaca;
+    }
+    .miniDanger:hover{ background: rgba(239,68,68,.20); }
+
+    .pLow { border-color: rgba(34,197,94,.40); background: linear-gradient(180deg, rgba(34,197,94,.10), rgba(255,255,255,.04)); }
+    .pMed { border-color: rgba(245,158,11,.44); background: linear-gradient(180deg, rgba(245,158,11,.12), rgba(255,255,255,.04)); }
+    .pHigh{ border-color: rgba(239,68,68,.44); background: linear-gradient(180deg, rgba(239,68,68,.12), rgba(255,255,255,.04)); }
+
+    .done{ opacity:.78; filter:saturate(.9); }
+
+    .overlay{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.62);
+      display:flex; align-items:center; justify-content:center;
+      padding:18px;
+      z-index:40;
+      animation: fadeIn .18s ease;
+    }
+    .modal{
+      width:min(920px, 100%);
+      border-radius:22px;
+      background: rgba(10,14,24,.92);
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      animation: popIn .18s ease;
+    }
+    .modalHead{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:18px 18px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+    }
+    .modalTitle{ display:flex; align-items:center; gap:10px; font-size:22px; font-weight:950; }
+    .modalBody{ padding:18px; }
+
+    .toasts{
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 60;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      width: min(380px, calc(100vw - 32px));
+      pointer-events:none;
+    }
+    .toast{
+      pointer-events:auto;
+      padding:12px 12px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(10,14,24,.94);
+      box-shadow: var(--shadow2);
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      animation: slideInRight .22s ease;
+    }
+    .toastTitle{ font-weight:950; }
+    .toastMsg{ color:#cbd5e1; margin-top:4px; font-size:13px; line-height:1.3; }
+    .toastX{
+      margin-left:auto;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      color:#e5e7eb;
+      border-radius:12px;
+      padding:8px 10px;
+      cursor:pointer;
+      font-weight:950;
+      transition: background .18s ease;
+    }
+    .toastX:hover{ background: rgba(255,255,255,.12); }
+
+    @keyframes fadeIn{ from{opacity:0} to{opacity:1} }
+    @keyframes popIn{ from{opacity:0; transform: translateY(8px) scale(.98)} to{opacity:1; transform:none} }
+    @keyframes slideUp{ from{opacity:0; transform: translateY(10px)} to{opacity:1; transform:none} }
+    @keyframes slideInRight{ from{opacity:0; transform: translateX(12px)} to{opacity:1; transform:none} }
+    @keyframes pulseWin{
+      0%{ transform: scale(1); box-shadow: 0 0 0 0 rgba(34,197,94,.28); }
+      70%{ transform: scale(1.02); box-shadow: 0 0 0 14px rgba(34,197,94,0); }
+      100%{ transform: scale(1); box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+    }
+    .pulseWin{ animation: pulseWin 1.2s ease; }
+
+    .sp10{ height:10px; } .sp16{ height:16px; } .sp20{ height:20px; }
+
+    @media (max-width:760px){
+      .container{ padding:18px; }
+      .title{ font-size:24px; }
+      .big{ font-size:28px; }
+      .actTop{ flex-direction:column; }
+      .actBtns{ width:100%; }
+      .miniBtn{ flex:1; justify-content:center; }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script>
+    const e = React.createElement;
+    const { useEffect, useMemo, useRef, useState } = React;
+
+    // ===== Helpers =====
+    const uid = () => Date.now() + Math.floor(Math.random() * 1000);
+
+    const clampInt = (v, fallback=0) => {
+      const n = parseInt(v, 10);
+      return Number.isFinite(n) ? n : fallback;
+    };
+
+    const minutesToLabel = (mins) => {
+      const m = clampInt(mins, 0);
+      const hh = Math.floor(m/60);
+      const mm = m%60;
+      if (hh <= 0) return `${mm} min`;
+      if (mm === 0) return `${hh}h`;
+      return `${hh}h ${mm}m`;
+    };
+
+    const getWeekKey = () => {
+      const now = new Date();
+      const firstDay = new Date(now.getFullYear(), 0, 1);
+      const days = Math.floor((now - firstDay) / (24*60*60*1000));
+      const week = Math.ceil((days + firstDay.getDay() + 1) / 7);
+      return `${now.getFullYear()}-W${week}`;
+    };
+
+    const getCurrentMonth = () => {
+      const now = new Date();
+      return `${now.getFullYear()}-${now.getMonth()+1}`;
+    };
+
+    const categoryConfig = {
+      TRABALHO:     { emoji:"💼" },
+      ESTUDOS:      { emoji:"📚" },
+      EXERCICIOS:   { emoji:"🏋️" },
+      PESSOAL:      { emoji:"🧠" },
+      SAUDE:        { emoji:"❤️" },
+      ALIMENTACAO:  { emoji:"🥗" },
+      OUTROS:       { emoji:"🧩" },
+    };
+
+    const priorityConfig = {
+      low:  { emoji:"🟢", label:"Baixa",  card:"pLow",  tint:"tLow"  },
+      med:  { emoji:"🟡", label:"Média",  card:"pMed",  tint:"tMed"  },
+      high: { emoji:"🔴", label:"Alta",   card:"pHigh", tint:"tHigh" },
+    };
+
+    const perfLabel = (xp) => {
+      if (xp >= 400) return { label:"🏆 MONSTRO DO MÊS", color:"#fde68a" };
+      if (xp >= 250) return { label:"🔥 CONSISTENTE", color:"#86efac" };
+      if (xp >= 120) return { label:"⭐ EVOLUINDO", color:"#93c5fd" };
+      if (xp >= 60)  return { label:"📈 NO RITMO", color:"#c4b5fd" };
+      return { label:"🚀 COMEÇOU BEM", color:"#e2e8f0" };
+    };
+
+    const barColor = (xp) => {
+      if (xp >= 90) return "linear-gradient(90deg, rgba(34,197,94,.95), rgba(16,185,129,.95))";
+      if (xp >= 70) return "linear-gradient(90deg, rgba(245,158,11,.95), rgba(234,179,8,.95))";
+      return "linear-gradient(90deg, rgba(239,68,68,.95), rgba(249,115,22,.95))";
+    };
+
+    const weekTag = (weekXP) => {
+      if (weekXP >= 90) return { t:"🏆 Elite", c:"rgba(34,197,94,.16)", b:"rgba(34,197,94,.35)" };
+      if (weekXP >= 70) return { t:"🔥 Forte", c:"rgba(245,158,11,.16)", b:"rgba(245,158,11,.38)" };
+      if (weekXP >= 50) return { t:"💪 Bom", c:"rgba(59,130,246,.16)", b:"rgba(59,130,246,.38)" };
+      return { t:"🚀 Começando", c:"rgba(255,255,255,.10)", b:"rgba(255,255,255,.16)" };
+    };
+
+    const safeJSON = (value, fallback) => {
+      try { return value ? JSON.parse(value) : fallback; } catch { return fallback; }
+    };
+
+    // ===== UI Components =====
+    function Modal({ open, onClose, title, children }){
+      if (!open) return null;
+      return e("div", { className:"overlay", onMouseDown:(ev)=>{ if (ev.target === ev.currentTarget) onClose(); } },
+        e("div", { className:"modal", role:"dialog", "aria-modal":"true" },
+          e("div", { className:"modalHead" },
+            e("div", { className:"modalTitle" }, title),
+            e("button", { className:"btn btnSoft", style:{ padding:"10px 12px" }, onClick:onClose }, "✕")
+          ),
+          e("div", { className:"modalBody" }, children)
+        )
+      );
+    }
+
+    // ===== App =====
+    function DailyRoutine(){
+      const LS = {
+        routine:"dailyRoutineData",
+        history:"weekHistory",
+        monthlyXP:"monthlyXP",
+        autoReset:"autoReset",
+        lastCheck:"lastCheckDate",
+        currentMonth:"currentMonth",
+        notif:"notifEnabled",
+        reminded:"remindedTodayMap"
+      };
+
+      const [activities, setActivities] = useState([]);
+      const [weekHistory, setWeekHistory] = useState({});
+      const [monthlyXP, setMonthlyXP] = useState(0);
+      const [autoReset, setAutoReset] = useState(true);
+      const [notifEnabled, setNotifEnabled] = useState(false);
+
+      const [modalOpen, setModalOpen] = useState(false);
+      const [editing, setEditing] = useState(null);
+
+      const [exportOpen, setExportOpen] = useState(false);
+      const [exportData, setExportData] = useState("");
+      const [importData, setImportData] = useState("");
+
+      const [toasts, setToasts] = useState([]);
+
+      const timersRef = useRef([]);
+      const heartbeatRef = useRef(null);
+      const prevAllDoneRef = useRef(false);
+      const prevWeekXPRef = useRef(0);
+
+      const showToast = (title, msg, ttl=6500) => {
+        const id = uid();
+        setToasts(prev => [{ id, title, msg }, ...prev].slice(0,4));
+        if (ttl > 0) setTimeout(() => removeToast(id), ttl);
+      };
+
+      const removeToast = (id) => setToasts(prev => prev.filter(t => t.id !== id));
+
+      const normalizeActivities = (arr) => (arr || []).map(a => {
+        const priority = a.priority || a.priorityLevel || "med";
+        const cat = (a.category || a.cat || "PESSOAL").toUpperCase();
+        let dur = a.durationMinutes ?? a.durationMins;
+        if (dur === undefined || dur === null) dur = clampInt(a.duration, 30);
+
+        return {
+          id: a.id ?? uid(),
+          title: (a.title ?? "").trim(),
+          time: a.time || "09:00",
+          category: categoryConfig[cat] ? cat : "OUTROS",
+          description: a.description || "",
+          durationMinutes: clampInt(dur, 30),
+          priority: priorityConfig[priority] ? priority : "med",
+          completed: !!a.completed,
+          remind: a.remind !== false
+        };
+      });
+
+      // Load + resets
+      useEffect(() => {
+        const loadedActsRaw = safeJSON(localStorage.getItem(LS.routine), []);
+        const loadedActs = normalizeActivities(loadedActsRaw);
+
+        const loadedHistory = safeJSON(localStorage.getItem(LS.history), {});
+        const loadedMonthlyXP = clampInt(localStorage.getItem(LS.monthlyXP), 0);
+
+        const autoRaw = localStorage.getItem(LS.autoReset);
+        const loadedAuto = autoRaw === null ? true : (autoRaw === "true");
+
+        const notifRaw = localStorage.getItem(LS.notif);
+        const loadedNotif = notifRaw === "true";
+
+        setActivities(loadedActs);
+        setWeekHistory(loadedHistory || {});
+        setMonthlyXP(loadedMonthlyXP);
+        setAutoReset(loadedAuto);
+        setNotifEnabled(loadedNotif);
+
+        // Monthly reset
+        const currentMonth = getCurrentMonth();
+        const savedMonth = localStorage.getItem(LS.currentMonth);
+        if (savedMonth !== currentMonth){
+          localStorage.setItem(LS.currentMonth, currentMonth);
+          localStorage.setItem(LS.monthlyXP, "0");
+          setMonthlyXP(0);
+          showToast("📅 Novo mês", "XP mensal resetado.");
+        }
+
+        // Weekly reset (1x por dia; segunda-feira)
+        const now = new Date();
+        const today = now.toISOString().split("T")[0];
+        const dayOfWeek = now.getDay(); // 1 = segunda
+        const lastCheck = localStorage.getItem(LS.lastCheck);
+
+        if (lastCheck !== today){
+          localStorage.setItem(LS.lastCheck, today);
+          localStorage.setItem(LS.reminded, JSON.stringify({ date: today, map: {} }));
+
+          if (dayOfWeek === 1 && loadedAuto){
+            const wk = getWeekKey();
+            const completed = loadedActs.filter(x => x.completed).length;
+            const total = loadedActs.length;
+            const xp = total > 0 ? Math.round((completed/total)*100) : 0;
+
+            const newHistory = { ...(loadedHistory || {}) };
+            newHistory[wk] = { weekKey: wk, completed, total, xp, date: today };
+            setWeekHistory(newHistory);
+            localStorage.setItem(LS.history, JSON.stringify(newHistory));
+
+            const newMonthly = loadedMonthlyXP + xp;
+            setMonthlyXP(newMonthly);
+            localStorage.setItem(LS.monthlyXP, String(newMonthly));
+
+            setActivities([]);
+            localStorage.setItem(LS.routine, JSON.stringify([]));
+            showToast("🔁 Semana resetada", `XP: ${xp}%`);
+          }
+        } else {
+          const reminded = safeJSON(localStorage.getItem(LS.reminded), null);
+          if (!reminded || reminded.date !== today){
+            localStorage.setItem(LS.reminded, JSON.stringify({ date: today, map: {} }));
+          }
+        }
+      }, []);
+
+      // Persist
+      useEffect(() => localStorage.setItem(LS.routine, JSON.stringify(activities)), [activities]);
+      useEffect(() => localStorage.setItem(LS.history, JSON.stringify(weekHistory)), [weekHistory]);
+      useEffect(() => localStorage.setItem(LS.monthlyXP, String(monthlyXP)), [monthlyXP]);
+      useEffect(() => localStorage.setItem(LS.autoReset, String(autoReset)), [autoReset]);
+      useEffect(() => localStorage.setItem(LS.notif, String(notifEnabled)), [notifEnabled]);
+
+      // XP
+      const doneCount = useMemo(() => activities.filter(a => a.completed).length, [activities]);
+      const weekXP = useMemo(() => {
+        const total = activities.length;
+        return total > 0 ? Math.round((doneCount/total)*100) : 0;
+      }, [activities.length, doneCount]);
+
+      const perf = useMemo(() => perfLabel(monthlyXP), [monthlyXP]);
+
+      // Sorted
+      const sorted = useMemo(() => {
+        const copy = [...activities];
+        copy.sort((a,b) => (a.time||"").localeCompare(b.time||""));
+        return copy;
+      }, [activities]);
+
+      // Milestones
+      useEffect(() => {
+        const allDone = activities.length > 0 && doneCount === activities.length;
+        if (allDone && !prevAllDoneRef.current){
+          showToast("✅ Concluído", "Todas as atividades finalizadas.");
+          const el = document.getElementById("stat-week");
+          if (el) { el.classList.remove("pulseWin"); void el.offsetWidth; el.classList.add("pulseWin"); }
+        }
+        prevAllDoneRef.current = allDone;
+
+        const prev = prevWeekXPRef.current || 0;
+        if (weekXP >= 100 && prev < 100) showToast("🏆 Semana perfeita", "100%.");
+        else if (weekXP >= 70 && prev < 70) showToast("🔥 Meta forte", "Passou de 70%.");
+        else if (weekXP >= 50 && prev < 50) showToast("💪 Evolução", "Passou de 50%.");
+        prevWeekXPRef.current = weekXP;
+      }, [weekXP, doneCount, activities.length]);
+
+      // ===== Notifications / Reminders =====
+      const requestNotificationPermission = async () => {
+        if (!("Notification" in window)){
+          showToast("⚠️ Notificações", "Navegador não suporta notificações.");
+          return;
+        }
+        try{
+          const p = await Notification.requestPermission();
+          if (p === "granted"){
+            setNotifEnabled(true);
+            showToast("🔔 Notificações", "Ativadas.");
+          } else {
+            setNotifEnabled(false);
+            showToast("🔕 Notificações", "Bloqueadas.");
+          }
+        }catch{
+          showToast("⚠️ Notificações", "Falha ao solicitar permissão.");
+        }
+      };
+
+      const getRemindedMap = () => {
+        const today = new Date().toISOString().split("T")[0];
+        const obj = safeJSON(localStorage.getItem(LS.reminded), null);
+        if (!obj || obj.date !== today) return { date: today, map: {} };
+        return obj;
+      };
+      const setReminded = (activityId) => {
+        const obj = getRemindedMap();
+        obj.map[String(activityId)] = true;
+        localStorage.setItem(LS.reminded, JSON.stringify(obj));
+      };
+      const alreadyReminded = (activityId) => {
+        const obj = getRemindedMap();
+        return !!obj.map[String(activityId)];
+      };
+
+      const fireReminder = (a) => {
+        const cat = categoryConfig[a.category] || categoryConfig.OUTROS;
+        const pri = priorityConfig[a.priority] || priorityConfig.med;
+        const catName = a.category === "ALIMENTACAO" ? "ALIMENTAÇÃO" : a.category;
+
+        showToast(
+          `⏰ ${a.title}`,
+          `${cat.emoji} ${catName} • ${pri.emoji} ${pri.label} • ${a.time} • ${minutesToLabel(a.durationMinutes)}`
+        );
+
+        if (notifEnabled && ("Notification" in window) && Notification.permission === "granted"){
+          try{
+            new Notification(`⏰ ${a.title}`, {
+              body: `${cat.emoji} ${catName} • ${pri.label} • ${a.time}`,
+              silent: false
+            });
+          }catch{}
+        }
+      };
+
+      const clearTimers = () => {
+        timersRef.current.forEach(t => clearTimeout(t));
+        timersRef.current = [];
+        if (heartbeatRef.current) clearInterval(heartbeatRef.current);
+        heartbeatRef.current = null;
+      };
+
+      const scheduleReminders = () => {
+        clearTimers();
+        const now = new Date();
+
+        activities.forEach(a => {
+          if (!a.remind || a.completed) return;
+          if (alreadyReminded(a.id)) return;
+
+          const parts = (a.time || "09:00").split(":");
+          const hh = clampInt(parts[0], 0);
+          const mm = clampInt(parts[1], 0);
+
+          const target = new Date();
+          target.setHours(hh, mm, 0, 0);
+
+          const delay = target.getTime() - now.getTime();
+          if (delay <= 0) return;
+
+          const t = setTimeout(() => {
+            if (!alreadyReminded(a.id) && !a.completed){
+              fireReminder(a);
+              setReminded(a.id);
+            }
+          }, delay);
+
+          timersRef.current.push(t);
+        });
+
+        heartbeatRef.current = setInterval(() => {
+          const cur = new Date();
+          const curMins = cur.getHours()*60 + cur.getMinutes();
+
+          activities.forEach(a => {
+            if (!a.remind || a.completed) return;
+            if (alreadyReminded(a.id)) return;
+
+            const [hh, mm] = (a.time || "09:00").split(":").map(x => clampInt(x,0));
+            const tMins = hh*60 + mm;
+
+            if (curMins >= tMins && curMins <= (tMins + 15)){
+              fireReminder(a);
+              setReminded(a.id);
+            }
+          });
+        }, 30000);
+      };
+
+      useEffect(() => {
+        scheduleReminders();
+        return clearTimers;
+      }, [activities, notifEnabled]);
+
+      // ===== CRUD =====
+      const openNew = () => { setEditing(null); setModalOpen(true); };
+      const openEdit = (a) => { setEditing(a); setModalOpen(true); };
+
+      const saveActivity = (payload) => {
+        if (editing){
+          setActivities(prev => prev.map(x => x.id === editing.id ? { ...x, ...payload, id: x.id, completed: x.completed } : x));
+          showToast("✏️ Atualizado", "Atividade alterada.");
+        } else {
+          setActivities(prev => [...prev, { ...payload, id: uid(), completed:false }]);
+          showToast("➕ Criado", "Atividade adicionada.");
+        }
+        setModalOpen(false);
+        setEditing(null);
+      };
+
+      const toggleDone = (id) => setActivities(prev => prev.map(a => a.id === id ? { ...a, completed: !a.completed } : a));
+
+      const deleteActivity = (id) => {
+        if (!confirm("Tem certeza que deseja deletar?")) return;
+        setActivities(prev => prev.filter(a => a.id !== id));
+        showToast("🗑️ Removido", "Atividade deletada.");
+      };
+
+      const resetWeekManually = () => {
+        if (!confirm("Fechar a semana e resetar a rotina atual?")) return;
+
+        const wk = getWeekKey();
+        const completed = activities.filter(a => a.completed).length;
+        const total = activities.length;
+        const xp = total > 0 ? Math.round((completed/total)*100) : 0;
+        const today = new Date().toISOString().split("T")[0];
+
+        const newHistory = { ...weekHistory };
+        newHistory[wk] = { weekKey:wk, completed, total, xp, date:today };
+        setWeekHistory(newHistory);
+
+        const newMonthly = monthlyXP + xp;
+        setMonthlyXP(newMonthly);
+
+        setActivities([]);
+        showToast("🧾 Semana fechada", `XP: ${xp}%`);
+      };
+
+      // ===== Export / Import =====
+      const exportRoutine = () => {
+        const data = { activities, weekHistory, monthlyXP, autoReset, notifEnabled };
+        const txt = JSON.stringify(data, null, 2);
+        setExportData(txt);
+        setExportOpen(true);
+        showToast("📦 Exportado", "JSON gerado.");
+      };
+
+      const importRoutine = () => {
+        try{
+          const data = JSON.parse(importData);
+          const acts = normalizeActivities(data.activities || []);
+          setActivities(acts);
+          setWeekHistory(data.weekHistory || {});
+          setMonthlyXP(clampInt(data.monthlyXP, 0));
+          if (data.autoReset !== undefined) setAutoReset(!!data.autoReset);
+          if (data.notifEnabled !== undefined) setNotifEnabled(!!data.notifEnabled);
+
+          setImportData("");
+          setExportOpen(false);
+          showToast("✅ Importado", "Dados restaurados.");
+        }catch{
+          showToast("❌ Erro", "JSON inválido.");
+        }
+      };
+
+      const copyToClipboard = async () => {
+        try{
+          if (navigator.clipboard && window.isSecureContext){
+            await navigator.clipboard.writeText(exportData || "");
+            showToast("📋 Copiado", "JSON copiado.");
+            return;
+          }
+        }catch{}
+        try{
+          const ta = document.createElement("textarea");
+          ta.value = exportData || "";
+          ta.setAttribute("readonly", "");
+          ta.style.position = "fixed";
+          ta.style.top = "-9999px";
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+          showToast("📋 Copiado", "JSON copiado.");
+        }catch{
+          showToast("⚠️ Copiar", "Copie manualmente.");
+        }
+      };
+
+      // ===== Duration options: UMA caixa (h + min juntos) =====
+      const buildDurationOptions = () => {
+        const opts = [];
+        // 0..6h em 5min
+        for (let m=5; m<=360; m+=5) opts.push(m);
+        // 6h..12h em 15min
+        for (let m=375; m<=720; m+=15) opts.push(m);
+        // também incluir 0 (se quiser escolher 0h 00m)
+        opts.unshift(0);
+        return opts;
+      };
+      const DURATION_OPTIONS = buildDurationOptions();
+
+      // ===== Form =====
+      function ActivityForm({ initial, onSave, onCancel }){
+        const init = initial || {
+          title:"",
+          time:"09:00",
+          category:"TRABALHO",
+          description:"",
+          durationMinutes:30,
+          priority:"med",
+          remind:true,
+        };
+        const [form, setForm] = useState(init);
+
+        const pri = priorityConfig[form.priority] || priorityConfig.med;
+        const catKeys = Object.keys(categoryConfig);
+
+        return e("div", null,
+          e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
+            e("div", { style:{ flex:"1 1 380px" } },
+              e("div", { className:"label" }, "📝 Título"),
+              e("input", {
+                className:"input",
+                value: form.title,
+                placeholder:"Ex: Meditação matinal",
+                onChange:(ev)=>setForm({ ...form, title: ev.target.value })
+              })
+            ),
+            e("div", { style:{ flex:"1 1 220px" } },
+              e("div", { className:"label" }, "⏰ Horário"),
+              e("input", {
+                className:"input",
+                type:"time",
+                value: form.time,
+                onChange:(ev)=>setForm({ ...form, time: ev.target.value })
+              })
+            ),
+            e("div", { style:{ flex:"1 1 260px" } },
+              e("div", { className:"label" }, "⏳ Duração (h/min)"),
+              e("select", {
+                className:"input",
+                value: String(form.durationMinutes),
+                onChange:(ev)=>setForm({ ...form, durationMinutes: clampInt(ev.target.value, 30) })
+              },
+                DURATION_OPTIONS.map(m => {
+                  const label = minutesToLabel(m);
+                  return e("option", { key:m, value:String(m) }, label);
+                })
+              )
+            )
+          ),
+
+          e("div", { className:"sp16" }),
+
+          e("div", { className:"label" }, "🏷️ Categoria"),
+          e("div", { className:"grid3" },
+            catKeys.map(k => {
+              const on = form.category === k;
+              const tint = on ? pri.tint : "";
+              const c = categoryConfig[k];
+              const label = (k === "ALIMENTACAO") ? "ALIMENTAÇÃO" : k;
+              return e("div", {
+                key:k,
+                className: "chip" + (on ? (" chipOn " + tint) : ""),
+                onClick: ()=> setForm({ ...form, category:k }),
+                title:k
+              }, c.emoji, " ", label);
+            })
+          ),
+
+          e("div", { className:"sp16" }),
+
+          e("div", { className:"label" }, "⭐ Prioridade"),
+          e("div", { className:"grid3" },
+            Object.entries(priorityConfig).map(([key, p]) => {
+              const on = form.priority === key;
+              return e("div", {
+                key,
+                className:"chip" + (on ? (" chipOn " + p.tint) : ""),
+                onClick: ()=> setForm({ ...form, priority:key })
+              }, p.emoji, " ", p.label);
+            })
+          ),
+
+          e("div", { className:"sp16" }),
+
+          e("div", { className:"label" }, "🔔 Lembrete"),
+          e("div", {
+            className:"chip" + (form.remind ? " chipOn" : ""),
+            style:{ justifyContent:"space-between" },
+            onClick: ()=> setForm({ ...form, remind: !form.remind })
+          },
+            e("div", { style:{ display:"flex", gap:10, alignItems:"center" } },
+              form.remind ? "⏰" : "🔕",
+              form.remind ? "Ativado" : "Desativado"
+            ),
+            e("span", { className:"muted", style:{ fontSize:12, fontWeight:950 } }, "no horário")
+          ),
+
+          e("div", { className:"sp16" }),
+
+          e("div", { className:"label" }, "📄 Descrição"),
+          e("textarea", {
+            className:"input",
+            rows:3,
+            value: form.description,
+            placeholder:"Detalhes opcionais...",
+            onChange:(ev)=>setForm({ ...form, description: ev.target.value })
+          }),
+
+          e("div", { className:"sp16" }),
+
+          e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
+            e("button", {
+              className:"btn btnPrimary",
+              style:{ flex:"1 1 260px" },
+              onClick: ()=>{
+                if (!form.title.trim()) { alert("Informe um título."); return; }
+                onSave({
+                  title: form.title.trim(),
+                  time: form.time || "09:00",
+                  category: form.category,
+                  description: form.description || "",
+                  durationMinutes: clampInt(form.durationMinutes, 30),
+                  priority: form.priority,
+                  remind: !!form.remind,
+                });
+              }
+            }, "💾 Salvar"),
+            e("button", {
+              className:"btn btnSoft",
+              style:{ flex:"1 1 160px" },
+              onClick: onCancel
+            }, "Cancelar")
+          )
+        );
+      }
+
+      function ActivityCard({ a }){
+        const cat = categoryConfig[a.category] || categoryConfig.OUTROS;
+        const pri = priorityConfig[a.priority] || priorityConfig.med;
+        const catName = a.category === "ALIMENTACAO" ? "ALIMENTAÇÃO" : a.category;
+
+        const cls = ["act", pri.card, a.completed ? "done" : ""].join(" ").trim();
+
+        return e("div", { className: cls },
+          e("div", { className:"actTop" },
+            e("div", { className:"actLeft" },
+              e("input", { className:"check", type:"checkbox", checked: !!a.completed, onChange:()=>toggleDone(a.id) }),
+              e("div", null,
+                e("div", { className:"actTitle" }, `${cat.emoji} ${a.title}`),
+                e("div", { className:"actMeta" },
+                  e("span", { className:"tag" }, `⏰ ${a.time}`),
+                  e("span", { className:"tag" }, `${pri.emoji} ${pri.label}`),
+                  e("span", { className:"tag" }, `⏳ ${minutesToLabel(a.durationMinutes)}`),
+                  e("span", { className:"tag" }, `🏷️ ${catName}`),
+                  e("span", { className:"tag" }, a.remind ? "🔔 Lembrete" : "🔕 Sem lembrete")
+                ),
+                a.description ? e("div", { className:"actDesc" }, `📝 ${a.description}`) : null
+              )
+            ),
+            e("div", { className:"actBtns" },
+              e("button", { className:"miniBtn", onClick:()=>openEdit(a) }, "✏️ Editar"),
+              e("button", { className:"miniBtn miniDanger", onClick:()=>deleteActivity(a.id) }, "🗑️ Deletar")
+            )
+          )
+        );
+      }
+
+      const tag = weekTag(weekXP);
+
+      return e("div", { className:"app" },
+        e("div", { className:"container" },
+
+          e("div", { className:"top" },
+            e("div", null,
+              e("div", { className:"title" }, "🎯 Rotina • Foco & Prosperidade")
+              /* SUBTÍTULO REMOVIDO (pedido do usuário) */
+            ),
+            e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
+              e("button", { className:"btn btnSoft", onClick: exportRoutine }, "📦 Exportar"),
+              e("button", { className:"btn btnSoft", onClick: ()=>setExportOpen(true) }, "📥 Importar"),
+              e("button", { className:"btn btnPrimary", onClick: openNew }, "➕ Nova Atividade")
+            )
+          ),
+
+          e("div", { className:"sp16" }),
+
+          e("div", { className:"row" },
+            e("div", { className:"col glass", id:"stat-week", style:{ padding:16 } },
+              e("div", { style:{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:10, flexWrap:"wrap" } },
+                e("div", null,
+                  e("div", { className:"kicker" }, "XP DA SEMANA"),
+                  e("div", { className:"big" }, `${weekXP}%`)
+                ),
+                e("span", { className:"pill", style:{ background:tag.c, borderColor:tag.b } }, tag.t)
+              ),
+              e("div", { className:"barWrap" },
+                e("div", { className:"barFill", style:{ width: weekXP + "%", background: barColor(weekXP) } })
+              ),
+              e("div", { className:"sp10" }),
+              e("div", { className:"muted", style:{ fontWeight:950 } }, `${doneCount}/${activities.length} concluídas`)
+            ),
+
+            e("div", { className:"col glass", style:{ padding:16 } },
+              e("div", { className:"kicker" }, "XP DO MÊS"),
+              e("div", { className:"big" }, `${monthlyXP}`),
+              e("div", { className:"sp10" }),
+              e("span", { className:"pill", style:{ color: perf.color } }, perf.label)
+            ),
+
+            e("div", { className:"col glass", style:{ padding:16 } },
+              e("div", { className:"kicker" }, "CONTROLES"),
+              e("div", { className:"sp10" }),
+              e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
+                e("button", {
+                  className:"btn " + (autoReset ? "btnPrimary" : "btnSoft"),
+                  onClick: ()=> setAutoReset(!autoReset)
+                }, autoReset ? "🔁 Auto reset: ON" : "🔁 Auto reset: OFF"),
+
+                e("button", { className:"btn btnSoft", onClick: resetWeekManually }, "🧾 Fechar semana"),
+
+                e("button", {
+                  className:"btn " + (notifEnabled ? "btnPrimary" : "btnSoft"),
+                  onClick: requestNotificationPermission
+                }, notifEnabled ? "🔔 Notif: ON" : "🔔 Ativar notif")
+              )
+              /* TEXTO EXPLICATIVO REMOVIDO (pedido do usuário) */
+            )
+          ),
+
+          e("div", { className:"sp16" }),
+
+          e("div", { className:"card" },
+            e("div", { className:"listHead" },
+              e("div", { style:{ display:"flex", alignItems:"center", gap:10, flexWrap:"wrap" } },
+                e("div", { style:{ fontSize:18, fontWeight:950 } }, "📋 Atividades"),
+                e("span", { className:"pill" }, "⏱️ ordenadas por horário")
+              ),
+              e("div", { className:"muted", style:{ fontWeight:950 } },
+                activities.length === 0 ? "Sem atividades" : "Marque para concluir ✅"
+              )
+            ),
+            e("div", { className:"listBody" },
+              sorted.length === 0
+                ? e("div", { className:"glass", style:{ padding:18, textAlign:"center" } },
+                    e("div", { style:{ fontSize:34 } }, "🧠"),
+                    e("div", { style:{ fontSize:18, fontWeight:950, marginTop:6 } }, "Nenhuma atividade ainda"),
+                    e("div", { className:"muted", style:{ marginTop:6, fontWeight:950 } }, "Clique em “Nova Atividade” para começar.")
+                  )
+                : sorted.map(a => e(ActivityCard, { key:a.id, a }))
+            )
+          )
+
+          /* RODAPÉ “PALAVRAS SOLTAS” REMOVIDO (pedido do usuário) */
+          ,
+
+          e(Modal, {
+            open: modalOpen,
+            onClose: ()=>{ setModalOpen(false); setEditing(null); },
+            title: editing ? "✏️ Editar Atividade" : "➕ Nova Atividade"
+          }, e(ActivityForm, {
+            initial: editing,
+            onSave: saveActivity,
+            onCancel: ()=>{ setModalOpen(false); setEditing(null); }
+          })),
+
+          e(Modal, {
+            open: exportOpen,
+            onClose: ()=> setExportOpen(false),
+            title: "📦 Exportar / Importar"
+          },
+            e("div", { className:"grid2" },
+              e("div", null,
+                e("div", { className:"label" }, "📤 Exportar (JSON)"),
+                e("textarea", {
+                  className:"input",
+                  rows:10,
+                  value: exportData,
+                  onChange:(ev)=>setExportData(ev.target.value),
+                  placeholder:"Clique em Exportar para gerar..."
+                }),
+                e("div", { className:"sp10" }),
+                e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
+                  e("button", { className:"btn btnSoft", style:{ flex:"1 1 160px" }, onClick: exportRoutine }, "Gerar"),
+                  e("button", { className:"btn btnPrimary", style:{ flex:"1 1 160px" }, onClick: copyToClipboard, disabled: !exportData }, "📋 Copiar")
+                )
+              ),
+              e("div", null,
+                e("div", { className:"label" }, "📥 Importar (cole o JSON)"),
+                e("textarea", {
+                  className:"input",
+                  rows:10,
+                  value: importData,
+                  onChange:(ev)=>setImportData(ev.target.value),
+                  placeholder:"Cole aqui o JSON exportado..."
+                }),
+                e("div", { className:"sp10" }),
+                e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
+                  e("button", { className:"btn btnPrimary", style:{ flex:"1 1 160px" }, onClick: importRoutine, disabled: !importData.trim() }, "Importar"),
+                  e("button", { className:"btn btnSoft", style:{ flex:"1 1 160px" }, onClick: ()=>setImportData("") }, "Limpar")
+                )
+              )
+            )
+          ),
+
+          e("div", { className:"toasts" },
+            toasts.map(t => e("div", { key:t.id, className:"toast" },
+              e("div", null,
+                e("div", { className:"toastTitle" }, t.title),
+                e("div", { className:"toastMsg" }, t.msg)
+              ),
+              e("button", { className:"toastX", onClick:()=>removeToast(t.id) }, "✕")
+            ))
+          )
+        )
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(React.createElement(DailyRoutine));
+  </script>
+</body>
+</html>
