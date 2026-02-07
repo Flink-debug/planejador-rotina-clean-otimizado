@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#05060a" />
   <title>Rotina • Foco & Prosperidade</title>
 
-  <!-- Performance: pré-conexão CDN -->
+  <!-- Faster CDN resolution -->
   <link rel="preconnect" href="https://unpkg.com" crossorigin>
   <link rel="dns-prefetch" href="https://unpkg.com">
 
@@ -30,15 +30,16 @@
 
       --r14:14px; --r18:18px; --r22:22px;
 
-      /* Mood evolutivo */
+      /* Mood variables */
       --mGlow: .18;
       --mGlow2: .14;
       --mRich: .22;
       --mSaturation: 1;
 
-      /* Mobile tuning (JS seta isMobile) */
-      --blur: 14px;
-      --perfShadow: var(--shadow2);
+      --safeT: env(safe-area-inset-top, 0px);
+      --safeB: env(safe-area-inset-bottom, 0px);
+      --safeL: env(safe-area-inset-left, 0px);
+      --safeR: env(safe-area-inset-right, 0px);
     }
 
     *{ box-sizing:border-box; margin:0; padding:0; }
@@ -50,7 +51,7 @@
       overflow-x:hidden;
       color-scheme: dark;
 
-      /* Fundo: unificado para eliminar “costura/linha” (seam) */
+      /* Fundo único (evita “emenda”) */
       background:
         radial-gradient(1200px 650px at 15% 0%, rgba(59,130,246,var(--mGlow)), transparent 60%),
         radial-gradient(900px 700px at 85% 10%, rgba(56,189,248,var(--mGlow2)), transparent 55%),
@@ -61,37 +62,47 @@
       transform: translateZ(0);
     }
 
-    /* $$$ background - colocado no mesmo “flow” (sem cover que costuma criar emenda visual) */
+    /* $$$ background (notas) - repetição suave para evitar “corte” */
     body::before{
       content:"";
       position:fixed; inset:0;
       pointer-events:none;
       opacity: var(--mRich);
       background:
-        radial-gradient(1200px 600px at 15% 15%, rgba(0,0,0,0), rgba(0,0,0,.55) 70%),
-        radial-gradient(1200px 600px at 85% 15%, rgba(0,0,0,0), rgba(0,0,0,.55) 70%),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1800' height='1200' viewBox='0 0 1800 1200'%3E%3Cdefs%3E%3ClinearGradient id='bill' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23a7f3d0' stop-opacity='.55'/%3E%3Cstop offset='1' stop-color='%236ee7b7' stop-opacity='.35'/%3E%3C/linearGradient%3E%3ClinearGradient id='shine' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23ffffff' stop-opacity='.18'/%3E%3Cstop offset='1' stop-color='%23ffffff' stop-opacity='0'/%3E%3C/linearGradient%3E%3Cfilter id='s' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeDropShadow dx='0' dy='6' stdDeviation='6' flood-color='%23000000' flood-opacity='.28'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23s)'%3E%3Cg transform='translate(140 120) rotate(-12)'%3E%3Crect rx='14' ry='14' width='230' height='120' fill='url(%23bill)' fill-opacity='.22' stroke='%23a7f3d0' stroke-opacity='.20'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='210' height='100' fill='none' stroke='%23e5e7eb' stroke-opacity='.14'/%3E%3Cpath d='M0 0 L230 0 L230 18 L0 52 Z' fill='url(%23shine)' opacity='.45'/%3E%3Ctext x='115' y='76' text-anchor='middle' font-family='Arial' font-size='48' fill='%23e5e7eb' fill-opacity='.18'%3E$%3C/text%3E%3C/g%3E%3Cg transform='translate(520 170) rotate(8)'%3E%3Crect rx='14' ry='14' width='230' height='120' fill='url(%23bill)' fill-opacity='.20' stroke='%23a7f3d0' stroke-opacity='.18'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='210' height='100' fill='none' stroke='%23e5e7eb' stroke-opacity='.12'/%3E%3Cpath d='M0 0 L230 0 L230 16 L0 46 Z' fill='url(%23shine)' opacity='.40'/%3E%3Ctext x='115' y='76' text-anchor='middle' font-family='Arial' font-size='48' fill='%23e5e7eb' fill-opacity='.16'%3E$%3C/text%3E%3C/g%3E%3Cg transform='translate(880 110) rotate(-6)'%3E%3Crect rx='14' ry='14' width='230' height='120' fill='url(%23bill)' fill-opacity='.18' stroke='%23a7f3d0' stroke-opacity='.16'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='210' height='100' fill='none' stroke='%23e5e7eb' stroke-opacity='.12'/%3E%3Cpath d='M0 0 L230 0 L230 18 L0 50 Z' fill='url(%23shine)' opacity='.38'/%3E%3Ctext x='115' y='76' text-anchor='middle' font-family='Arial' font-size='48' fill='%23e5e7eb' fill-opacity='.14'%3E$%3C/text%3E%3C/g%3E%3Cg transform='translate(1220 190) rotate(10)'%3E%3Crect rx='14' ry='14' width='230' height='120' fill='url(%23bill)' fill-opacity='.18' stroke='%23a7f3d0' stroke-opacity='.16'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='210' height='100' fill='none' stroke='%23e5e7eb' stroke-opacity='.12'/%3E%3Cpath d='M0 0 L230 0 L230 18 L0 48 Z' fill='url(%23shine)' opacity='.36'/%3E%3Ctext x='115' y='76' text-anchor='middle' font-family='Arial' font-size='48' fill='%23e5e7eb' fill-opacity='.14'%3E$%3C/text%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      background-repeat:no-repeat;
-      background-position:center;
-      background-size: 1800px 1200px; /* fixo, evita “seam” de cover */
+        radial-gradient(900px 520px at 15% 15%, rgba(0,0,0,0), rgba(0,0,0,.46) 70%),
+        radial-gradient(900px 520px at 85% 15%, rgba(0,0,0,0), rgba(0,0,0,.46) 70%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='700' viewBox='0 0 1200 700'%3E%3Cdefs%3E%3ClinearGradient id='bill' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23a7f3d0' stop-opacity='.55'/%3E%3Cstop offset='1' stop-color='%236ee7b7' stop-opacity='.35'/%3E%3C/linearGradient%3E%3ClinearGradient id='shine' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23ffffff' stop-opacity='.18'/%3E%3Cstop offset='1' stop-color='%23ffffff' stop-opacity='0'/%3E%3C/linearGradient%3E%3Cfilter id='s' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeDropShadow dx='0' dy='6' stdDeviation='6' flood-color='%23000000' flood-opacity='.26'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23s)'%3E%3Cg transform='translate(80 80) rotate(-12)'%3E%3Crect rx='14' ry='14' width='210' height='110' fill='url(%23bill)' fill-opacity='.20' stroke='%23a7f3d0' stroke-opacity='.18'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='190' height='90' fill='none' stroke='%23e5e7eb' stroke-opacity='.12'/%3E%3Cpath d='M0 0 L210 0 L210 18 L0 50 Z' fill='url(%23shine)' opacity='.42'/%3E%3Ctext x='105' y='70' text-anchor='middle' font-family='Arial' font-size='44' fill='%23e5e7eb' fill-opacity='.14'%3E$%3C/text%3E%3C/g%3E%3Cg transform='translate(370 120) rotate(8)'%3E%3Crect rx='14' ry='14' width='210' height='110' fill='url(%23bill)' fill-opacity='.18' stroke='%23a7f3d0' stroke-opacity='.16'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='190' height='90' fill='none' stroke='%23e5e7eb' stroke-opacity='.10'/%3E%3Cpath d='M0 0 L210 0 L210 16 L0 44 Z' fill='url(%23shine)' opacity='.38'/%3E%3Ctext x='105' y='70' text-anchor='middle' font-family='Arial' font-size='44' fill='%23e5e7eb' fill-opacity='.12'%3E$%3C/text%3E%3C/g%3E%3Cg transform='translate(690 70) rotate(-6)'%3E%3Crect rx='14' ry='14' width='210' height='110' fill='url(%23bill)' fill-opacity='.16' stroke='%23a7f3d0' stroke-opacity='.15'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='190' height='90' fill='none' stroke='%23e5e7eb' stroke-opacity='.10'/%3E%3Cpath d='M0 0 L210 0 L210 18 L0 48 Z' fill='url(%23shine)' opacity='.36'/%3E%3Ctext x='105' y='70' text-anchor='middle' font-family='Arial' font-size='44' fill='%23e5e7eb' fill-opacity='.12'%3E$%3C/text%3E%3C/g%3E%3Cg transform='translate(930 150) rotate(10)'%3E%3Crect rx='14' ry='14' width='210' height='110' fill='url(%23bill)' fill-opacity='.16' stroke='%23a7f3d0' stroke-opacity='.15'/%3E%3Crect x='10' y='10' rx='12' ry='12' width='190' height='90' fill='none' stroke='%23e5e7eb' stroke-opacity='.10'/%3E%3Cpath d='M0 0 L210 0 L210 18 L0 46 Z' fill='url(%23shine)' opacity='.34'/%3E%3Ctext x='105' y='70' text-anchor='middle' font-family='Arial' font-size='44' fill='%23e5e7eb' fill-opacity='.12'%3E$%3C/text%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 1200px 700px;
+      background-position: 0 0;
       transform: translateZ(0);
       transition: opacity .6s ease;
-      will-change: opacity;
     }
 
-    /* Overlay único (sem linhas) */
+    /* Overlay escuro (único layer) */
     body::after{
       content:"";
-      position:fixed; inset:-1px; /* evita micro-linha por arredondamento/antialias */
+      position:fixed; inset:0;
       pointer-events:none;
-      background: linear-gradient(180deg, rgba(0,0,0,.26), rgba(0,0,0,.74));
+      background: linear-gradient(180deg, rgba(0,0,0,.22), rgba(0,0,0,.72));
     }
 
-    body.levelUp{ animation: levelUpPulse 1.2s ease; }
+    body.levelUp{
+      animation: levelUpPulse 1.2s ease;
+    }
     @keyframes levelUpPulse{
       0%{ filter:saturate(var(--mSaturation)) contrast(1.02); }
       35%{ filter:saturate(calc(var(--mSaturation) + .10)) contrast(1.08); }
       100%{ filter:saturate(var(--mSaturation)) contrast(1.02); }
+    }
+
+    /* Travar body quando modal abrir (mobile/desktop) */
+    body.modalLock{
+      position: fixed;
+      width: 100%;
+      overflow: hidden;
+      left: 0;
+      right: 0;
     }
 
     .app{ position:relative; z-index:1; }
@@ -104,18 +115,16 @@
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: var(--r22);
-      box-shadow: var(--perfShadow);
-      backdrop-filter: blur(var(--blur));
-      -webkit-backdrop-filter: blur(var(--blur));
+      box-shadow: 0 10px 26px rgba(0,0,0,.28);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
     }
     .card{
       background: rgba(255,255,255,.05);
       border: 1px solid var(--line);
       border-radius: var(--r22);
-      box-shadow: var(--shadow);
+      box-shadow: 0 18px 45px rgba(0,0,0,.38);
       overflow:hidden;
-      content-visibility: auto; /* performance: render lazy */
-      contain-intrinsic-size: 650px; /* evita jump */
     }
 
     .row{ display:flex; gap:14px; flex-wrap:wrap; }
@@ -178,6 +187,8 @@
       outline:none;
       color:var(--txt);
       transition: border-color .18s ease, box-shadow .18s ease;
+      appearance: none;
+      -webkit-appearance: none;
     }
     .input:focus{
       border-color: rgba(59,130,246,.55);
@@ -298,7 +309,7 @@
 
     .done{ opacity:.78; filter:saturate(.9); }
 
-    /* ===== Modal: CORREÇÃO MOBILE ===== */
+    /* Modal */
     .overlay{
       position:fixed; inset:0;
       background: rgba(0,0,0,.62);
@@ -306,7 +317,6 @@
       padding:18px;
       z-index:40;
       animation: fadeIn .18s ease;
-      touch-action: none; /* evita scroll do fundo */
     }
     .modal{
       width:min(980px, 100%);
@@ -316,7 +326,7 @@
       box-shadow: var(--shadow);
       overflow:hidden;
       animation: popIn .18s ease;
-      max-height: calc(100dvh - 36px); /* garante dentro da viewport */
+      max-height: calc(100dvh - 36px);
       display:flex;
       flex-direction:column;
     }
@@ -325,41 +335,14 @@
       padding:18px 18px;
       border-bottom:1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.04);
-      flex:0 0 auto;
+      flex: 0 0 auto;
     }
     .modalTitle{ display:flex; align-items:center; gap:10px; font-size:22px; font-weight:950; }
     .modalBody{
       padding:18px;
-      overflow:auto;                 /* scroll dentro do modal */
-      -webkit-overflow-scrolling:touch;
-      flex:1 1 auto;
-    }
-
-    /* Mobile: modal “full screen” e sempre clicável */
-    body.isMobile .overlay{
-      padding: 0;
-      align-items: stretch;
-      justify-content: stretch;
-    }
-    body.isMobile .modal{
-      width: 100%;
-      height: 100dvh;
-      max-height: 100dvh;
-      border-radius: 0;
-      border-left: none;
-      border-right: none;
-      border-top: none;
-      box-shadow: none;
-    }
-    body.isMobile .modalHead{
-      padding-top: calc(14px + env(safe-area-inset-top));
-      padding-left: calc(14px + env(safe-area-inset-left));
-      padding-right: calc(14px + env(safe-area-inset-right));
-    }
-    body.isMobile .modalBody{
-      padding-left: calc(14px + env(safe-area-inset-left));
-      padding-right: calc(14px + env(safe-area-inset-right));
-      padding-bottom: calc(18px + env(safe-area-inset-bottom));
+      overflow:auto;
+      -webkit-overflow-scrolling: touch;
+      flex: 1 1 auto;
     }
 
     /* Toast */
@@ -403,16 +386,8 @@
 
     /* Calendário */
     .calWrap{ margin-top:12px; }
-    .calHeader{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:12px; flex-wrap:wrap;
-    }
-    .calGrid{
-      margin-top:12px;
-      display:grid;
-      grid-template-columns: repeat(7, minmax(0, 1fr));
-      gap:10px;
-    }
+    .calHeader{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+    .calGrid{ margin-top:12px; display:grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap:10px; }
     .calDow{
       text-align:center;
       font-weight:950;
@@ -460,6 +435,7 @@
     .calDots{ display:flex; gap:6px; align-items:center; }
     .dot{ width:8px; height:8px; border-radius:999px; opacity:.95; }
 
+    /* Tabs reset */
     .tabs{ display:flex; gap:10px; flex-wrap:wrap; }
     .tabBtn{
       padding:10px 12px;
@@ -479,7 +455,7 @@
       box-shadow: 0 0 0 4px rgba(59,130,246,.12);
     }
 
-    /* ===== Tooltips: SOMENTE PC ===== */
+    /* Tooltips (PC) */
     [data-tip]{ position:relative; }
     [data-tip]:hover::after,
     [data-tip]:focus-visible::after{
@@ -517,13 +493,10 @@
       z-index: 79;
     }
 
-    /* Desativa tooltips automaticamente para mobile/touch */
-    @media (hover: none), (pointer: coarse){
-      [data-tip]::before,
-      [data-tip]::after{ display:none !important; content:none !important; }
+    /* DESATIVAR TOOLTIPS no mobile/touch */
+    @media (hover: none), (pointer: coarse) {
+      [data-tip]::after, [data-tip]::before { display:none !important; content: none !important; }
     }
-    body.isMobile [data-tip]::before,
-    body.isMobile [data-tip]::after{ display:none !important; content:none !important; }
 
     @keyframes fadeIn{ from{opacity:0} to{opacity:1} }
     @keyframes popIn{ from{opacity:0; transform: translateY(8px) scale(.98)} to{opacity:1; transform:none} }
@@ -539,20 +512,33 @@
       .actTop{ flex-direction:column; }
       .actBtns{ width:100%; }
       .miniBtn{ flex:1; justify-content:center; }
-      .calCell{ min-height:70px; }
-      .toasts{ right: 12px; left: 12px; width: auto; }
-    }
 
-    /* Mobile performance: menos blur/shadow para carregar mais rápido */
-    body.isMobile{
-      --blur: 8px;
-      --perfShadow: 0 10px 22px rgba(0,0,0,.26);
-    }
+      /* modal mobile = full screen, sem “sair” da área tocável */
+      .overlay{
+        align-items: stretch;
+        justify-content: stretch;
+        padding: 0;
+      }
+      .modal{
+        width: 100%;
+        height: 100dvh;
+        max-height: 100dvh;
+        border-radius: 0;
+        margin: 0;
+      }
+      .modalHead{
+        padding: calc(14px + var(--safeT)) 14px 14px 14px;
+      }
+      .modalBody{
+        padding: 14px;
+        padding-bottom: calc(14px + var(--safeB));
+      }
 
-    /* Quando modal aberto, trava scroll do body (evita “pular” com teclado) */
-    body.modalOpen{
-      overflow: hidden;
-      height: 100%;
+      /* Performance: blur pesado tira FPS no mobile */
+      .glass{
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
     }
   </style>
 </head>
@@ -561,19 +547,15 @@
   <div id="root"></div>
 
   <script>
-    // ===== Detect PC/Mobile (robusto) =====
-    (function(){
-      const hasTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
-      const coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
-      const small = window.matchMedia && window.matchMedia('(max-width: 820px)').matches;
-      const isMobile = !!(hasTouch && (coarse || small));
-      if (isMobile) document.body.classList.add('isMobile');
-    })();
-  </script>
-
-  <script>
     const e = React.createElement;
     const { useEffect, useMemo, useRef, useState } = React;
+
+    // ===== Mobile detection =====
+    const isMobileCoarse = () => {
+      try {
+        return window.matchMedia && window.matchMedia("(hover: none), (pointer: coarse)").matches;
+      } catch { return false; }
+    };
 
     // ===== Helpers =====
     const uid = () => Date.now() + Math.floor(Math.random() * 1000);
@@ -691,21 +673,24 @@
 
     function inRangeISO(iso, start, end){ return iso >= start && iso <= end; }
 
-    function Modal({ open, onClose, title, children, onOpenChange }){
+    function Modal({ open, onClose, title, children, onOpened }){
+      const didOpenRef = useRef(false);
+
       useEffect(() => {
-        // trava scroll do body quando modal abre (corrige “pulo”/teclado)
-        if (open) document.body.classList.add("modalOpen");
-        else document.body.classList.remove("modalOpen");
-        onOpenChange && onOpenChange(open);
-        return () => document.body.classList.remove("modalOpen");
+        if (open && !didOpenRef.current){
+          didOpenRef.current = true;
+          setTimeout(() => { try { onOpened && onOpened(); } catch {} }, 0);
+        }
+        if (!open) didOpenRef.current = false;
       }, [open]);
 
       if (!open) return null;
+
       return e("div", { className:"overlay", onMouseDown:(ev)=>{ if (ev.target === ev.currentTarget) onClose(); } },
         e("div", { className:"modal", role:"dialog", "aria-modal":"true" },
           e("div", { className:"modalHead" },
             e("div", { className:"modalTitle" }, title),
-            e("button", { className:"btn btnSoft", style:{ padding:"10px 12px" }, onClick:onClose, "data-tip":"Fechar janela." }, "✕")
+            e("button", { className:"btn btnSoft", style:{ padding:"10px 12px" }, onClick:onClose }, "✕")
           ),
           e("div", { className:"modalBody" }, children)
         )
@@ -713,8 +698,6 @@
     }
 
     function DailyRoutine(){
-      const IS_MOBILE = document.body.classList.contains("isMobile");
-
       const LS = {
         byDate:"activitiesByDate",
         notif:"notifEnabled",
@@ -724,6 +707,7 @@
         monthArchive:"monthArchive",
       };
 
+      const mobile = useMemo(() => isMobileCoarse(), []);
       const [activitiesByDate, setActivitiesByDate] = useState({});
       const [selectedDate, setSelectedDate] = useState(todayISO());
       const [plannerMode, setPlannerMode] = useState("day");
@@ -749,6 +733,32 @@
 
       const audioCtxRef = useRef(null);
       const audioUnlockedRef = useRef(false);
+
+      // ===== Scroll lock (fix modal + teclado mobile) =====
+      const scrollYRef = useRef(0);
+      const lockBodyScroll = () => {
+        try{
+          scrollYRef.current = window.scrollY || 0;
+          document.body.classList.add("modalLock");
+          document.body.style.top = `-${scrollYRef.current}px`;
+        }catch{}
+      };
+      const unlockBodyScroll = () => {
+        try{
+          document.body.classList.remove("modalLock");
+          const y = scrollYRef.current || 0;
+          document.body.style.top = "";
+          window.scrollTo(0, y);
+        }catch{}
+      };
+
+      useEffect(() => {
+        if (modalOpen || exportOpen || resetOpen) lockBodyScroll();
+        else unlockBodyScroll();
+        return () => {
+          // não força aqui
+        };
+      }, [modalOpen, exportOpen, resetOpen]);
 
       const showToast = (title, msg, ttl=6500) => {
         const id = uid();
@@ -818,19 +828,7 @@
         showToast("🔊 Som", "Teste de som executado.");
       };
 
-      // ===== Tooltips: remove no mobile (garantia extra além do CSS) =====
-      useEffect(() => {
-        if (!IS_MOBILE) return;
-        const stripTips = () => {
-          document.querySelectorAll("[data-tip]").forEach(el => el.removeAttribute("data-tip"));
-        };
-        stripTips();
-        // se React renderizar novos nós, rodamos de leve
-        const mo = new MutationObserver(() => stripTips());
-        mo.observe(document.body, { childList:true, subtree:true });
-        return () => mo.disconnect();
-      }, [IS_MOBILE]);
-
+      // ===== Normalize / Migration =====
       const normalizeActivity = (a, dateISO) => {
         const priority = a.priority || a.priorityLevel || "med";
         const cat = (a.category || a.cat || "PESSOAL").toUpperCase();
@@ -851,7 +849,6 @@
         };
       };
 
-      // ===== Game State =====
       function getDefaultMonthState(monthKey){
         return {
           monthKey,
@@ -864,6 +861,7 @@
       const [monthState, setMonthState] = useState(getDefaultMonthState(getCurrentMonthKey()));
       const [monthArchive, setMonthArchive] = useState({});
 
+      // ===== Load =====
       useEffect(() => {
         let loadedByDate = safeJSON(localStorage.getItem(LS.byDate), null);
 
@@ -914,7 +912,6 @@
 
         if (lastMonthSeen !== curMonth){
           localStorage.setItem(LS.lastMonthSeen, curMonth);
-
           if (lastMonthSeen){
             const prevMonth = lastMonthSeen;
             const prevState = ms && ms.monthKey === prevMonth ? ms : null;
@@ -951,12 +948,12 @@
       // ===== Mood =====
       const moodFromLevel = (level) => {
         const table = [
-          { mGlow:.16, mGlow2:.12, mRich:.16, mSat:1.00 },
-          { mGlow:.18, mGlow2:.14, mRich:.20, mSat:1.02 },
-          { mGlow:.21, mGlow2:.16, mRich:.24, mSat:1.04 },
-          { mGlow:.24, mGlow2:.18, mRich:.28, mSat:1.06 },
-          { mGlow:.28, mGlow2:.20, mRich:.32, mSat:1.08 },
-          { mGlow:.32, mGlow2:.23, mRich:.36, mSat:1.10 },
+          { mGlow:.16, mGlow2:.12, mRich:.18, mSat:1.00 },
+          { mGlow:.18, mGlow2:.14, mRich:.22, mSat:1.02 },
+          { mGlow:.21, mGlow2:.16, mRich:.26, mSat:1.04 },
+          { mGlow:.24, mGlow2:.18, mRich:.30, mSat:1.06 },
+          { mGlow:.28, mGlow2:.20, mRich:.34, mSat:1.08 },
+          { mGlow:.32, mGlow2:.23, mRich:.38, mSat:1.10 },
         ];
         return table[Math.max(0, Math.min(5, level))];
       };
@@ -976,6 +973,7 @@
         setTimeout(()=>document.body.classList.remove("levelUp"), 1300);
       };
 
+      // ===== Day derived =====
       const dayActivities = useMemo(() => activitiesByDate[selectedDate] || [], [activitiesByDate, selectedDate]);
 
       const sorted = useMemo(() => {
@@ -1094,6 +1092,7 @@
         setMonthView(nk);
       };
 
+      // ===== CRUD =====
       const openNew = () => { setEditing(null); setModalOpen(true); };
       const openEdit = (a) => { setEditing(a); setModalOpen(true); };
 
@@ -1148,14 +1147,9 @@
         showToast("🗑️ Removido", "Atividade deletada.");
       };
 
+      // ===== Export / Import =====
       const exportRoutine = () => {
-        const data = {
-          activitiesByDate,
-          notifEnabled,
-          soundEnabled,
-          monthState,
-          monthArchive
-        };
+        const data = { activitiesByDate, notifEnabled, soundEnabled, monthState, monthArchive };
         const txt = JSON.stringify(data, null, 2);
         setExportData(txt);
         setExportOpen(true);
@@ -1213,6 +1207,7 @@
         }
       };
 
+      // ===== Notifications / Reminders =====
       const requestNotificationPermission = async () => {
         if (!("Notification" in window)){
           showToast("⚠️ Notificações", "Navegador não suporta notificações.");
@@ -1337,6 +1332,7 @@
         return clearTimers;
       }, [activitiesByDate, notifEnabled, soundEnabled]);
 
+      // ===== Planner =====
       const setDayInSameWeek = (dayIndex) => {
         const dt = new Date(selectedDate + "T00:00:00");
         const js = dt.getDay();
@@ -1353,7 +1349,7 @@
         setMonthView(monthKeyOfISO(iso));
       };
 
-      // ===== Reset modal state/actions =====
+      // ===== Reset modal state =====
       const [resetDate, setResetDate] = useState(todayISO());
       const [resetActivityId, setResetActivityId] = useState("");
       const [resetRangeMonth, setResetRangeMonth] = useState(getCurrentMonthKey());
@@ -1456,26 +1452,8 @@
         showToast("🗑️ Limpo", `Intervalo apagado: ${formatDateBR(startISO)} → ${formatDateBR(endISO)}`);
       };
 
-      // ===== Form focus fix (mobile) =====
-      // Quando abrir modal, rolar para o topo e focar “Título” com segurança (depois do layout)
-      useEffect(() => {
-        if (!modalOpen) return;
-        const t = setTimeout(() => {
-          try{
-            const body = document.querySelector(".modalBody");
-            if (body) body.scrollTop = 0;
-            const titleEl = document.getElementById("title");
-            if (titleEl && IS_MOBILE){
-              titleEl.focus({ preventScroll: true });
-              // garante que o input esteja visível dentro do modal
-              setTimeout(() => {
-                titleEl.scrollIntoView({ block:"center", behavior:"smooth" });
-              }, 60);
-            }
-          }catch{}
-        }, 80);
-        return () => clearTimeout(t);
-      }, [modalOpen]);
+      // ===== UI: tooltips only on PC =====
+      const tip = (txt) => mobile ? undefined : txt;
 
       function ActivityForm({ initial, onSave, onCancel }){
         const init = initial || {
@@ -1507,9 +1485,9 @@
                 className:"input",
                 name:"title",
                 id:"title",
+                autoFocus: true,
                 value: form.title,
                 placeholder:"Ex: Meditação matinal",
-                autoComplete:"off",
                 onChange:(ev)=>setForm({ ...form, title: ev.target.value })
               })
             ),
@@ -1522,8 +1500,6 @@
                   e("input", {
                     className:"input",
                     type:"time",
-                    name:"startTime",
-                    id:"startTime",
                     value: form.startTime,
                     onChange:(ev)=>setForm({ ...form, startTime: ev.target.value })
                   })
@@ -1533,8 +1509,6 @@
                   e("input", {
                     className:"input",
                     type:"time",
-                    name:"endTime",
-                    id:"endTime",
                     value: form.endTime,
                     onChange:(ev)=>setForm({ ...form, endTime: ev.target.value })
                   })
@@ -1558,7 +1532,7 @@
                 key:k,
                 className: "chip" + (on ? (" chipOn " + tint) : ""),
                 onClick: ()=> setForm({ ...form, category:k }),
-                "data-tip": "Define a categoria. A borda acompanha a prioridade."
+                ...(tip("Define a categoria da atividade.") ? { "data-tip": tip("Define a categoria da atividade.") } : {})
               }, c.emoji, " ", label);
             })
           ),
@@ -1573,7 +1547,7 @@
                 key,
                 className:"chip" + (on ? (" chipOn " + p.tint) : ""),
                 onClick: ()=> setForm({ ...form, priority:key }),
-                "data-tip": "Baixa, Média ou Alta. Afeta cores e o progresso mensal."
+                ...(tip("Muda as cores e o peso no progresso mensal.") ? { "data-tip": tip("Muda as cores e o peso no progresso mensal.") } : {})
               }, p.emoji, " ", p.label);
             })
           ),
@@ -1585,7 +1559,7 @@
             className:"chip" + (form.remind ? " chipOn" : ""),
             style:{ justifyContent:"space-between" },
             onClick: ()=> setForm({ ...form, remind: !form.remind }),
-            "data-tip": "Dispara lembrete no horário DE (som + toast + notificação se permitido)."
+            ...(tip("Dispara no horário DE (som + toast + notificação se permitido).") ? { "data-tip": tip("Dispara no horário DE (som + toast + notificação se permitido).") } : {})
           },
             e("div", { style:{ display:"flex", gap:10, alignItems:"center" } },
               form.remind ? "⏰" : "🔕",
@@ -1599,8 +1573,6 @@
           e("div", { className:"label" }, "📄 Descrição"),
           e("textarea", {
             className:"input",
-            name:"description",
-            id:"description",
             rows:3,
             value: form.description,
             placeholder:"Detalhes opcionais...",
@@ -1613,12 +1585,10 @@
             e("button", {
               className:"btn btnPrimary",
               style:{ flex:"1 1 260px" },
-              "data-tip":"Salva a atividade no dia selecionado.",
               onClick: ()=>{
                 const err = validate();
                 if (!form.title.trim()) { alert("Informe um título."); return; }
                 if (err) { alert(err); return; }
-
                 onSave({
                   title: form.title.trim(),
                   startTime: form.startTime,
@@ -1633,7 +1603,6 @@
             e("button", {
               className:"btn btnSoft",
               style:{ flex:"1 1 160px" },
-              "data-tip":"Cancela e fecha a janela.",
               onClick: onCancel
             }, "Cancelar")
           )
@@ -1654,8 +1623,7 @@
                 className:"check",
                 type:"checkbox",
                 checked: !!a.completed,
-                onChange:()=>toggleDone(a.date, a.id),
-                "data-tip":"Marca/desmarca como concluída."
+                onChange:()=>toggleDone(a.date, a.id)
               }),
               e("div", null,
                 e("div", { className:"actTitle" }, `${cat.emoji} ${a.title}`),
@@ -1669,8 +1637,8 @@
               )
             ),
             e("div", { className:"actBtns" },
-              e("button", { className:"miniBtn", onClick:()=>openEdit(a), "data-tip":"Editar." }, "✏️ Editar"),
-              e("button", { className:"miniBtn miniDanger", onClick:()=>deleteActivity(a.date, a.id), "data-tip":"Deletar." }, "🗑️ Deletar")
+              e("button", { className:"miniBtn", onClick:()=>openEdit(a) }, "✏️ Editar"),
+              e("button", { className:"miniBtn miniDanger", onClick:()=>deleteActivity(a.date, a.id) }, "🗑️ Deletar")
             )
           )
         );
@@ -1696,18 +1664,32 @@
             e("button", { className:"tabBtn " + (resetTab==="dia"?"tabOn":""), onClick:()=>setResetTab("dia") }, "Dia"),
             e("button", { className:"tabBtn " + (resetTab==="intervalo"?"tabOn":""), onClick:()=>setResetTab("intervalo") }, "Intervalo")
           ),
+
           e("div", { className:"sp16" }),
 
           resetTab === "atividade" && e("div", null,
             e("div", { className:"label" }, "📅 Escolha o dia"),
-            e("input", { className:"input", type:"date", value: resetDate, onChange:(ev)=>{ setResetDate(ev.target.value || todayISO()); setResetActivityId(""); } }),
+            e("input", {
+              className:"input",
+              type:"date",
+              value: resetDate,
+              onChange:(ev)=>{ setResetDate(ev.target.value || todayISO()); setResetActivityId(""); }
+            }),
+
             e("div", { className:"sp10" }),
+
             e("div", { className:"label" }, "🎯 Escolha a atividade"),
-            e("select", { className:"input", value: resetActivityId, onChange:(ev)=>setResetActivityId(ev.target.value) },
+            e("select", {
+              className:"input",
+              value: resetActivityId,
+              onChange:(ev)=>setResetActivityId(ev.target.value)
+            },
               e("option", { value:"" }, resetDayList.length ? "Selecione..." : "Nenhuma atividade nesse dia"),
               resetDayList.map(a => e("option", { key:a.id, value:String(a.id) }, `${a.startTime}→${a.endTime} • ${a.title}`))
             ),
+
             e("div", { className:"sp16" }),
+
             e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
               e("button", { className:"btn btnPrimary", onClick: doUncompleteActivity }, "♻️ Resetar conclusão"),
               e("button", { className:"btn btnSoft", onClick: doDeleteActivity }, "🗑️ Apagar atividade")
@@ -1716,9 +1698,15 @@
 
           resetTab === "dia" && e("div", null,
             e("div", { className:"label" }, "📅 Escolha o dia"),
-            e("input", { className:"input", type:"date", value: resetDate, onChange:(ev)=>{ setResetDate(ev.target.value || todayISO()); setResetActivityId(""); } }),
+            e("input", {
+              className:"input",
+              type:"date",
+              value: resetDate,
+              onChange:(ev)=>{ setResetDate(ev.target.value || todayISO()); setResetActivityId(""); }
+            }),
             e("div", { className:"sp10" }),
             e("div", { className:"pill" }, `Atividades: ${(activitiesByDate[resetDate]||[]).length}`),
+
             e("div", { className:"sp16" }),
             e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
               e("button", { className:"btn btnPrimary", onClick: doResetDay }, "♻️ Resetar dia"),
@@ -1735,17 +1723,29 @@
             ),
 
             e("div", { className:"sp16" }),
+
             e("div", { className:"label" }, "📅 Configurar intervalo"),
             e("div", { className:"grid2" },
               e("div", null,
                 e("div", { className:"label", style:{ marginBottom:6 } }, "Mês (YYYY-MM)"),
-                e("input", { className:"input", value: resetRangeMonth, onChange:(ev)=>setResetRangeMonth(ev.target.value || getCurrentMonthKey()), placeholder:"2026-02" })
+                e("input", {
+                  className:"input",
+                  value: resetRangeMonth,
+                  onChange:(ev)=>setResetRangeMonth(ev.target.value || getCurrentMonthKey()),
+                  placeholder:"2026-02"
+                })
               ),
               e("div", null,
                 resetRangeMode==="fase"
                   ? e("div", null,
-                      e("div", { className:"label", style:{ marginBottom:6 } }, "Fase (1–5)"),
-                      e("input", { className:"input", type:"number", min:"1", max:"5", value: resetPhase, onChange:(ev)=>setResetPhase(clampInt(ev.target.value, 1)) })
+                      e("div", { className:"label", style:{ marginBottom:6 } }, "Fase do mês (1–5)"),
+                      e("input", {
+                        className:"input",
+                        type:"number",
+                        min:"1", max:"5",
+                        value: resetPhase,
+                        onChange:(ev)=>setResetPhase(clampInt(ev.target.value, 1))
+                      })
                     )
                   : resetRangeMode==="custom"
                     ? e("div", null,
@@ -1755,7 +1755,10 @@
                           e("input", { className:"input", type:"date", value: resetTo, onChange:(ev)=>setResetTo(ev.target.value || todayISO()) })
                         )
                       )
-                    : e("div", null, e("div", { className:"label", style:{ marginBottom:6 } }, " "), e("span", { className:"pill" }, "Mês inteiro"))
+                    : e("div", null,
+                        e("div", { className:"label", style:{ marginBottom:6 } }, " "),
+                        e("span", { className:"pill" }, "Mês inteiro selecionado")
+                      )
               )
             ),
 
@@ -1771,15 +1774,28 @@
         );
       }
 
+      // ===== modal open hook: focus title + scroll into view (mobile keyboard) =====
+      const onActivityModalOpened = () => {
+        try{
+          const el = document.getElementById("title");
+          if (el){
+            el.focus({ preventScroll: true });
+            setTimeout(() => {
+              try { el.scrollIntoView({ block:"center", behavior:"instant" }); } catch { el.scrollIntoView(true); }
+            }, 50);
+          }
+        }catch{}
+      };
+
       return e("div", { className:"app" },
         e("div", { className:"container" },
 
           e("div", { className:"top" },
             e("div", null, e("div", { className:"title" }, "🎯 Rotina • Foco & Prosperidade")),
             e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
-              e("button", { className:"btn btnSoft", onClick: exportRoutine, "data-tip":"Backup em JSON." }, "📦 Exportar"),
-              e("button", { className:"btn btnSoft", onClick: ()=>setExportOpen(true), "data-tip":"Restaurar via JSON." }, "📥 Importar"),
-              e("button", { className:"btn btnPrimary", onClick: openNew, "data-tip":"Criar atividade." }, "➕ Nova Atividade")
+              e("button", { className:"btn btnSoft", onClick: exportRoutine }, "📦 Exportar"),
+              e("button", { className:"btn btnSoft", onClick: ()=>setExportOpen(true) }, "📥 Importar"),
+              e("button", { className:"btn btnPrimary", onClick: openNew }, "➕ Nova Atividade")
             )
           ),
 
@@ -1812,24 +1828,11 @@
               e("div", { className:"kicker" }, "CONTROLES"),
               e("div", { className:"sp10" }),
               e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
-
-                e("button", { className:"btn btnSoft", onClick: ()=> setResetOpen(true), "data-tip":"Reset personalizado." }, "🧹 RESET"),
-
-                e("button", {
-                  className:"btn " + (notifEnabled ? "btnPrimary" : "btnSoft"),
-                  onClick: requestNotificationPermission,
-                  "data-tip":"Ativa notificação do sistema."
-                }, notifEnabled ? "🔔 Notif: ON" : "🔔 Ativar notif"),
-
-                e("button", {
-                  className:"btn " + (soundEnabled ? "btnPrimary" : "btnSoft"),
-                  onClick: ()=>{ unlockAudio(); setSoundEnabled(!soundEnabled); },
-                  "data-tip":"Som POP no lembrete."
-                }, soundEnabled ? "🔊 Som: ON" : "🔇 Som: OFF"),
-
-                e("button", { className:"btn btnSoft", onClick: testSound, "data-tip":"Testar som." }, "🎧 Testar som")
+                e("button", { className:"btn btnSoft", onClick: ()=> setResetOpen(true) }, "🧹 RESET"),
+                e("button", { className:"btn " + (notifEnabled ? "btnPrimary" : "btnSoft"), onClick: requestNotificationPermission }, notifEnabled ? "🔔 Notif: ON" : "🔔 Ativar notif"),
+                e("button", { className:"btn " + (soundEnabled ? "btnPrimary" : "btnSoft"), onClick: ()=>{ unlockAudio(); setSoundEnabled(!soundEnabled); } }, soundEnabled ? "🔊 Som: ON" : "🔇 Som: OFF"),
+                e("button", { className:"btn btnSoft", onClick: testSound }, "🎧 Testar som")
               ),
-
               e("div", { className:"sp10" }),
               e("div", { className:"muted", style:{ fontWeight:950 } },
                 "Reset mensal automático: ao virar o mês (dia 1), o nível volta ao início."
@@ -1849,8 +1852,8 @@
                 e("span", { className:"pill" }, isTodaySelected ? "✅ HOJE" : "🗓️ OUTRO DIA")
               ),
               e("div", { style:{ display:"flex", gap:10, flexWrap:"wrap" } },
-                e("button", { className:"btn " + (plannerMode==="day" ? "btnPrimary" : "btnSoft"), onClick:()=>setPlannerMode("day"), "data-tip":"Planejar por dia." }, "Dia"),
-                e("button", { className:"btn " + (plannerMode==="month" ? "btnPrimary" : "btnSoft"), onClick:()=>setPlannerMode("month"), "data-tip":"Calendário do mês." }, "Mês")
+                e("button", { className:"btn " + (plannerMode==="day" ? "btnPrimary" : "btnSoft"), onClick:()=>setPlannerMode("day") }, "Dia"),
+                e("button", { className:"btn " + (plannerMode==="month" ? "btnPrimary" : "btnSoft"), onClick:()=>setPlannerMode("month") }, "Mês")
               )
             ),
 
@@ -1859,42 +1862,46 @@
                   e("div", { className:"sp10" }),
                   e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap", alignItems:"center", justifyContent:"space-between" } },
                     e("div", { style:{ display:"flex", gap:10, flexWrap:"wrap" } },
-                      e("button", { className:"btn btnSoft", onClick:()=>{ const d=addDaysISO(selectedDate,-1); setSelectedDate(d); setMonthView(monthKeyOfISO(d)); }, "data-tip":"Dia anterior." }, "◀"),
-                      e("button", { className:"btn btnSoft", onClick:()=>{ const d=todayISO(); setSelectedDate(d); setMonthView(monthKeyOfISO(d)); }, "data-tip":"Hoje." }, "Hoje"),
-                      e("button", { className:"btn btnSoft", onClick:()=>{ const d=addDaysISO(selectedDate,+1); setSelectedDate(d); setMonthView(monthKeyOfISO(d)); }, "data-tip":"Próximo dia." }, "▶")
+                      e("button", { className:"btn btnSoft", onClick:()=>{ const d=addDaysISO(selectedDate,-1); setSelectedDate(d); setMonthView(monthKeyOfISO(d)); } }, "◀"),
+                      e("button", { className:"btn btnSoft", onClick:()=>{ const d=todayISO(); setSelectedDate(d); setMonthView(monthKeyOfISO(d)); } }, "Hoje"),
+                      e("button", { className:"btn btnSoft", onClick:()=>{ const d=addDaysISO(selectedDate,+1); setSelectedDate(d); setMonthView(monthKeyOfISO(d)); } }, "▶")
                     ),
                     e("div", { style:{ display:"flex", gap:10, flexWrap:"wrap" } },
-                      e("input", { className:"input", type:"date", value: selectedDate, onChange:(ev)=>{ const v=ev.target.value || todayISO(); setSelectedDate(v); setMonthView(monthKeyOfISO(v)); }, "data-tip":"Escolha a data." })
+                      e("input", {
+                        className:"input",
+                        type:"date",
+                        value: selectedDate,
+                        onChange:(ev)=>{ const v=ev.target.value || todayISO(); setSelectedDate(v); setMonthView(monthKeyOfISO(v)); }
+                      })
                     )
                   ),
 
                   e("div", { className:"sp10" }),
                   e("div", { className:"grid3" },
-                    e("div", { className:"chip " + (weekday(selectedDate)==="SEG" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(1), "data-tip":"Segunda." }, "SEG"),
-                    e("div", { className:"chip " + (weekday(selectedDate)==="TER" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(2), "data-tip":"Terça." }, "TER"),
-                    e("div", { className:"chip " + (weekday(selectedDate)==="QUA" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(3), "data-tip":"Quarta." }, "QUA"),
-                    e("div", { className:"chip " + (weekday(selectedDate)==="QUI" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(4), "data-tip":"Quinta." }, "QUI"),
-                    e("div", { className:"chip " + (weekday(selectedDate)==="SEX" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(5), "data-tip":"Sexta." }, "SEX"),
-                    e("div", { className:"chip " + (weekday(selectedDate)==="SÁB" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(6), "data-tip":"Sábado." }, "SÁB"),
-                    e("div", { className:"chip " + (weekday(selectedDate)==="DOM" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(0), "data-tip":"Domingo." }, "DOM")
+                    e("div", { className:"chip " + (weekday(selectedDate)==="SEG" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(1) }, "SEG"),
+                    e("div", { className:"chip " + (weekday(selectedDate)==="TER" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(2) }, "TER"),
+                    e("div", { className:"chip " + (weekday(selectedDate)==="QUA" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(3) }, "QUA"),
+                    e("div", { className:"chip " + (weekday(selectedDate)==="QUI" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(4) }, "QUI"),
+                    e("div", { className:"chip " + (weekday(selectedDate)==="SEX" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(5) }, "SEX"),
+                    e("div", { className:"chip " + (weekday(selectedDate)==="SÁB" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(6) }, "SÁB"),
+                    e("div", { className:"chip " + (weekday(selectedDate)==="DOM" ? "chipOn" : ""), onClick:()=>setDayInSameWeek(0) }, "DOM")
                   )
                 )
               : e("div", { className:"calWrap" },
                   e("div", { className:"calHeader" },
                     e("div", { style:{ display:"flex", gap:10, flexWrap:"wrap", alignItems:"center" } },
                       e("span", { className:"pill" }, `🗓️ ${monthLabelBR(monthView)}`),
-                      e("span", { className:"pill" }, "Clique em um dia")
+                      e("span", { className:"pill" }, "Clique em um dia para abrir")
                     ),
                     e("div", { style:{ display:"flex", gap:10, flexWrap:"wrap" } },
-                      e("button", { className:"btn btnSoft", onClick:()=>goMonth(-1), "data-tip":"Mês anterior." }, "◀ Mês"),
-                      e("button", { className:"btn btnSoft", onClick:()=>{ const d=todayISO(); setSelectedDate(d); setMonthView(monthKeyOfISO(d)); }, "data-tip":"Hoje." }, "Hoje"),
-                      e("button", { className:"btn btnSoft", onClick:()=>goMonth(+1), "data-tip":"Próximo mês." }, "Mês ▶")
+                      e("button", { className:"btn btnSoft", onClick:()=>goMonth(-1) }, "◀ Mês"),
+                      e("button", { className:"btn btnSoft", onClick:()=>{ const d=todayISO(); setSelectedDate(d); setMonthView(monthKeyOfISO(d)); } }, "Hoje"),
+                      e("button", { className:"btn btnSoft", onClick:()=>goMonth(+1) }, "Mês ▶")
                     )
                   ),
 
                   e("div", { className:"calGrid" },
                     ["SEG","TER","QUA","QUI","SEX","SÁB","DOM"].map(d => e("div", { key:d, className:"calDow" }, d)),
-
                     monthCells.map(cell => {
                       const iso = cell.iso;
                       const sum = daySummary(iso);
@@ -1923,8 +1930,7 @@
                           setSelectedDate(iso);
                           setPlannerMode("day");
                         },
-                        title: formatDateBR(iso),
-                        "data-tip":"Abrir esse dia."
+                        title: formatDateBR(iso)
                       },
                         e("div", { className:"calDayNum" }, dayNum),
                         sum.total > 0
@@ -1972,7 +1978,7 @@
             open: modalOpen,
             onClose: ()=>{ setModalOpen(false); setEditing(null); },
             title: editing ? `✏️ Editar (${formatDateBR(editing.date || selectedDate)})` : `➕ Nova (${formatDateBR(selectedDate)})`,
-            onOpenChange: (open)=>{ /* hook opcional */ }
+            onOpened: onActivityModalOpened
           }, e(ActivityForm, {
             initial: editing ? {
               title: editing.title,
@@ -1995,7 +2001,7 @@
             e("div", { className:"grid2" },
               e("div", null,
                 e("div", { className:"label" }, "📤 Exportar (JSON)"),
-                e("textarea", { className:"input", rows:10, value: exportData, onChange:(ev)=>setExportData(ev.target.value), placeholder:"Clique em Exportar..." }),
+                e("textarea", { className:"input", rows:10, value: exportData, onChange:(ev)=>setExportData(ev.target.value), placeholder:"Clique em Exportar para gerar..." }),
                 e("div", { className:"sp10" }),
                 e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
                   e("button", { className:"btn btnSoft", style:{ flex:"1 1 160px" }, onClick: exportRoutine }, "Gerar"),
@@ -2004,7 +2010,7 @@
               ),
               e("div", null,
                 e("div", { className:"label" }, "📥 Importar (cole o JSON)"),
-                e("textarea", { className:"input", rows:10, value: importData, onChange:(ev)=>setImportData(ev.target.value), placeholder:"Cole aqui..." }),
+                e("textarea", { className:"input", rows:10, value: importData, onChange:(ev)=>setImportData(ev.target.value), placeholder:"Cole aqui o JSON exportado..." }),
                 e("div", { className:"sp10" }),
                 e("div", { style:{ display:"flex", gap:12, flexWrap:"wrap" } },
                   e("button", { className:"btn btnPrimary", style:{ flex:"1 1 160px" }, onClick: importRoutine, disabled: !importData.trim() }, "Importar"),
